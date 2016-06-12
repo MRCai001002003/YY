@@ -1,0 +1,27 @@
+{
+  "name": "me-animate.css",
+  "version": "0.1.1",
+  "description": "animate.css for angular",
+  "main": "animate.css",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "animate.css",
+    "angular"
+  ],
+  "author": "Treri",
+  "license": "MIT",
+  "devDependencies": {
+    "clean-css": "^3.4.4",
+    "coffee-script": "^1.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Treri/me-animate.css.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Treri/me-animate.css/issues"
+  },
+  "homepage": "https://github.com/Treri/me-animate.css"
+}
