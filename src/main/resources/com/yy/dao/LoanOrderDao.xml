@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.dao.LoanOrderDao" >
+  <resultMap id="BaseResultMap" type="com.yy.domain.entity.LoanOrder" >
+    <id column="LoanOrderCode" property="loanOrderCode" jdbcType="CHAR" />
+    <result column="ProductCode" property="productCode" jdbcType="CHAR" />
+    <result column="LoanContractCode" property="loanContractCode" jdbcType="CHAR" />
+    <result column="LoanTitle" property="loanTitle" jdbcType="VARCHAR" />
+    <result column="CustomerID" property="customerID" jdbcType="BIGINT" />
+    <result column="SalerID" property="salerID" jdbcType="BIGINT" />
+    <result column="LoanAmount" property="loanAmount" jdbcType="REAL" />
+    <result column="GuarantyFee" property="guarantyFee" jdbcType="REAL" />
+    <result column="Currency" property="currency" jdbcType="VARCHAR" />
+    <result column="StartDate" property="startDate" jdbcType="DATE" />
+    <result column="EndDate" property="endDate" jdbcType="DATE" />
+    <result column="LoanTerm" property="loanTerm" jdbcType="DECIMAL" />
+    <result column="LoanTermType" property="loanTermType" jdbcType="CHAR" />
+    <result column="GraceTerm" property="graceTerm" jdbcType="DECIMAL" />
+    <result column="GraceTermType" property="graceTermType" jdbcType="CHAR" />
+    <result column="GuarantyOrgCode" property="guarantyOrgCode" jdbcType="CHAR" />
+    <result column="OrderStatus" property="orderStatus" jdbcType="VARCHAR" />
+    <result column="ChannelCode" property="channelCode" jdbcType="VARCHAR" />
+    <result column="InterestRate" property="interestRate" jdbcType="DECIMAL" />
+    <result column="Fee" property="fee" jdbcType="REAL" />
+    <result column="RiskLevel" property="riskLevel" jdbcType="VARCHAR" />
+    <result column="RepayDay" property="repayDay" jdbcType="INTEGER" />
+    <result column="OrderDate" property="orderDate" jdbcType="DATE" />
+    <result column="OverdueInterestRate" property="overdueInterestRate" jdbcType="DECIMAL" />
+    <result column="Recorder" property="recorder" jdbcType="BIGINT" />
+    <result column="LoanRemark" property="loanRemark" jdbcType="VARCHAR" />
+    <result column="Summary" property="summary" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LoanOrderCode, ProductCode, LoanContractCode, LoanTitle, CustomerID, SalerID, LoanAmount, 
+    GuarantyFee, Currency, StartDate, EndDate, LoanTerm, LoanTermType, GraceTerm, GraceTermType, 
+    GuarantyOrgCode, OrderStatus, ChannelCode, InterestRate, Fee, RiskLevel, RepayDay, 
+    OrderDate, OverdueInterestRate, Recorder, LoanRemark, Summary
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_loan_order
+    where LoanOrderCode = #{loanOrderCode,jdbcType=CHAR}
+  </select>
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.yy.domain.entity.LoanOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_loan_order
+    where LoanOrderCode = #{loanOrderCode,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from m_loan_order
+    where CustomerID = #{customerID,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yy.domain.entity.LoanOrder" >
+    insert into m_loan_order (LoanOrderCode, ProductCode, LoanContractCode, 
+      LoanTitle, CustomerID, SalerID, 
+      LoanAmount, GuarantyFee, Currency, 
+      StartDate, EndDate, LoanTerm, 
+      LoanTermType, GraceTerm, GraceTermType, 
+      GuarantyOrgCode, OrderStatus, ChannelCode, 
+      InterestRate, Fee, RiskLevel, 
+      RepayDay, OrderDate, OverdueInterestRate, 
+      Recorder, LoanRemark, Summary
+      )
+    values (#{loanOrderCode,jdbcType=CHAR}, #{productCode,jdbcType=CHAR}, #{loanContractCode,jdbcType=CHAR}, 
+      #{loanTitle,jdbcType=VARCHAR}, #{customerID,jdbcType=BIGINT}, #{salerID,jdbcType=BIGINT}, 
+      #{loanAmount,jdbcType=REAL}, #{guarantyFee,jdbcType=REAL}, #{currency,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{loanTerm,jdbcType=DECIMAL}, 
+      #{loanTermType,jdbcType=CHAR}, #{graceTerm,jdbcType=DECIMAL}, #{graceTermType,jdbcType=CHAR}, 
+      #{guarantyOrgCode,jdbcType=CHAR}, #{orderStatus,jdbcType=VARCHAR}, #{channelCode,jdbcType=VARCHAR}, 
+      #{interestRate,jdbcType=DECIMAL}, #{fee,jdbcType=REAL}, #{riskLevel,jdbcType=VARCHAR}, 
+      #{repayDay,jdbcType=INTEGER}, #{orderDate,jdbcType=DATE}, #{overdueInterestRate,jdbcType=DECIMAL}, 
+      #{recorder,jdbcType=BIGINT}, #{loanRemark,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yy.domain.entity.LoanOrder" >
+    insert into m_loan_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="loanOrderCode != null" >
+        LoanOrderCode,
+      </if>
+      <if test="productCode != null" >
+        ProductCode,
+      </if>
+      <if test="loanContractCode != null" >
+        LoanContractCode,
+      </if>
+      <if test="loanTitle != null" >
+        LoanTitle,
+      </if>
+      <if test="customerID != null" >
+        CustomerID,
+      </if>
+      <if test="salerID != null" >
+        SalerID,
+      </if>
+      <if test="loanAmount != null" >
+        LoanAmount,
+      </if>
+      <if test="guarantyFee != null" >
+        GuarantyFee,
+      </if>
+      <if test="currency != null" >
+        Currency,
+      </if>
+      <if test="startDate != null" >
+        StartDate,
+      </if>
+      <if test="endDate != null" >
+        EndDate,
+      </if>
+      <if test="loanTerm != null" >
+        LoanTerm,
+      </if>
+      <if test="loanTermType != null" >
+        LoanTermType,
+      </if>
+      <if test="graceTerm != null" >
+        GraceTerm,
+      </if>
+      <if test="graceTermType != null" >
+        GraceTermType,
+      </if>
+      <if test="guarantyOrgCode != null" >
+        GuarantyOrgCode,
+      </if>
+      <if test="orderStatus != null" >
+        OrderStatus,
+      </if>
+      <if test="channelCode != null" >
+        ChannelCode,
+      </if>
+      <if test="interestRate != null" >
+        InterestRate,
+      </if>
+      <if test="fee != null" >
+        Fee,
+      </if>
+      <if test="riskLevel != null" >
+        RiskLevel,
+      </if>
+      <if test="repayDay != null" >
+        RepayDay,
+      </if>
+      <if test="orderDate != null" >
+        OrderDate,
+      </if>
+      <if test="overdueInterestRate != null" >
+        OverdueInterestRate,
+      </if>
+      <if test="recorder != null" >
+        Recorder,
+      </if>
+      <if test="loanRemark != null" >
+        LoanRemark,
+      </if>
+      <if test="summary != null" >
+        Summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="loanOrderCode != null" >
+        #{loanOrderCode,jdbcType=CHAR},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=CHAR},
+      </if>
+      <if test="loanContractCode != null" >
+        #{loanContractCode,jdbcType=CHAR},
+      </if>
+      <if test="loanTitle != null" >
+        #{loanTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="customerID != null" >
+        #{customerID,jdbcType=BIGINT},
+      </if>
+      <if test="salerID != null" >
+        #{salerID,jdbcType=BIGINT},
+      </if>
+      <if test="loanAmount != null" >
+        #{loanAmount,jdbcType=REAL},
+      </if>
+      <if test="guarantyFee != null" >
+        #{guarantyFee,jdbcType=REAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="loanTerm != null" >
+        #{loanTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="loanTermType != null" >
+        #{loanTermType,jdbcType=CHAR},
+      </if>
+      <if test="graceTerm != null" >
+        #{graceTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="graceTermType != null" >
+        #{graceTermType,jdbcType=CHAR},
+      </if>
+      <if test="guarantyOrgCode != null" >
+        #{guarantyOrgCode,jdbcType=CHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="channelCode != null" >
+        #{channelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="interestRate != null" >
+        #{interestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=REAL},
+      </if>
+      <if test="riskLevel != null" >
+        #{riskLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="repayDay != null" >
+        #{repayDay,jdbcType=INTEGER},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="overdueInterestRate != null" >
+        #{overdueInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="recorder != null" >
+        #{recorder,jdbcType=BIGINT},
+      </if>
+      <if test="loanRemark != null" >
+        #{loanRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yy.domain.entity.LoanOrder" >
+    update m_loan_order
+    <set >
+      <if test="productCode != null" >
+        ProductCode = #{productCode,jdbcType=CHAR},
+      </if>
+      <if test="loanContractCode != null" >
+        LoanContractCode = #{loanContractCode,jdbcType=CHAR},
+      </if>
+      <if test="loanTitle != null" >
+        LoanTitle = #{loanTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="customerID != null" >
+        CustomerID = #{customerID,jdbcType=BIGINT},
+      </if>
+      <if test="salerID != null" >
+        SalerID = #{salerID,jdbcType=BIGINT},
+      </if>
+      <if test="loanAmount != null" >
+        LoanAmount = #{loanAmount,jdbcType=REAL},
+      </if>
+      <if test="guarantyFee != null" >
+        GuarantyFee = #{guarantyFee,jdbcType=REAL},
+      </if>
+      <if test="currency != null" >
+        Currency = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        StartDate = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        EndDate = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="loanTerm != null" >
+        LoanTerm = #{loanTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="loanTermType != null" >
+        LoanTermType = #{loanTermType,jdbcType=CHAR},
+      </if>
+      <if test="graceTerm != null" >
+        GraceTerm = #{graceTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="graceTermType != null" >
+        GraceTermType = #{graceTermType,jdbcType=CHAR},
+      </if>
+      <if test="guarantyOrgCode != null" >
+        GuarantyOrgCode = #{guarantyOrgCode,jdbcType=CHAR},
+      </if>
+      <if test="orderStatus != null" >
+        OrderStatus = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="channelCode != null" >
+        ChannelCode = #{channelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="interestRate != null" >
+        InterestRate = #{interestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        Fee = #{fee,jdbcType=REAL},
+      </if>
+      <if test="riskLevel != null" >
+        RiskLevel = #{riskLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="repayDay != null" >
+        RepayDay = #{repayDay,jdbcType=INTEGER},
+      </if>
+      <if test="orderDate != null" >
+        OrderDate = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="overdueInterestRate != null" >
+        OverdueInterestRate = #{overdueInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="recorder != null" >
+        Recorder = #{recorder,jdbcType=BIGINT},
+      </if>
+      <if test="loanRemark != null" >
+        LoanRemark = #{loanRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        Summary = #{summary,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LoanOrderCode = #{loanOrderCode,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yy.domain.entity.LoanOrder" >
+    update m_loan_order
+    set ProductCode = #{productCode,jdbcType=CHAR},
+      LoanContractCode = #{loanContractCode,jdbcType=CHAR},
+      LoanTitle = #{loanTitle,jdbcType=VARCHAR},
+      CustomerID = #{customerID,jdbcType=BIGINT},
+      SalerID = #{salerID,jdbcType=BIGINT},
+      LoanAmount = #{loanAmount,jdbcType=REAL},
+      GuarantyFee = #{guarantyFee,jdbcType=REAL},
+      Currency = #{currency,jdbcType=VARCHAR},
+      StartDate = #{startDate,jdbcType=DATE},
+      EndDate = #{endDate,jdbcType=DATE},
+      LoanTerm = #{loanTerm,jdbcType=DECIMAL},
+      LoanTermType = #{loanTermType,jdbcType=CHAR},
+      GraceTerm = #{graceTerm,jdbcType=DECIMAL},
+      GraceTermType = #{graceTermType,jdbcType=CHAR},
+      GuarantyOrgCode = #{guarantyOrgCode,jdbcType=CHAR},
+      OrderStatus = #{orderStatus,jdbcType=VARCHAR},
+      ChannelCode = #{channelCode,jdbcType=VARCHAR},
+      InterestRate = #{interestRate,jdbcType=DECIMAL},
+      Fee = #{fee,jdbcType=REAL},
+      RiskLevel = #{riskLevel,jdbcType=VARCHAR},
+      RepayDay = #{repayDay,jdbcType=INTEGER},
+      OrderDate = #{orderDate,jdbcType=DATE},
+      OverdueInterestRate = #{overdueInterestRate,jdbcType=DECIMAL},
+      Recorder = #{recorder,jdbcType=BIGINT},
+      LoanRemark = #{loanRemark,jdbcType=VARCHAR},
+      Summary = #{summary,jdbcType=VARCHAR}
+    where LoanOrderCode = #{loanOrderCode,jdbcType=CHAR}
+  </update>
+</mapper>

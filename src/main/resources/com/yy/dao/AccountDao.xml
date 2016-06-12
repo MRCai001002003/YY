@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.dao.AccountDao" >
+  <resultMap id="BaseResultMap" type="com.yy.domain.entity.Account" >
+    <id column="AccountID" property="accountID" jdbcType="BIGINT" />
+    <result column="MerchantCode" property="merchantCode" jdbcType="VARCHAR" />
+    <result column="CustomerID" property="customerID" jdbcType="BIGINT" />
+    <result column="AccountType" property="accountType" jdbcType="CHAR" />
+    <result column="AccountNo" property="accountNo" jdbcType="CHAR" />
+    <result column="AccountCardNumber" property="accountCardNumber" jdbcType="TINYINT" />
+    <result column="AccountStatus" property="accountStatus" jdbcType="CHAR" />
+    <result column="AccountBalance" property="accountBalance" jdbcType="DECIMAL" />
+    <result column="ForzenAmount" property="forzenAmount" jdbcType="DECIMAL" />
+    <result column="InvestAmount" property="investAmount" jdbcType="DECIMAL" />
+    <result column="LoanAmount" property="loanAmount" jdbcType="DECIMAL" />
+    <result column="LastTotalAmount" property="lastTotalAmount" jdbcType="DECIMAL" />
+    <result column="CurrentFrozenAmount" property="currentFrozenAmount" jdbcType="DECIMAL" />
+    <result column="CurrentUnfrozenAmount" property="currentUnfrozenAmount" jdbcType="DECIMAL" />
+    <result column="CurrentInAccountAmount" property="currentInAccountAmount" jdbcType="DECIMAL" />
+    <result column="CurrentOutAccountAmount" property="currentOutAccountAmount" jdbcType="DECIMAL" />
+    <result column="CurrentAdjustAmount" property="currentAdjustAmount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AccountID, MerchantCode, CustomerID, AccountType, AccountNo, AccountCardNumber, AccountStatus, 
+    AccountBalance, ForzenAmount, InvestAmount, LoanAmount, LastTotalAmount, CurrentFrozenAmount, 
+    CurrentUnfrozenAmount, CurrentInAccountAmount, CurrentOutAccountAmount, CurrentAdjustAmount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_account
+    where AccountID = #{accountID,jdbcType=BIGINT}
+  </select>
+   <select id="selectByCustomerID" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_account
+    where CustomerID = #{customerID,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from m_account
+    where AccountID = #{accountID,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yy.domain.entity.Account" useGeneratedKeys="true" keyProperty="accountID" >
+    insert into m_account (AccountID, MerchantCode, CustomerID, 
+      AccountType, AccountNo, AccountCardNumber, 
+      AccountStatus, AccountBalance, ForzenAmount, 
+      InvestAmount, LoanAmount, LastTotalAmount, 
+      CurrentFrozenAmount, CurrentUnfrozenAmount, 
+      CurrentInAccountAmount, CurrentOutAccountAmount, 
+      CurrentAdjustAmount)
+    values (#{accountID,jdbcType=BIGINT}, #{merchantCode,jdbcType=VARCHAR}, #{customerID,jdbcType=BIGINT}, 
+      #{accountType,jdbcType=CHAR}, #{accountNo,jdbcType=CHAR}, #{accountCardNumber,jdbcType=TINYINT}, 
+      #{accountStatus,jdbcType=CHAR}, #{accountBalance,jdbcType=DECIMAL}, #{forzenAmount,jdbcType=DECIMAL}, 
+      #{investAmount,jdbcType=DECIMAL}, #{loanAmount,jdbcType=DECIMAL}, #{lastTotalAmount,jdbcType=DECIMAL}, 
+      #{currentFrozenAmount,jdbcType=DECIMAL}, #{currentUnfrozenAmount,jdbcType=DECIMAL}, 
+      #{currentInAccountAmount,jdbcType=DECIMAL}, #{currentOutAccountAmount,jdbcType=DECIMAL}, 
+      #{currentAdjustAmount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yy.domain.entity.Account" useGeneratedKeys="true" keyProperty="accountID" >
+    insert into m_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountID != null" >
+        AccountID,
+      </if>
+      <if test="merchantCode != null" >
+        MerchantCode,
+      </if>
+      <if test="customerID != null" >
+        CustomerID,
+      </if>
+      <if test="accountType != null" >
+        AccountType,
+      </if>
+      <if test="accountNo != null" >
+        AccountNo,
+      </if>
+      <if test="accountCardNumber != null" >
+        AccountCardNumber,
+      </if>
+      <if test="accountStatus != null" >
+        AccountStatus,
+      </if>
+      <if test="accountBalance != null" >
+        AccountBalance,
+      </if>
+      <if test="forzenAmount != null" >
+        ForzenAmount,
+      </if>
+      <if test="investAmount != null" >
+        InvestAmount,
+      </if>
+      <if test="loanAmount != null" >
+        LoanAmount,
+      </if>
+      <if test="lastTotalAmount != null" >
+        LastTotalAmount,
+      </if>
+      <if test="currentFrozenAmount != null" >
+        CurrentFrozenAmount,
+      </if>
+      <if test="currentUnfrozenAmount != null" >
+        CurrentUnfrozenAmount,
+      </if>
+      <if test="currentInAccountAmount != null" >
+        CurrentInAccountAmount,
+      </if>
+      <if test="currentOutAccountAmount != null" >
+        CurrentOutAccountAmount,
+      </if>
+      <if test="currentAdjustAmount != null" >
+        CurrentAdjustAmount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountID != null" >
+        #{accountID,jdbcType=BIGINT},
+      </if>
+      <if test="merchantCode != null" >
+        #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerID != null" >
+        #{customerID,jdbcType=BIGINT},
+      </if>
+      <if test="accountType != null" >
+        #{accountType,jdbcType=CHAR},
+      </if>
+      <if test="accountNo != null" >
+        #{accountNo,jdbcType=CHAR},
+      </if>
+      <if test="accountCardNumber != null" >
+        #{accountCardNumber,jdbcType=TINYINT},
+      </if>
+      <if test="accountStatus != null" >
+        #{accountStatus,jdbcType=CHAR},
+      </if>
+      <if test="accountBalance != null" >
+        #{accountBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="forzenAmount != null" >
+        #{forzenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="investAmount != null" >
+        #{investAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="loanAmount != null" >
+        #{loanAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTotalAmount != null" >
+        #{lastTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentFrozenAmount != null" >
+        #{currentFrozenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentUnfrozenAmount != null" >
+        #{currentUnfrozenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentInAccountAmount != null" >
+        #{currentInAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentOutAccountAmount != null" >
+        #{currentOutAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentAdjustAmount != null" >
+        #{currentAdjustAmount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yy.domain.entity.Account" >
+    update m_account
+    <set >
+      <if test="merchantCode != null" >
+        MerchantCode = #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerID != null" >
+        CustomerID = #{customerID,jdbcType=BIGINT},
+      </if>
+      <if test="accountType != null" >
+        AccountType = #{accountType,jdbcType=CHAR},
+      </if>
+      <if test="accountNo != null" >
+        AccountNo = #{accountNo,jdbcType=CHAR},
+      </if>
+      <if test="accountCardNumber != null" >
+        AccountCardNumber = #{accountCardNumber,jdbcType=TINYINT},
+      </if>
+      <if test="accountStatus != null" >
+        AccountStatus = #{accountStatus,jdbcType=CHAR},
+      </if>
+      <if test="accountBalance != null" >
+        AccountBalance = #{accountBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="forzenAmount != null" >
+        ForzenAmount = #{forzenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="investAmount != null" >
+        InvestAmount = #{investAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="loanAmount != null" >
+        LoanAmount = #{loanAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTotalAmount != null" >
+        LastTotalAmount = #{lastTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentFrozenAmount != null" >
+        CurrentFrozenAmount = #{currentFrozenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentUnfrozenAmount != null" >
+        CurrentUnfrozenAmount = #{currentUnfrozenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentInAccountAmount != null" >
+        CurrentInAccountAmount = #{currentInAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentOutAccountAmount != null" >
+        CurrentOutAccountAmount = #{currentOutAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentAdjustAmount != null" >
+        CurrentAdjustAmount = #{currentAdjustAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where AccountID = #{accountID,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yy.domain.entity.Account" >
+    update m_account
+    set MerchantCode = #{merchantCode,jdbcType=VARCHAR},
+      CustomerID = #{customerID,jdbcType=BIGINT},
+      AccountType = #{accountType,jdbcType=CHAR},
+      AccountNo = #{accountNo,jdbcType=CHAR},
+      AccountCardNumber = #{accountCardNumber,jdbcType=TINYINT},
+      AccountStatus = #{accountStatus,jdbcType=CHAR},
+      AccountBalance = #{accountBalance,jdbcType=DECIMAL},
+      ForzenAmount = #{forzenAmount,jdbcType=DECIMAL},
+      InvestAmount = #{investAmount,jdbcType=DECIMAL},
+      LoanAmount = #{loanAmount,jdbcType=DECIMAL},
+      LastTotalAmount = #{lastTotalAmount,jdbcType=DECIMAL},
+      CurrentFrozenAmount = #{currentFrozenAmount,jdbcType=DECIMAL},
+      CurrentUnfrozenAmount = #{currentUnfrozenAmount,jdbcType=DECIMAL},
+      CurrentInAccountAmount = #{currentInAccountAmount,jdbcType=DECIMAL},
+      CurrentOutAccountAmount = #{currentOutAccountAmount,jdbcType=DECIMAL},
+      CurrentAdjustAmount = #{currentAdjustAmount,jdbcType=DECIMAL}
+    where AccountID = #{accountID,jdbcType=BIGINT}
+  </update>
+</mapper>

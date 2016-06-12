@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.dao.CustomerPersonalDao" >
+  <resultMap id="BaseResultMap" type="com.yy.domain.entity.CustomerPersonal" >
+    <result column="CustomerID" property="customerID" jdbcType="BIGINT" />
+    <result column="Sex" property="sex" jdbcType="CHAR" />
+    <result column="Birthdate" property="birthdate" jdbcType="DATE" />
+    <result column="National" property="national" jdbcType="VARCHAR" />
+    <result column="MarriageType" property="marriageType" jdbcType="VARCHAR" />
+    <result column="PoliticsStatus" property="politicsStatus" jdbcType="VARCHAR" />
+    <result column="DwellingCondition" property="dwellingCondition" jdbcType="VARCHAR" />
+    <result column="ResidentialAddress" property="residentialAddress" jdbcType="VARCHAR" />
+    <result column="ResidentialPostCode" property="residentialPostCode" jdbcType="CHAR" />
+    <result column="HukouAddress" property="hukouAddress" jdbcType="VARCHAR" />
+    <result column="WorkingLife" property="workingLife" jdbcType="VARCHAR" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+    CustomerID, Sex, Birthdate,National, MarriageType, PoliticsStatus,DwellingCondition, ResidentialAddress,ResidentialPostCode, HukouAddress
+  </sql>
+  <select id="selectByCustomerID" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  	select 
+  	<include refid="Base_Column_List" />
+    from m_customer_personal
+    where CustomerID = #{customerID,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="com.yy.domain.entity.CustomerPersonal" >
+    insert into m_customer_personal (CustomerID, Sex, Birthdate, 
+      National, MarriageType, PoliticsStatus, 
+      DwellingCondition, ResidentialAddress, 
+      ResidentialPostCode, HukouAddress)
+    values (#{customerID,jdbcType=BIGINT}, #{sex,jdbcType=CHAR}, #{birthdate,jdbcType=DATE}, 
+      #{national,jdbcType=VARCHAR}, #{marriageType,jdbcType=VARCHAR}, #{politicsStatus,jdbcType=VARCHAR}, 
+      #{dwellingCondition,jdbcType=VARCHAR}, #{residentialAddress,jdbcType=VARCHAR}, 
+      #{residentialPostCode,jdbcType=CHAR}, #{hukouAddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yy.domain.entity.CustomerPersonal" >
+    insert into m_customer_personal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerID != null" >
+        CustomerID,
+      </if>
+      <if test="sex != null" >
+        Sex,
+      </if>
+      <if test="birthdate != null" >
+        Birthdate,
+      </if>
+      <if test="national != null" >
+        National,
+      </if>
+      <if test="marriageType != null" >
+        MarriageType,
+      </if>
+      <if test="politicsStatus != null" >
+        PoliticsStatus,
+      </if>
+      <if test="dwellingCondition != null" >
+        DwellingCondition,
+      </if>
+      <if test="residentialAddress != null" >
+        ResidentialAddress,
+      </if>
+      <if test="residentialPostCode != null" >
+        ResidentialPostCode,
+      </if>
+      <if test="hukouAddress != null" >
+        HukouAddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerID != null" >
+        #{customerID,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="birthdate != null" >
+        #{birthdate,jdbcType=DATE},
+      </if>
+      <if test="national != null" >
+        #{national,jdbcType=VARCHAR},
+      </if>
+      <if test="marriageType != null" >
+        #{marriageType,jdbcType=VARCHAR},
+      </if>
+      <if test="politicsStatus != null" >
+        #{politicsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="dwellingCondition != null" >
+        #{dwellingCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="residentialAddress != null" >
+        #{residentialAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="residentialPostCode != null" >
+        #{residentialPostCode,jdbcType=CHAR},
+      </if>
+      <if test="hukouAddress != null" >
+        #{hukouAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+   <update id="updateByCustomerID" parameterType="com.yy.domain.entity.CustomerPersonal" >
+    update m_customer_personal
+   	 <set>
+      <if test="sex != null" >
+        Sex=#{sex,jdbcType=CHAR},
+      </if>
+      <if test="birthdate != null" >
+        Birthdate=#{birthdate,jdbcType=DATE},
+      </if>
+      <if test="national != null" >
+        National#{national,jdbcType=VARCHAR},
+      </if>
+      <if test="marriageType != null" >
+        MarriageType=#{marriageType,jdbcType=VARCHAR},
+      </if>
+      <if test="politicsStatus != null" >
+        PoliticsStatus=#{politicsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="dwellingCondition != null" >
+        DwellingCondition=#{dwellingCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="residentialAddress != null" >
+        ResidentialAddress=#{residentialAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="residentialPostCode != null" >
+        ResidentialPostCode=#{residentialPostCode,jdbcType=CHAR},
+      </if>
+      <if test="hukouAddress != null" >
+        HukouAddress=#{hukouAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CustomerID=#{customerID,jdbcType=BIGINT}
+    </update>
+</mapper>

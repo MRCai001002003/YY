@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.dao.CustomerIncomeDao" >
+  <resultMap id="BaseResultMap" type="com.yy.domain.entity.CustomerIncome" >
+    <id column="IncomeID" property="incomeID" jdbcType="BIGINT" />
+    <result column="CustomerID" property="customerID" jdbcType="BIGINT" />
+    <result column="IncomeType" property="incomeType" jdbcType="VARCHAR" />
+    <result column="IncomeCurrency" property="incomeCurrency" jdbcType="VARCHAR" />
+    <result column="IncomeAmount" property="incomeAmount" jdbcType="REAL" />
+    <result column="TermType" property="termType" jdbcType="CHAR" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    IncomeID, CustomerID, IncomeType, IncomeCurrency, IncomeAmount, TermType, Remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_customer_income
+    where IncomeID = #{incomeID,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from m_customer_income
+    where IncomeID = #{incomeID,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yy.domain.entity.CustomerIncome" >
+    insert into m_customer_income (IncomeID, CustomerID, IncomeType, 
+      IncomeCurrency, IncomeAmount, TermType, 
+      Remark)
+    values (#{incomeID,jdbcType=BIGINT}, #{customerID,jdbcType=BIGINT}, #{incomeType,jdbcType=VARCHAR}, 
+      #{incomeCurrency,jdbcType=VARCHAR}, #{incomeAmount,jdbcType=REAL}, #{termType,jdbcType=CHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yy.domain.entity.CustomerIncome" >
+    insert into m_customer_income
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="incomeID != null" >
+        IncomeID,
+      </if>
+      <if test="customerID != null" >
+        CustomerID,
+      </if>
+      <if test="incomeType != null" >
+        IncomeType,
+      </if>
+      <if test="incomeCurrency != null" >
+        IncomeCurrency,
+      </if>
+      <if test="incomeAmount != null" >
+        IncomeAmount,
+      </if>
+      <if test="termType != null" >
+        TermType,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="incomeID != null" >
+        #{incomeID,jdbcType=BIGINT},
+      </if>
+      <if test="customerID != null" >
+        #{customerID,jdbcType=BIGINT},
+      </if>
+      <if test="incomeType != null" >
+        #{incomeType,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeCurrency != null" >
+        #{incomeCurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeAmount != null" >
+        #{incomeAmount,jdbcType=REAL},
+      </if>
+      <if test="termType != null" >
+        #{termType,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yy.domain.entity.CustomerIncome" >
+    update m_customer_income
+    <set >
+      <if test="customerID != null" >
+        CustomerID = #{customerID,jdbcType=BIGINT},
+      </if>
+      <if test="incomeType != null" >
+        IncomeType = #{incomeType,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeCurrency != null" >
+        IncomeCurrency = #{incomeCurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeAmount != null" >
+        IncomeAmount = #{incomeAmount,jdbcType=REAL},
+      </if>
+      <if test="termType != null" >
+        TermType = #{termType,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where IncomeID = #{incomeID,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yy.domain.entity.CustomerIncome" >
+    update m_customer_income
+    set CustomerID = #{customerID,jdbcType=BIGINT},
+      IncomeType = #{incomeType,jdbcType=VARCHAR},
+      IncomeCurrency = #{incomeCurrency,jdbcType=VARCHAR},
+      IncomeAmount = #{incomeAmount,jdbcType=REAL},
+      TermType = #{termType,jdbcType=CHAR},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where IncomeID = #{incomeID,jdbcType=BIGINT}
+  </update>
+</mapper>

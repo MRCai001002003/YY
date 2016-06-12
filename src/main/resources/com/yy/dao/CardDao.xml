@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.dao.CardDao" >
+  <resultMap id="BaseResultMap" type="com.yy.domain.entity.Card" >
+    <id column="CardID" property="cardID" jdbcType="BIGINT" />
+    <result column="CardCode" property="cardCode" jdbcType="VARCHAR" />
+    <result column="AccountID" property="accountID" jdbcType="BIGINT" />
+    <result column="Owner" property="owner" jdbcType="VARCHAR" />
+    <result column="CardType" property="cardType" jdbcType="VARCHAR" />
+    <result column="BankName" property="bankName" jdbcType="VARCHAR" />
+    <result column="IsBanded" property="isBanded" jdbcType="BIT" />
+    <result column="BandedDate" property="bandedDate" jdbcType="DATE" />
+    <result column="IsDefaultCard" property="isDefaultCard" jdbcType="BIT" />
+    <result column="WithdrawLimit" property="withdrawLimit" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CardID, CardCode, AccountID, Owner, CardType, BankName, IsBanded, BandedDate, IsDefaultCard, 
+    WithdrawLimit
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_card
+    where CardID = #{cardID,jdbcType=BIGINT}
+  </select>
+   <select id="selectByAccountID" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_card
+    where AccountID = #{accountID,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from m_card
+    where CardID = #{cardID,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yy.domain.entity.Card" >
+    insert into m_card (CardID, CardCode, AccountID, 
+      Owner, CardType, BankName, 
+      IsBanded, BandedDate, IsDefaultCard, 
+      WithdrawLimit)
+    values (#{cardID,jdbcType=BIGINT}, #{cardCode,jdbcType=VARCHAR}, #{accountID,jdbcType=BIGINT}, 
+      #{owner,jdbcType=VARCHAR}, #{cardType,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+      #{isBanded,jdbcType=BIT}, #{bandedDate,jdbcType=DATE}, #{isDefaultCard,jdbcType=BIT}, 
+      #{withdrawLimit,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yy.domain.entity.Card" >
+    insert into m_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cardID != null" >
+        CardID,
+      </if>
+      <if test="cardCode != null" >
+        CardCode,
+      </if>
+      <if test="accountID != null" >
+        AccountID,
+      </if>
+      <if test="owner != null" >
+        Owner,
+      </if>
+      <if test="cardType != null" >
+        CardType,
+      </if>
+      <if test="bankName != null" >
+        BankName,
+      </if>
+      <if test="isBanded != null" >
+        IsBanded,
+      </if>
+      <if test="bandedDate != null" >
+        BandedDate,
+      </if>
+      <if test="isDefaultCard != null" >
+        IsDefaultCard,
+      </if>
+      <if test="withdrawLimit != null" >
+        WithdrawLimit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cardID != null" >
+        #{cardID,jdbcType=BIGINT},
+      </if>
+      <if test="cardCode != null" >
+        #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountID != null" >
+        #{accountID,jdbcType=BIGINT},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="isBanded != null" >
+        #{isBanded,jdbcType=BIT},
+      </if>
+      <if test="bandedDate != null" >
+        #{bandedDate,jdbcType=DATE},
+      </if>
+      <if test="isDefaultCard != null" >
+        #{isDefaultCard,jdbcType=BIT},
+      </if>
+      <if test="withdrawLimit != null" >
+        #{withdrawLimit,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yy.domain.entity.Card" >
+    update m_card
+    <set >
+      <if test="cardCode != null" >
+        CardCode = #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountID != null" >
+        AccountID = #{accountID,jdbcType=BIGINT},
+      </if>
+      <if test="owner != null" >
+        Owner = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        CardType = #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BankName = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="isBanded != null" >
+        IsBanded = #{isBanded,jdbcType=BIT},
+      </if>
+      <if test="bandedDate != null" >
+        BandedDate = #{bandedDate,jdbcType=DATE},
+      </if>
+      <if test="isDefaultCard != null" >
+        IsDefaultCard = #{isDefaultCard,jdbcType=BIT},
+      </if>
+      <if test="withdrawLimit != null" >
+        WithdrawLimit = #{withdrawLimit,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where CardID = #{cardID,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yy.domain.entity.Card" >
+    update m_card
+    set CardCode = #{cardCode,jdbcType=VARCHAR},
+      AccountID = #{accountID,jdbcType=BIGINT},
+      Owner = #{owner,jdbcType=VARCHAR},
+      CardType = #{cardType,jdbcType=VARCHAR},
+      BankName = #{bankName,jdbcType=VARCHAR},
+      IsBanded = #{isBanded,jdbcType=BIT},
+      BandedDate = #{bandedDate,jdbcType=DATE},
+      IsDefaultCard = #{isDefaultCard,jdbcType=BIT},
+      WithdrawLimit = #{withdrawLimit,jdbcType=DECIMAL}
+    where CardID = #{cardID,jdbcType=BIGINT}
+  </update>
+</mapper>

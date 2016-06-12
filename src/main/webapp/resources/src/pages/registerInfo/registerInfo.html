@@ -1,0 +1,104 @@
+<div iscroll class="page-content not-header not-footer">
+    <div>
+        <div class="text-center register-hd">
+            <img style="width:266px;" src="./resources/images/img05.jpg" alt="">
+        </div>
+        <div class="container-fluid">
+            <form novalidate form-validated="submit()" name="registerForm" class="form-horizontal register-form">
+                
+                <div class="form-group" ng-class="{'has-error':registerForm.companyType.$invalid && !registerForm.companyType.$pristine}">
+                    <label class="control-label col-xs-2">
+                        <img src="./resources/images/ioc09.png">
+                    </label>
+                    <div class="col-xs-10">
+                        <div class="row">
+                            <select ng-model="params.companyType" name="companyType" class="form-control" required>
+                                <option value="">请选择公司类型</option>
+                                <option value="H">政府事业单位</option>
+                                <option value="M">国营企业</option>
+                                <option value="S">民营企业</option>
+                                <option value="O">其他</option>
+                                <option value="N">无职业</option>
+                            </select>
+                            <div ng-messages="registerForm.companyType.$error" ng-show="!registerForm.companyType.$pristine">
+                                <div ng-message="required" class="help-block">请选择公司类型</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" ng-class="{'has-error':registerForm.role.$invalid && !registerForm.role.$pristine}">
+                    <label class="control-label col-xs-2">
+                        <img src="./resources/images/ioc09.png">
+                    </label>
+                    <div class="col-xs-10">
+                        <div class="row">
+                            <select ng-model="params.role" name="role" class="form-control" required>
+                                <option value="">请选择职务</option>
+                                <option value="H">高管</option>
+                                <option value="M">经理</option>
+                                <option value="E">员工</option>
+                                <option value="O">未知</option>
+                            </select>
+                            <div ng-messages="registerForm.role.$error" ng-show="!registerForm.role.$pristine">
+                                <div ng-message="required" class="help-block">请选择职务</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error':registerForm.workingLife.$invalid && !registerForm.workingLife.$pristine}">
+                    <label class="control-label col-xs-2">
+                        <img src="./resources/images/ioc10.png" alt="">
+                    </label>
+                    <div class="col-xs-10">
+                        <div class="row">
+                            <select ng-model="params.workingLife" class="form-control" name="workingLife" required>
+                                <option value="">现单位工作年限</option>
+                                <option value="3">3年以内</option>
+                                <option value="5">3-5年</option>
+                                <option value="10">10年以上</option>
+                            </select>
+                            <div ng-messages="registerForm.workingLife.$error" ng-show="!registerForm.workingLife.$pristine">
+                                <div ng-message="required" class="help-block">请选择学历</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix" ng-class="{'has-error':registerForm.email.$invalid && !registerForm.email.$pristine}">
+                    <label class="control-label col-xs-2">
+                        <img src="./resources/images/ioc07.png" alt="">
+                    </label>
+                    <div class="col-xs-10">
+                        <div class="row">
+                            <input required ng-model="params.email" name="email" type="text" placeholder="借款人常用邮箱" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.\S+$/">
+                            <div ng-messages="registerForm.email.$error" ng-show="!registerForm.email.$pristine">
+                                <div ng-message="required" class="help-block">必填项不能为空</div>
+                                <div ng-message="pattern" class="help-block">请输入正确的邮箱</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix" ng-class="{'has-error':registerForm.qq.$invalid && !registerForm.qq.$pristine}">
+                    <label class="control-label col-xs-2">
+                        <img src="./resources/images/ioc06.png" alt="">
+                    </label>
+                    <div class="col-xs-10">
+                        <div class="row">
+                            <input ng-model="params.qq" name="qq" ng-pattern="/^[1-9]\d{4,11}$/" type="number" placeholder="借款人QQ(选填)" class="form-control">
+                            <div ng-messages="registerForm.qq.$error" ng-show="!registerForm.qq.$pristine">
+                                <div ng-message="pattern" class="help-block">请填写正确的QQ号码</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">下一步</button>
+                </div>
+            </form>
+        </div>
+        <div class="text-center text-muted">
+            <p><img style="width:10px;" src="./resources/images/ioc03.png" alt=""> 全程银行级加密，全面保障您的信息安全</p>
+        </div>
+    </div>
+</div>
