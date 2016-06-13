@@ -145,7 +145,11 @@ define(function(require) {
                         registerInfo: {
                             register: 'slideInLeft slideOutRight',
                             registed: 'slideInRight slideOutLeft',
+                            login: 'slideInRight slideOutLeft'
                         },
+						login:{
+							registerInfo: 'slideInLeft slideOutRight'
+						},
                         registed: {
                             registerInfo: 'slideInLeft slideOutRight'
                         },
