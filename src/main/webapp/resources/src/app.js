@@ -9,7 +9,7 @@ define(function(require) {
 
 
     //初始化
-    var app = angular.module("app", ['ui.router', 'ngSanitize', 'ngAnimate','ngMessages']);
+    var app = angular.module("app", ['ui.router', 'ngSanitize', 'ngAnimate', 'ngMessages']);
     app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
         function($stateProvider, $urlRouterProvider, $httpProvider) {
             //未登录拦截
@@ -45,13 +45,17 @@ define(function(require) {
                 url: '/registed',
                 templateUrl: require.toUrl('./pages/registed/registed.html'),
                 controller: 'registedControl'
-            }).state('certificate',{
-				url:'/certificate',
-				templateUrl:require.toUrl('./pages/article/certificate.html')
-			}).state('manageService',{
-				url:'/manageService',
-				templateUrl:require.toUrl('./pages/article/manageService.html')
-			})
+            }).state('certificate', {
+                url: '/certificate',
+                templateUrl: require.toUrl('./pages/article/certificate.html')
+            }).state('manageService', {
+                url: '/manageService',
+                templateUrl: require.toUrl('./pages/article/manageService.html')
+            }).state('login', {
+                url: '/login',
+                templateUrl: require.toUrl('./pages/login/login.html'),
+                controller: 'loginControl'
+            })
 
         }
     ]);
@@ -68,6 +72,7 @@ define(function(require) {
     require('./pages/register/register')(app);
     require('./pages/registerInfo/registerInfo')(app);
     require('./pages/registed/registed')(app);
+    require('./pages/login/login')(app);
 
     //启动应用
     angular.element(document).ready(function() {
@@ -140,7 +145,11 @@ define(function(require) {
                         registerInfo: {
                             register: 'slideInLeft slideOutRight',
                             registed: 'slideInRight slideOutLeft',
+                            login: 'slideInRight slideOutLeft'
                         },
+						login:{
+							registerInfo: 'slideInLeft slideOutRight'
+						},
                         registed: {
                             registerInfo: 'slideInLeft slideOutRight'
                         },
