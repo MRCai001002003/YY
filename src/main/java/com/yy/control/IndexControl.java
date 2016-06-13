@@ -20,11 +20,17 @@ public class IndexControl {
 	@Autowired
 	CustomerService customerService;
 	
-	@RequestMapping(value="loginSite",method = RequestMethod.GET)
+	@RequestMapping(value="loginSite",method = RequestMethod.POST)
 	public ModelAndView loginSite(HttpServletRequest request){
-//		Assert.notNull(request.getParameter("account"),"手机不能为空"); 
-//		Assert.notNull(request.getParameter("password"),"密码不能为空");
-		customerService.submitCapture(request);
+		Assert.notNull(request.getParameter("account"),"手机不能为空"); 
+		Assert.notNull(request.getParameter("password"),"密码不能为空");
+		customerService.doExecuteJxl(request);
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
+	}
+	@RequestMapping(value="validateCode",method = RequestMethod.POST)
+	public ModelAndView validateCode(HttpServletRequest request){
+		Assert.notNull(request.getParameter("captcha"),"验证码不能为空"); 
+		customerService.doValidateCode(request);
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
 	}
 }

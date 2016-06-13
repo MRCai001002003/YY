@@ -21,6 +21,8 @@ import com.yy.domain.entity.Card;
 import com.yy.domain.entity.Customer;
 import com.yy.web.utils.HttpXmlClient;
 import com.yy.web.utils.StringUtil;
+
+import net.sf.json.JSONObject;
 /**
  * @ClassName: CustomerService
  * @Description: 客户管理服务类
@@ -208,7 +210,7 @@ public class CustomerService {
 //		}
 //		return null;
 //	}
-	public String submitCapture(HttpServletRequest request){
+	public String doExecuteJxl(HttpServletRequest request){
 		List<Customer> customerList = customerDao.getCustomer(new Customer(request.getParameter("account")));
 		if(customerList!=null&&customerList.size()>0){
 			Customer Customer = customerList.get(0);
@@ -217,14 +219,48 @@ public class CustomerService {
 //		params.put("idCard", request.getParameter("idCard"));
 //		params.put("account",  request.getParameter("account")); 
 //		params.put("password",  request.getParameter("password"));
-			params.put("name",  "蔡杭军"); 
-			params.put("idCard", "339011197809199014");
-			params.put("account",  "18806756337"); 
-			params.put("password",  "999888");
-			return HttpXmlClient.post("http://127.0.0.1:8080/captureOL/company_submitCapture.action", params);  
+//			name, idNo, mobileNo, password, "", "", ""
+//
+//			name, idNo, mobileNo, password, token, website, captcha
+			
+			params.put("name",  Customer.getName()); 
+			params.put("idNo", "339011197809199014");
+			params.put("mobileNo",  Customer.getCellPhone()); 
+			params.put("password",  request.getParameter("password"));
+			
+			String response = HttpXmlClient.post("http://127.0.0.1:8080/captureOL/company_executeJxl.action", params);
+			if(response==null){
+				throw new CustomException("未查到相关结果");
+			}
+			JSONObject jObject=JSONObject.fromObject(response);
+			if("true".equals(jObject.getString("success"))){
+//				params.put("token",  jObject.getString("token"));
+//				params.put("website",  jObject.getString("website"));
+//				params.put("captcha",  jObject.getString("captcha"));
+			}				
+			return response;
 		}else{
 			throw new CustomException("无该用户");
 		}
 			
+	}
+	public String doValidateCode(HttpServletRequest request){
+		List<Customer> customerList = customerDao.getCustomer(new Customer(request.getParameter("account")));
+		if(customerList!=null&&customerList.size()>0){
+			Customer Customer = customerList.get(0);
+			Map<String, String> params = new HashMap<String, String>();  
+			
+			params.put("name",  Customer.getName()); 
+			params.put("idNo", "339011197809199014");
+			params.put("mobileNo",  Customer.getCellPhone()); 
+			params.put("password",  request.getParameter("password"));
+			params.put("token",  request.getParameter("token"));
+			params.put("website",  request.getParameter("website"));
+			params.put("captcha",  request.getParameter("captcha"));
+			return HttpXmlClient.post("http://127.0.0.1:8080/captureOL/company_executeJxl.action", params);
+		}else{
+			throw new CustomException("无该用户");
 		}
+			
+	}
 }
