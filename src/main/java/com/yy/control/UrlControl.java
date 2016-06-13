@@ -19,12 +19,12 @@ public class UrlControl {
 	 * @author caizhen
 	 * @date 2016年5月30日 下午3:19:36
 	 */
-	@RequestMapping(value = "/index")
-	public String index(HttpServletRequest request) throws Exception{
-		return "/index";
-	}
-	@RequestMapping(value = "/login")
-	public String login(HttpServletRequest request) throws Exception{
-		return "/login";
-	}
+//	@RequestMapping(value = "/index")
+//	public String index(HttpServletRequest request) throws Exception{
+//		return "/index";
+//	}
+//	@RequestMapping(value = "/login")
+//	public String login(HttpServletRequest request) throws Exception{
+//		return "/login";
+//	}
 }
