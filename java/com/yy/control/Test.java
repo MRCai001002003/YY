@@ -26,8 +26,16 @@ import com.yy.web.utils.StringUtil;
 
 public class Test {
 	public static void main(String[] args) {
-		BigDecimal b=BigDecimal.valueOf(0.1500);
-		System.out.print(new BigDecimal("0.1500")); 
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("name",  "蔡振"); 
+		params.put("idNo", "339011197809199014");
+		params.put("mobileNo",  "17767173344"); 
+		params.put("password",  "password");
+		params.put("token",  "token");
+		params.put("website",  "website");
+		params.put("captcha",  "captcha");
+		JSONObject jObject = JSONObject.fromObject(params);
+		System.out.println(jObject);
 	}
 	public static Date getNextDay(Date date) {  
         Calendar calendar = Calendar.getInstance();  

@@ -241,7 +241,7 @@ public class CustomerService {
 //				params.put("website",  jObject.getString("website"));
 //				params.put("captcha",  jObject.getString("captcha"));
 //			}				
-			return params.toString();
+			return JSONObject.fromObject(params).toString();
 		}else{
 			throw new CustomException("无该用户");
 		}
