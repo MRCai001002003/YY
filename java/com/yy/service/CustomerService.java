@@ -223,36 +223,49 @@ public class CustomerService {
 //
 //			name, idNo, mobileNo, password, token, website, captcha
 			
-			params.put("name",  Customer.getName()); 
+			params.put("name",  "蔡振"); 
 			params.put("idNo", "339011197809199014");
-			params.put("mobileNo",  Customer.getCellPhone()); 
-			params.put("password",  request.getParameter("password"));
+			params.put("mobileNo",  "17767173344"); 
+			params.put("password",  "password");
+			params.put("token",  "token");
+			params.put("website",  "website");
+			params.put("captcha",  "captcha");
 			
-			String response = HttpXmlClient.post("http://127.0.0.1:8080/captureOL/company_executeJxl.action", params);
-			if(response==null){
-				throw new CustomException("未查到相关结果");
-			}
-			JSONObject jObject=JSONObject.fromObject(response);
-			if("true".equals(jObject.getString("success"))){
+//			String response = HttpXmlClient.post("http://127.0.0.1:8080/captureOL/company_executeJxl.action", params);
+//			if(response==null){
+//				throw new CustomException("未查到相关结果");
+//			}
+//			JSONObject jObject=JSONObject.fromObject(response);
+//			if("true".equals(jObject.getString("success"))){
 //				params.put("token",  jObject.getString("token"));
 //				params.put("website",  jObject.getString("website"));
 //				params.put("captcha",  jObject.getString("captcha"));
-			}				
-			return response;
+//			}				
+			return params.toString();
 		}else{
 			throw new CustomException("无该用户");
 		}
+		
 			
 	}
+	/**
+	 * @Title: saveCard 
+	 * @Description: 验证手机验证码
+	 * @author caiZhen
+	 * @date 2016年6月13日 下午4:27:16
+	 * @param @param request
+	 * @param @param customer    设定文件 
+	 * @return void    返回类型 
+	 */
 	public String doValidateCode(HttpServletRequest request){
 		List<Customer> customerList = customerDao.getCustomer(new Customer(request.getParameter("account")));
 		if(customerList!=null&&customerList.size()>0){
 			Customer Customer = customerList.get(0);
 			Map<String, String> params = new HashMap<String, String>();  
 			
-			params.put("name",  Customer.getName()); 
+			params.put("name",  "name"); 
 			params.put("idNo", "339011197809199014");
-			params.put("mobileNo",  Customer.getCellPhone()); 
+			params.put("mobileNo",  "mobileNo"); 
 			params.put("password",  request.getParameter("password"));
 			params.put("token",  request.getParameter("token"));
 			params.put("website",  request.getParameter("website"));
