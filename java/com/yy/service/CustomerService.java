@@ -130,14 +130,14 @@ public class CustomerService {
 //			customerCertificateService.saveOrUpCustomerCertificate(customerCertificate);
 //		}
 //	}
-	public String collect_info(HttpServletRequest request,Customer customer){
+	public String collect_info(Customer customer,String idCard,String cardCode,String highestDegree){
 		Map<String, String> params = new HashMap<String, String>();  
 		params.put("name", customer.getName()); 
-		params.put("idNo", request.getParameter("idCard"));
+		params.put("idNo", idCard);
 		params.put("resonCd", "01"); 
 		params.put("mobileNo", customer.getCellPhone());
-		params.put("cardCode", request.getParameter("cardCode"));
-		params.put("edu", request.getParameter("highestDegree"));
+		params.put("cardCode", cardCode);
+		params.put("edu", highestDegree);
 		params.put("company", "");
 		      
 		return HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeAuth.action", params);  
