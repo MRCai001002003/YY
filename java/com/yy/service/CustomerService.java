@@ -97,12 +97,15 @@ public class CustomerService {
 	 * @return void    返回类型 
 	 */
 	public void doSupplementCustomer(HttpServletRequest request){
-		Customer customer=(Customer)request.getSession().getAttribute("customer");
+		Customer c=(Customer)request.getSession().getAttribute("customer");
 //		customerPersonal.setCustomerID(customer.getCustomerID()); 
 //		customerPersonalService.saveOrUpCustomerPersonal(request,customerPersonal);
 //		customerEducationService.saveOrUpCustomerEducation(request, customer);
-		customerWorkexperienceService.saveWorkexperience(request, customer);//更新工作经历
+		customerWorkexperienceService.saveWorkexperience(request, c);//更新工作经历
 		
+		
+		Customer customer = new Customer();
+		customer.setCustomerID(c.getCustomerID());
 		customer.setEmail(request.getParameter("email"));
 		saveOrUpCustomer(request,customer); //更新邮箱
 		
