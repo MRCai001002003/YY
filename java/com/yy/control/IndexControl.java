@@ -24,8 +24,7 @@ public class IndexControl {
 	public ModelAndView loginSite(HttpServletRequest request){
 		Assert.notNull(request.getParameter("account"),"手机不能为空"); 
 		Assert.notNull(request.getParameter("password"),"密码不能为空");
-		customerService.doExecuteJxl(request);
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.doExecuteJxl(request)));
 	}
 	@RequestMapping(value="validateCode",method = RequestMethod.POST)
 	public ModelAndView validateCode(HttpServletRequest request){
