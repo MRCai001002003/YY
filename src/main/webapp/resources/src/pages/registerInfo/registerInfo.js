@@ -21,5 +21,3 @@ define(function(require) {
         ])
     }
 })
-
-//http://localhost:8080/customer/saveOrUpdateCustomerPersonal?teacher=teacher&highestdegree=dz&workinglife=56&marriagetype=%E5%B7%B2%E5%A9%9A&customerid=4

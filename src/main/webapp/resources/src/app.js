@@ -55,6 +55,10 @@ define(function(require) {
                 url: '/login',
                 templateUrl: require.toUrl('./pages/login/login.html'),
                 controller: 'loginControl'
+            }).state('validaty', {
+                url: '/validaty',
+                templateUrl: require.toUrl('./pages/validaty/validaty.html'),
+                controller: 'validatyControl'
             })
 
         }
@@ -73,6 +77,7 @@ define(function(require) {
     require('./pages/registerInfo/registerInfo')(app);
     require('./pages/registed/registed')(app);
     require('./pages/login/login')(app);
+    require('./pages/validaty/validaty')(app);
 
     //启动应用
     angular.element(document).ready(function() {
@@ -147,9 +152,13 @@ define(function(require) {
                             registed: 'slideInRight slideOutLeft',
                             login: 'slideInRight slideOutLeft'
                         },
-						login:{
-							registerInfo: 'slideInLeft slideOutRight'
-						},
+                        login: {
+                            registerInfo: 'slideInLeft slideOutRight',
+                            validaty: 'slideInRight slideOutLeft'
+                        },
+                        validaty: {
+                            login: 'slideInLeft slideOutRight'
+                        },
                         registed: {
                             registerInfo: 'slideInLeft slideOutRight'
                         },
