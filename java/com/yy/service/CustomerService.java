@@ -210,19 +210,19 @@ public class CustomerService {
 //		}
 //		return null;
 //	}
-	public String doExecuteJxl(HttpServletRequest request){
+	public Map doExecuteJxl(HttpServletRequest request){
 		List<Customer> customerList = customerDao.getCustomer(new Customer(request.getParameter("account")));
 		if(customerList!=null&&customerList.size()>0){
 			Customer Customer = customerList.get(0);
 			Map<String, String> params = new HashMap<String, String>();  
-//		params.put("name",  request.getParameter("name")); 
-//		params.put("idCard", request.getParameter("idCard"));
-//		params.put("account",  request.getParameter("account")); 
-//		params.put("password",  request.getParameter("password"));
-//			name, idNo, mobileNo, password, "", "", ""
-//
-//			name, idNo, mobileNo, password, token, website, captcha
-			
+////		params.put("name",  request.getParameter("name")); 
+////		params.put("idCard", request.getParameter("idCard"));
+////		params.put("account",  request.getParameter("account")); 
+////		params.put("password",  request.getParameter("password"));
+////			name, idNo, mobileNo, password, "", "", ""
+////
+////			name, idNo, mobileNo, password, token, website, captcha
+//			
 			params.put("name",  "蔡振"); 
 			params.put("idNo", "339011197809199014");
 			params.put("mobileNo",  "17767173344"); 
@@ -230,7 +230,15 @@ public class CustomerService {
 			params.put("token",  "token");
 			params.put("website",  "website");
 			params.put("captcha",  "captcha");
-			
+			////////////////////
+//			JSONObject params=new JSONObject();
+//			params.put("name",  "蔡振"); 
+//			params.put("idNo", "339011197809199014");
+//			params.put("mobileNo",  "17767173344"); 
+//			params.put("password",  "password");
+//			params.put("token",  "token");
+//			params.put("website",  "website");
+//			params.put("captcha",  "captcha");
 //			String response = HttpXmlClient.post("http://127.0.0.1:8080/captureOL/company_executeJxl.action", params);
 //			if(response==null){
 //				throw new CustomException("未查到相关结果");
@@ -241,7 +249,7 @@ public class CustomerService {
 //				params.put("website",  jObject.getString("website"));
 //				params.put("captcha",  jObject.getString("captcha"));
 //			}				
-			return JSONObject.fromObject(params).toString();
+			return params;
 		}else{
 			throw new CustomException("无该用户");
 		}
