@@ -5,7 +5,7 @@
         </div>
         <div class="container-fluid">
             <form novalidate form-validated="submit()" name="registerForm" class="form-horizontal register-form">
-                
+
                 <div class="form-group" ng-class="{'has-error':registerForm.companyType.$invalid && !registerForm.companyType.$pristine}">
                     <label class="control-label col-xs-2">
                         <img src="./resources/images/ioc09.png">
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="form-group" ng-class="{'has-error':registerForm.role.$invalid && !registerForm.role.$pristine}">
                     <label class="control-label col-xs-2">
                         <img src="./resources/images/ioc09.png">
@@ -70,11 +70,25 @@
                     </label>
                     <div class="col-xs-10">
                         <div class="row">
-                            <input required ng-model="params.email" name="email" type="text" placeholder="借款人常用邮箱" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.\S+$/">
+<!--                            <input required ng-model="params.email" name="email" type="text" placeholder="借款人常用邮箱" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.\S+$/" change-call="testSuffix">-->
+                            <input ng-model="params.email" name="email" type="text" placeholder="借款人常用邮箱" class="form-control" ng-change="testSuffix(params.email)">
+                            <div>{{isShowSuffix}}</div>
+                            <ul ng-show="!isShowSuffix" class="text-center">
+                                <li>{{params.email}}@qq.com</li>
+                                <li>{{params.email}}@163.com</li>
+                                <li>{{params.email}}@126.com</li>
+                                <li>{{params.email}}@139.com</li>
+                                <li>{{params.email}}@sina.com</li>
+                                <li>{{params.email}}@hotmail.com</li>
+                                <li>{{params.email}}@aliyun.com</li>
+                                <li>{{params.email}}@sohu.com</li>
+                            </ul>
+<!--
                             <div ng-messages="registerForm.email.$error" ng-show="!registerForm.email.$pristine">
                                 <div ng-message="required" class="help-block">必填项不能为空</div>
                                 <div ng-message="pattern" class="help-block">请输入正确的邮箱</div>
                             </div>
+-->
                         </div>
                     </div>
                 </div>
