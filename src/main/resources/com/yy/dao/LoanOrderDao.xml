@@ -24,7 +24,7 @@
     <result column="Fee" property="fee" jdbcType="REAL" />
     <result column="RiskLevel" property="riskLevel" jdbcType="VARCHAR" />
     <result column="RepayDay" property="repayDay" jdbcType="INTEGER" />
-    <result column="OrderDate" property="orderDate" jdbcType="DATE" />
+    <result column="OrderDate" property="orderDate" jdbcType="TIMESTAMP" />
     <result column="OverdueInterestRate" property="overdueInterestRate" jdbcType="DECIMAL" />
     <result column="Recorder" property="recorder" jdbcType="BIGINT" />
     <result column="LoanRemark" property="loanRemark" jdbcType="VARCHAR" />
@@ -70,7 +70,7 @@
       #{loanTermType,jdbcType=CHAR}, #{graceTerm,jdbcType=DECIMAL}, #{graceTermType,jdbcType=CHAR}, 
       #{guarantyOrgCode,jdbcType=CHAR}, #{orderStatus,jdbcType=VARCHAR}, #{channelCode,jdbcType=VARCHAR}, 
       #{interestRate,jdbcType=DECIMAL}, #{fee,jdbcType=REAL}, #{riskLevel,jdbcType=VARCHAR}, 
-      #{repayDay,jdbcType=INTEGER}, #{orderDate,jdbcType=DATE}, #{overdueInterestRate,jdbcType=DECIMAL}, 
+      #{repayDay,jdbcType=INTEGER}, #{orderDate,jdbcType=TIMESTAMP}, #{overdueInterestRate,jdbcType=DECIMAL}, 
       #{recorder,jdbcType=BIGINT}, #{loanRemark,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}
       )
   </insert>
@@ -227,7 +227,7 @@
         #{repayDay,jdbcType=INTEGER},
       </if>
       <if test="orderDate != null" >
-        #{orderDate,jdbcType=DATE},
+        #{orderDate,jdbcType=TIMESTAMP},
       </if>
       <if test="overdueInterestRate != null" >
         #{overdueInterestRate,jdbcType=DECIMAL},
@@ -310,7 +310,7 @@
         RepayDay = #{repayDay,jdbcType=INTEGER},
       </if>
       <if test="orderDate != null" >
-        OrderDate = #{orderDate,jdbcType=DATE},
+        OrderDate = #{orderDate,jdbcType=TIMESTAMP},
       </if>
       <if test="overdueInterestRate != null" >
         OverdueInterestRate = #{overdueInterestRate,jdbcType=DECIMAL},
@@ -350,7 +350,7 @@
       Fee = #{fee,jdbcType=REAL},
       RiskLevel = #{riskLevel,jdbcType=VARCHAR},
       RepayDay = #{repayDay,jdbcType=INTEGER},
-      OrderDate = #{orderDate,jdbcType=DATE},
+      OrderDate = #{orderDate,jdbcType=TIMESTAMP},
       OverdueInterestRate = #{overdueInterestRate,jdbcType=DECIMAL},
       Recorder = #{recorder,jdbcType=BIGINT},
       LoanRemark = #{loanRemark,jdbcType=VARCHAR},

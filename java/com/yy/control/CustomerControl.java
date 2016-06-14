@@ -74,7 +74,10 @@ public class CustomerControl {
 		//执行信息收集
 		customer=(Customer)StringUtil.getSession(request, "customer");
 		try {
-			asyncService.runTask(customerService,"collect_info",new Object[]{request,customer},null,null,10000,true);
+			asyncService.runTask(customerService,"collect_info",new Object[]{customer,
+					request.getParameter("idCard"),
+					request.getParameter("cardCode"),
+					request.getParameter("highestDegree")},null,null,10000,true);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -94,20 +97,20 @@ public class CustomerControl {
 		customerService.doSupplementCustomer(request);
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
 	}
-	/**
-	 * @Title: collect_info 
-	 * @Description: 采集信息
-	 * @author caiZhen
-	 * @date 2016年6月6日 上午11:28:29
-	 * @param @param request
-	 * @param @return    设定文件 
-	 * @return ModelAndView    返回类型 
-	 */
-	@RequestMapping(value="collect_info",method=RequestMethod.GET)
-	public ModelAndView collect_info(HttpServletRequest request){
-		customerService.collect_info(request,null);
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
-	}
+//	/**
+//	 * @Title: collect_info 
+//	 * @Description: 采集信息
+//	 * @author caiZhen
+//	 * @date 2016年6月6日 上午11:28:29
+//	 * @param @param request
+//	 * @param @return    设定文件 
+//	 * @return ModelAndView    返回类型 
+//	 */
+//	@RequestMapping(value="collect_info",method=RequestMethod.GET)
+//	public ModelAndView collect_info(HttpServletRequest request){
+//		customerService.collect_info(request,null);
+//		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
+//	}
 	@RequestMapping(value="ss",method=RequestMethod.GET)
 	public ModelAndView ss(HttpServletRequest request){
 		Map<String, String> params = new HashMap<String, String>();  
