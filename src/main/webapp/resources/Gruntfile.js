@@ -61,7 +61,6 @@ module.exports = function(grunt) {
                         'angular.animate': 'empty:',
                         'angular.sanitize': 'empty:',
                         'angular.messages': 'empty:',
-                        'angular.validate': 'empty:',
                         'iScroll': 'empty:',
                         'hammer': 'empty:'
                     },

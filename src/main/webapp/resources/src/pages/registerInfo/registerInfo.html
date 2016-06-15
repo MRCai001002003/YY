@@ -64,31 +64,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group clearfix" ng-class="{'has-error':registerForm.email.$invalid && !registerForm.email.$pristine}">
+                <div class="form-group clearfix" ng-class="{'has-error':registerForm.email.$invalid && !registerForm.email.$pristine || !isEmail}">
                     <label class="control-label col-xs-2">
                         <img src="./resources/images/ioc07.png" alt="">
                     </label>
                     <div class="col-xs-10">
                         <div class="row">
-<!--                            <input required ng-model="params.email" name="email" type="text" placeholder="借款人常用邮箱" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.\S+$/" change-call="testSuffix">-->
-                            <input ng-model="params.email" name="email" type="text" placeholder="借款人常用邮箱" class="form-control" ng-change="testSuffix(params.email)">
-                            <div>{{isShowSuffix}}</div>
-                            <ul ng-show="!isShowSuffix" class="text-center">
-                                <li>{{params.email}}@qq.com</li>
-                                <li>{{params.email}}@163.com</li>
-                                <li>{{params.email}}@126.com</li>
-                                <li>{{params.email}}@139.com</li>
-                                <li>{{params.email}}@sina.com</li>
-                                <li>{{params.email}}@hotmail.com</li>
-                                <li>{{params.email}}@aliyun.com</li>
-                                <li>{{params.email}}@sohu.com</li>
-                            </ul>
-<!--
+                            <input required ng-model="params.email" name="email" type="text" placeholder="借款人常用邮箱" class="form-control" ng-change="testSuffix(params.email)" ng-blur="isShowSuffix=false">
+                            <div class="relative">
+                                <ul ng-show="isShowSuffix" class="list-unstyled email-list">
+                                    <li ng-repeat="item in emailList" tap="addSuffix(item)">{{params.email}}{{item}}</li>
+                                </ul>
+                            </div>
                             <div ng-messages="registerForm.email.$error" ng-show="!registerForm.email.$pristine">
                                 <div ng-message="required" class="help-block">必填项不能为空</div>
-                                <div ng-message="pattern" class="help-block">请输入正确的邮箱</div>
                             </div>
--->
+							<div ng-show="!isEmail" class="help-block">请输入正确的邮箱</div>
+
                         </div>
                     </div>
                 </div>
