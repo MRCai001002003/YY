@@ -1,8 +1,8 @@
 define(function(require) {
     var baseUrl = require('../../common/js/baseUrl/baseUrl');
     return function(app) {
-        app.controller('registerInfoControl', ['$scope', '$http', '$state',
-            function($scope, $http, $state) {
+        app.controller('registerInfoControl', ['$scope', '$http', '$state', 'cache',
+            function($scope, $http, $state, cache) {
                 var emailList = ['@qq.com', '@163.com', '@126.com', '@139.com', '@sina.com', '@hotmail.com', '@aliyun.com', '@sohu.com'];
                 $scope.params = {};
                 $scope.isShowSuffix = false;
@@ -48,10 +48,11 @@ define(function(require) {
                         data: $scope.params
                     }).success(function(data) {
                         if (data.success) {
-							if(data.data===true){
-								$state.go('login');
-								return;
-							}
+                            if (data.data.account) {
+                                cache.set('account', data.data.account);
+                                $state.go('login');
+                                return;
+                            }
                             $state.go('registed');
                         } else {
                             alert(data.msg);

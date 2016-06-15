@@ -2,7 +2,9 @@ define(function(require) {
     var baseUrl = require('../../common/js/baseUrl/baseUrl');
     return function(app) {
         app.controller('loginControl', ['$scope', '$http', '$state', 'cache', function($scope, $http, $state, cache) {
-            $scope.params = {};
+            $scope.params = {
+                account: cache.get('account')
+            };
             $scope.submit = function() {
                 $http({
                     url: baseUrl + 'index/loginSite',
