@@ -77,6 +77,15 @@ define(function(require) {
                 require: 'ngModel',
                 link: function($scope, element, attrs, ngModelControl) {
                     ngModelControl.$parsers.unshift(function(viewValue) {
+                        viewValue = viewValue.replace(/\D/g, '');
+                        var str = '';
+                        for (var i = 0; i < viewValue.length; i++) {
+                            if (i > 3 && i % 4 == 0) {
+                                str += ' ';
+                            }
+                            str += viewValue.charAt(i);
+                        }
+                        element.val(str);
                         if (validatePattern.bankCard(viewValue)) {
                             ngModelControl.$setValidity('bankCard', true);
                             return viewValue;
@@ -88,6 +97,7 @@ define(function(require) {
                 }
             }
         }])
+
         app.directive('idcard', ['validatePattern', function(validatePattern) {
             return {
                 restrict: 'A',
@@ -95,6 +105,16 @@ define(function(require) {
                 require: 'ngModel',
                 link: function($scope, element, attrs, ngModelControl) {
                     ngModelControl.$parsers.unshift(function(viewValue) {
+
+                        viewValue = viewValue.replace(/\D/g, '');
+                        var str = '';
+                        for (var i = 0; i < viewValue.length; i++) {
+                            if (i > 3 && (i + 2) % 4 == 0) {
+                                str += ' ';
+                            }
+                            str += viewValue.charAt(i);
+                        }
+                        element.val(str);
                         if (validatePattern.idcard(viewValue)) {
                             ngModelControl.$setValidity('idcard', true);
                             return viewValue;
@@ -106,6 +126,33 @@ define(function(require) {
                 }
             }
         }])
+        app.directive('phone', function() {
+            return {
+                restrict: 'A',
+                scope: true,
+                require: 'ngModel',
+                link: function($scope, element, attrs, ngModelControl) {
+                    ngModelControl.$parsers.unshift(function(viewValue) {
+                        viewValue = viewValue.replace(/\D/g, '');
+                        var str = '';
+                        for (var i = 0; i < viewValue.length; i++) {
+                            if (i > 0 && (i + 1) % 4 == 0) {
+                                str += ' ';
+                            }
+                            str += viewValue.charAt(i);
+                        }
+                        element.val(str);
+                        if (/^1[345678]\d{9}$/.test(viewValue)) {
+                            ngModelControl.$setValidity('phone', true);
+                            return viewValue;
+                        } else {
+                            ngModelControl.$setValidity('phone', false);
+                            return undefined;
+                        }
+                    });
+                }
+            }
+        })
         app.directive('checkVerifyCode', ['cache', function(cache) {
             var num = 60;
             cache.set('timer', num);

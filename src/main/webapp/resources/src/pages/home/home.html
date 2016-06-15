@@ -32,10 +32,10 @@
                 </div>
                 <div ng-class="{'has-error':homeForm.cellPhone.$invalid && !homeForm.cellPhone.$pristine}" class="form-group row">
                     <div class="col-xs-12">
-                        <input ng-model="params.cellPhone" name="cellPhone" class="form-control" type="text" placeholder="请输入您的手机号" required ng-pattern="/^1[345678]\d{9}$/">
+                        <input ng-model="params.cellPhone" name="cellPhone" class="form-control" type="text" placeholder="请输入您的手机号" required phone>
                         <div ng-messages="homeForm.cellPhone.$error" ng-show="!homeForm.cellPhone.$pristine">
                             <div ng-message="required" class="help-block">必填项不能为空</div>
-                            <div ng-message="pattern" class="help-block">请输入正确的手机号</div>
+                            <div ng-message="phone" class="help-block">请输入正确的手机号</div>
                         </div>
                     </div>
                 </div>
