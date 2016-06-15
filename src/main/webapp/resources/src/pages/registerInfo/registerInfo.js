@@ -48,6 +48,10 @@ define(function(require) {
                         data: $scope.params
                     }).success(function(data) {
                         if (data.success) {
+							if(data.data===true){
+								$state.go('login');
+								return;
+							}
                             $state.go('registed');
                         } else {
                             alert(data.msg);
