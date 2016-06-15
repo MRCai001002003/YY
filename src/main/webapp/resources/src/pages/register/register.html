@@ -61,8 +61,8 @@
                         <div class="row">
                             <select ng-model="params.marriageType" class="form-control" name="marriageType" required>
                                 <option value="">请选择婚姻情况</option>
-                                <option value="0">已婚</option>
-                                <option value="1">未婚</option>
+                                <option value="M">已婚</option>
+                                <option value="U">未婚</option>
                             </select>
                             <div ng-messages="registerForm.marriageType.$error" ng-show="!registerForm.marriageType.$pristine">
                                 <div ng-message="required" class="help-block">请选择学历</div>
