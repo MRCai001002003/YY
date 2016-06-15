@@ -33,13 +33,10 @@ public class LoanOrderService {
 	 * @throws
 	 */
 	public void saveOrUpLoadOrder(HttpServletRequest request,LoanOrder loanOrder){
-		
-		List<LoanOrder> loanOrderList = loanOrderDao.selectByParam(loanOrder);
-		if(loanOrderList.size()>0){
-			LoanOrder order = loanOrderList.get(0);
-			loanOrder.setLoanOrderCode(order.getLoanOrderCode());
+		List<LoanOrder> loanOrderList = loanOrderDao.selectByParam(new LoanOrder(null,loanOrder.getCustomerID(),"P"));
+		if(loanOrderList!=null&&loanOrderList.size()>0){
+			throw new CustomException("该用户有在审批业务");
 		}
-		
 		if(StringUtils.isBlank(loanOrder.getLoanOrderCode())){
 			loanOrder.setOrderDate(new Date());
 			//新增初始化部分信息
@@ -66,6 +63,8 @@ public class LoanOrderService {
 	 * @return void    返回类型 
 	 */
 	public String saveCustomerLoan(HttpServletRequest request,LoanOrder loanOrder){
+		
+		
 		String str="";
 		String verificationCode = (String)StringUtil.getSession(request, "verificationCode");
 		String phone = (String)StringUtil.getSession(request, "phone");

@@ -59,7 +59,12 @@ public class LoanOrder {
     private String summary;
     
     private String cellPhone;
-
+    public LoanOrder(){}
+    public LoanOrder(String loanOrderCode,Long customerID,String orderStatus){
+    	this.loanOrderCode = loanOrderCode;
+    	this.customerID = customerID;
+    	this.orderStatus = orderStatus;
+    }
     public String getCellPhone() {
 		return cellPhone;
 	}

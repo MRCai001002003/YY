@@ -46,7 +46,17 @@
     select 
     <include refid="Base_Column_List" />
     from m_loan_order
-    where LoanOrderCode = #{loanOrderCode,jdbcType=CHAR}
+    <where>
+    	<if test="loanContractCode != null and loanContractCode!=''" >
+        	and LoanOrderCode = #{loanOrderCode,jdbcType=CHAR}
+        </if>
+        <if test="customerID != null and customerID!=''" >
+        	and CustomerID=#{customerID,jdbcType=BIGINT}
+        </if>
+        <if test="orderStatus != null and orderStatus!=''" >
+        	and OrderStatus=#{orderStatus,jdbcType=VARCHAR}
+        </if>
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from m_loan_order
