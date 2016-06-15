@@ -73,7 +73,6 @@ public class CustomerService {
 	* @param @param request
 	* @param @param customer    设定文件 
 	* @return void    返回类型 
-	* @throws
 	 */
 	public void doSupplementCustomer(HttpServletRequest request,Customer customer){
 		Customer c=(Customer)request.getSession().getAttribute("customer");
