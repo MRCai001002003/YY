@@ -42,6 +42,7 @@ public class CustomerWorkexperienceService {
 			customerWorkexperience.setWorkExperienceID(cwList.get(0).getWorkExperienceID());
 		}
 		if(customerWorkexperience!=null&&customerWorkexperience.getWorkExperienceID()==null){
+			customerWorkexperience.setIsCurrentCompany(1);
 			customerWorkexperienceDao.insertSelective(customerWorkexperience);
 		}else{
 			customerWorkexperienceDao.updateByPrimaryKeySelective(customerWorkexperience);

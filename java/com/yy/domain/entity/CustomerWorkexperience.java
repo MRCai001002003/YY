@@ -9,7 +9,7 @@ public class CustomerWorkexperience {
 
     private String companyName;
 
-    private Boolean isCurrentCompany;
+    private Integer isCurrentCompany;
 
     private Date startDate;
 
@@ -53,11 +53,11 @@ public class CustomerWorkexperience {
         this.companyName = companyName == null ? null : companyName.trim();
     }
 
-    public Boolean getIsCurrentCompany() {
+    public Integer getIsCurrentCompany() {
         return isCurrentCompany;
     }
 
-    public void setIsCurrentCompany(Boolean isCurrentCompany) {
+    public void setIsCurrentCompany(Integer isCurrentCompany) {
         this.isCurrentCompany = isCurrentCompany;
     }
 
