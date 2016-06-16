@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.yy.common.exception.CustomException;
@@ -47,6 +48,9 @@ public class CustomerService {
 	CustomerEducationService customerEducationService;
 	@Autowired
 	CustomerPersonalService customerPersonalService;
+	
+	@Value("#{settings['is_get_juxinli_data']}")
+	private String is_get_juxinli_data="";
 	/**
 	 *
 	 * @Title: saveOrUpCustomer
@@ -95,8 +99,11 @@ public class CustomerService {
 	 * @param @param customer    设定文件 
 	 * @return void    返回类型 
 	 */
-	public void doSupplementCustomer(HttpServletRequest request){
+	public JSONObject doSupplementCustomer(HttpServletRequest request){
 		Customer c=(Customer)request.getSession().getAttribute("customer");
+		if(c==null){
+			throw new CustomException("会话消失");
+		}
 //		customerPersonal.setCustomerID(customer.getCustomerID()); 
 //		customerPersonalService.saveOrUpCustomerPersonal(request,customerPersonal);
 //		customerEducationService.saveOrUpCustomerEducation(request, customer);
@@ -109,6 +116,10 @@ public class CustomerService {
 		saveOrUpCustomer(request,customer); //更新邮箱
 		
 		customerCertificateService.saveCustomerCertificate(request,customer);//更新QQ
+		JSONObject jObject = new JSONObject();
+		jObject.put("account", c.getCellPhone());
+		jObject.put("is_get_juxinli_data", is_get_juxinli_data);
+		return jObject;
 	}
 	/**
 	 *

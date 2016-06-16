@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -94,8 +95,7 @@ public class CustomerControl {
 	 */
 	@RequestMapping(value = "/saveOrUpdateCustomerPersonal", method = RequestMethod.POST)
 	public ModelAndView saveOrUpCustomerPersonal(HttpServletRequest request){
-		customerService.doSupplementCustomer(request);
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.doSupplementCustomer(request)));
 	}
 //	/**
 //	 * @Title: collect_info 
