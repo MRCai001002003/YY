@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -27,7 +26,6 @@ import com.yy.domain.entity.CustomerIncome;
 import com.yy.domain.entity.WhiteList;
 import com.yy.web.utils.HttpXmlClient;
 import com.yy.web.utils.StringUtil;
-import com.zxlh.comm.async.service.AsyncService;
 
 import net.sf.json.JSONObject;
 /**
@@ -38,7 +36,7 @@ import net.sf.json.JSONObject;
  */
 @Service
 public class CustomerService {
-	protected final Logger log = LoggerFactory.getLogger(this.getClass().getName());
+	private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
 	@Autowired
 	CustomerDao customerDao;
@@ -59,8 +57,6 @@ public class CustomerService {
 	CustomerEducationService customerEducationService;
 	@Autowired
 	CustomerPersonalService customerPersonalService;
-	@Resource
-	private AsyncService asyncService;
 	
 	@Value("#{settings['is_get_juxinli_data']}")
 	private boolean is_get_juxinli_data;
@@ -116,7 +112,7 @@ public class CustomerService {
 	* @param @param customer    设定文件 
 	* @return void    返回类型 
 	 */
-	public String supplementCustomer(HttpServletRequest request,Customer customer){
+	public void doSupplementCustomer(HttpServletRequest request,Customer customer){
 		Customer c=(Customer)request.getSession().getAttribute("customer");
 		if(c==null){
 			throw new CustomException("会话消失");
@@ -125,9 +121,7 @@ public class CustomerService {
 		}
 		//用户身份证信息已存在 则不采集数据
 		Map m = customerDao.selectObject(c.getCellPhone());
-		if(m!=null){
-			return "用户已实名认证";
-		}else{
+		if(m==null){
 			customer.setCustomerStatus("PENDINZX");//等待失信检查
 			saveOrUpCustomer(request,customer); //更新姓名
 			
@@ -135,19 +129,6 @@ public class CustomerService {
 			customerEducationService.saveOrUpCustomerEducation(request, customer);//更新学历
 			customerPersonalService.saveCustomerPersonal(request, customer);//更新婚姻情况
 			this.saveCard(request, customer);
-			
-			//执行信息收集
-			customer=(Customer)StringUtil.getSession(request, "customer");
-			try {
-				asyncService.runTask(this,"collect_info",new Object[]{customer,
-						request.getParameter("idCard"),
-						request.getParameter("cardCode"),
-						request.getParameter("highestDegree")},null,null,10000,true);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage());
-			}
-			return "执行成功";
 		}
 	}
 	/**
@@ -284,7 +265,7 @@ public class CustomerService {
 		params.put("website",  "");
 		params.put("captcha",  "");
 		String response = HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeJxl.action", params);
-		System.out.println("response"+response);
+		log.info("doExecuteJxl info"+response);
 		if(response==null){
 			throw new CustomException("未查到相关结果");
 		}
@@ -324,7 +305,7 @@ public class CustomerService {
 		params.put("website",  request.getParameter("website"));
 		params.put("captcha",  request.getParameter("captcha"));
 		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeJxl.action", params);
-		log.info(response);
+		log.info("doValidateCode info"+response);
 			
 	}
 }

@@ -43,7 +43,7 @@ public class SmsService {
 		if(smsDetail==null){
 			smsDetail.setPhone(request.getParameter("cellPhone"));
 		}
-		String response="<?xml version=\"1.0\" encoding=\"utf-8\" ?><returnsms><returnstatus>Success</returnstatus><message>OK</message><remainpoint>1440</remainpoint><taskID>6538308382720020</taskID><resplist><resp>6538308382720020#@#17767173344#@#0#@#</resp></resplist><successCounts>1</successCounts></returnsms>";
+		String response="";//"<?xml version=\"1.0\" encoding=\"utf-8\" ?><returnsms><returnstatus>Success</returnstatus><message>OK</message><remainpoint>1440</remainpoint><taskID>6538308382720020</taskID><resplist><resp>6538308382720020#@#17767173344#@#0#@#</resp></resplist><successCounts>1</successCounts></returnsms>";
 		String code=StringUtil.randomCode(6);
 		smsDetail.setContent("【品信金融】 您的验证码是"+code);
 		
@@ -59,8 +59,8 @@ public class SmsService {
 		List<RequestHead> requestHeads = new ArrayList<RequestHead>();
 		requestHeads.add(new RequestHead("Content-Type", "application/json"));
 		try {
-//			response = getJsonFromRpc_post("http://code.58yhkj.com:7862/sms",
-//					param, requestHeads);
+			response = getJsonFromRpc_post("http://code.58yhkj.com:7862/sms",
+					param, requestHeads);
 			JSONObject jObject = null;
 			System.out.println(response);
 			if (StringUtils.isNoneBlank(response)) {
