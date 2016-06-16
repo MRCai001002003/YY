@@ -3,11 +3,9 @@ package com.yy.control;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +20,6 @@ import com.yy.service.LoanOrderService;
 import com.yy.service.SmsService;
 import com.yy.web.utils.HttpXmlClient;
 import com.yy.web.utils.JsonViewFactory;
-import com.yy.web.utils.StringUtil;
-import com.zxlh.comm.async.service.AsyncService;
 
 /**
  * @ClassName: CustomerControl
@@ -40,8 +36,6 @@ public class CustomerControl {
 	LoanOrderService loanOrderService;
 	@Autowired
 	SmsService smsService;
-	@Resource
-	private AsyncService asyncService;
 
 	/**
 	 * @Title: saveCustomerLoan
@@ -70,20 +64,7 @@ public class CustomerControl {
 		Assert.notNull(customer.getName(), "借款人新姓名不能为空");
 		Assert.notNull(request.getParameter("idCard"), "借款人身份证号不能为空");
 		
-		customerService.doSupplementCustomer(request,customer);
-		
-		//执行信息收集
-		customer=(Customer)StringUtil.getSession(request, "customer");
-		try {
-			asyncService.runTask(customerService,"collect_info",new Object[]{customer,
-					request.getParameter("idCard"),
-					request.getParameter("cardCode"),
-					request.getParameter("highestDegree")},null,null,10000,true);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.supplementCustomer(request,customer)));
 	}
 	/**
 	 * @Title: saveCustomerPersonal
