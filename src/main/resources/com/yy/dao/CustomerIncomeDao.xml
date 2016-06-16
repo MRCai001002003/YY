@@ -19,6 +19,12 @@
     from m_customer_income
     where IncomeID = #{incomeID,jdbcType=BIGINT}
   </select>
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.yy.domain.entity.CustomerIncome" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_customer_income
+    where CustomerID = #{CustomerID,jdbcType=BIGINT}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from m_customer_income
     where IncomeID = #{incomeID,jdbcType=BIGINT}
