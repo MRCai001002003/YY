@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -17,11 +18,16 @@ import com.yy.common.exception.CustomException;
 import com.yy.dao.AccountDao;
 import com.yy.dao.CardDao;
 import com.yy.dao.CustomerDao;
+import com.yy.dao.CustomerIncomeDao;
+import com.yy.dao.WhiteListDao;
 import com.yy.domain.entity.Account;
 import com.yy.domain.entity.Card;
 import com.yy.domain.entity.Customer;
+import com.yy.domain.entity.CustomerIncome;
+import com.yy.domain.entity.WhiteList;
 import com.yy.web.utils.HttpXmlClient;
 import com.yy.web.utils.StringUtil;
+import com.zxlh.comm.async.service.AsyncService;
 
 import net.sf.json.JSONObject;
 /**
@@ -41,6 +47,11 @@ public class CustomerService {
 	@Autowired
 	AccountDao accountDao;
 	@Autowired
+	CustomerIncomeDao customerIncomeDao;
+	@Autowired
+	WhiteListDao whiteListDao;
+	
+	@Autowired
 	CustomerCertificateService customerCertificateService;
 	@Autowired
 	CustomerWorkexperienceService customerWorkexperienceService;
@@ -48,9 +59,11 @@ public class CustomerService {
 	CustomerEducationService customerEducationService;
 	@Autowired
 	CustomerPersonalService customerPersonalService;
+	@Resource
+	private AsyncService asyncService;
 	
 	@Value("#{settings['is_get_juxinli_data']}")
-	private String is_get_juxinli_data="";
+	private boolean is_get_juxinli_data;
 	/**
 	 *
 	 * @Title: saveOrUpCustomer
@@ -65,11 +78,36 @@ public class CustomerService {
 			customerDao.updateByPrimaryKeySelective(customer);
 		}else{
 			customer.setCreateTime(new Date());
-			customer.setCustomerStatus("PENDINZX");//等待失信检查
+			customer.setCustomerStatus("DRAFT");
 			customerDao.insertSelective(customer);
+			this.saveCustomerIncome(request, customer);//白名单中同步客户的收入、地址信息
 		}
 		customer=customerDao.selectByPrimaryKey(customer.getCustomerID());
 		StringUtil.setSession(request, customer, "customer");
+	}
+	/**
+	 *
+	 * @Title: saveCustomerIncome
+	 * @Description: 白名单中同步客户的收入、地址信息
+	 * @author caizhen
+	 * @param @param customer    设定文件
+	 * @return void    返回类型
+	 */
+	public void saveCustomerIncome(HttpServletRequest request,Customer customer){
+		List<WhiteList> whiteList=whiteListDao.selectByParam(new WhiteList(customer.getCellPhone()));
+		if(whiteList!=null&&whiteList.size()>0){
+			WhiteList w = whiteList.get(0);
+			//保存收入信息
+			CustomerIncome customerIncome = new CustomerIncome();
+			customerIncome.setCustomerID(customer.getCustomerID());
+			customerIncome.setIncomeType("SALARY");
+			customerIncome.setIncomeAmount(Float.valueOf(w.getIncome()));
+			customerIncome.setTermType("M");
+			customerIncomeDao.insertSelective(customerIncome);
+			//更新客户信息
+			customer.setAddress(w.getAddress());
+			this.saveOrUpCustomer(request, customer);
+		}
 	}
 	/**
 	* @Title: doSupplementCustomer 
@@ -78,17 +116,39 @@ public class CustomerService {
 	* @param @param customer    设定文件 
 	* @return void    返回类型 
 	 */
-	public void doSupplementCustomer(HttpServletRequest request,Customer customer){
+	public String supplementCustomer(HttpServletRequest request,Customer customer){
 		Customer c=(Customer)request.getSession().getAttribute("customer");
-		if(c!=null)
+		if(c==null){
+			throw new CustomException("会话消失");
+		}else{
 			customer.setCustomerID(c.getCustomerID());
-		
-		saveOrUpCustomer(request,customer); //更新姓名
-		
-		customerCertificateService.saveCustomerCertificate(request,customer);//更新身份证
-		customerEducationService.saveOrUpCustomerEducation(request, customer);//更新学历
-		customerPersonalService.saveCustomerPersonal(request, customer);//更新婚姻情况
-		this.saveCard(request, customer);
+		}
+		//用户身份证信息已存在 则不采集数据
+		Map m = customerDao.selectObject(c.getCellPhone());
+		if(m!=null){
+			return "用户已实名认证";
+		}else{
+			customer.setCustomerStatus("PENDINZX");//等待失信检查
+			saveOrUpCustomer(request,customer); //更新姓名
+			
+			customerCertificateService.saveCustomerCertificate(request,customer);//更新身份证
+			customerEducationService.saveOrUpCustomerEducation(request, customer);//更新学历
+			customerPersonalService.saveCustomerPersonal(request, customer);//更新婚姻情况
+			this.saveCard(request, customer);
+			
+			//执行信息收集
+			customer=(Customer)StringUtil.getSession(request, "customer");
+			try {
+				asyncService.runTask(this,"collect_info",new Object[]{customer,
+						request.getParameter("idCard"),
+						request.getParameter("cardCode"),
+						request.getParameter("highestDegree")},null,null,10000,true);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				log.error(e.getMessage());
+			}
+			return "执行成功";
+		}
 	}
 	/**
 	 * @Title: doSupplementCustomerPersonal 
@@ -104,9 +164,6 @@ public class CustomerService {
 		if(c==null){
 			throw new CustomException("会话消失");
 		}
-//		customerPersonal.setCustomerID(customer.getCustomerID()); 
-//		customerPersonalService.saveOrUpCustomerPersonal(request,customerPersonal);
-//		customerEducationService.saveOrUpCustomerEducation(request, customer);
 		customerWorkexperienceService.saveWorkexperience(request, c);//更新工作经历
 		
 		
@@ -132,18 +189,7 @@ public class CustomerService {
 	public List<Customer> getCustomer(Customer customer){
 		return customerDao.getCustomer(customer);
 	}
-//	private void saveOrUpCustomerCertificate(HttpServletRequest request,Customer customer){
-//		CustomerCertificate customerCertificate=null;
-//		if(StringUtils.isNoneBlank(request.getParameter("idCard"))){
-//			customerCertificate=new CustomerCertificate(customer.getCustomerID(),"ID",request.getParameter("idCard"));
-//			customerCertificateService.saveOrUpCustomerCertificate(customerCertificate);
-//		}
-//		if(StringUtils.isNoneBlank(request.getParameter("qq"))){
-//			customerCertificate=new CustomerCertificate(customer.getCustomerID(),"QQ",request.getParameter("qq"));
-//			customerCertificateService.saveOrUpCustomerCertificate(customerCertificate);
-//		}
-//	}
-	public String collect_info(Customer customer,String idCard,String cardCode,String highestDegree){
+	public void collect_info(Customer customer,String idCard,String cardCode,String highestDegree){
 		Map<String, String> params = new HashMap<String, String>();  
 		params.put("name", customer.getName()); 
 		params.put("idNo", idCard);
@@ -153,8 +199,7 @@ public class CustomerService {
 		params.put("edu", highestDegree);
 		params.put("company", "");
 		      
-		return HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeAuth.action", params);  
-//		return HttpXmlClient.post("http://127.0.0.1:8080/captureOL/company_executeAuth.action", params);
+		HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeAuth.action", params);
 	}
 	/**
 	 * @Title: saveCard 
@@ -173,7 +218,6 @@ public class CustomerService {
 		Card card = new Card();
 		card.setAccountID(account.getAccountID());
 		card.setCardCode(request.getParameter("cardCode"));
-//		cardDao.insertSelective(card);
 		this.saveOrUpCard(card);
 	}
 	public void saveOrUpAccount(Account account){
