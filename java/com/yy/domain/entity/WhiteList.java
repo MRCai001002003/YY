@@ -3,31 +3,35 @@ package com.yy.domain.entity;
 public class WhiteList {
     private Long id;
 
+    private String dept;
+
+    private String role;
+
     private String name;
 
-    private String certificate_code;
+    private String idCard;
 
-    private Integer bankCard_code;
+    private String sex;
 
     private String mobile;
 
+    private String startDate;
+
+    private String income;
+
+    private String bankCard;
+
     private String address;
 
-    private String mairryiage;
+    private String marriageType;
 
-    private String edu_backgroud;
+    private String education;
 
-    private String company_categroy;
-
-    private String position;
-
-    private String working_life;
+    private String company;
 
     private String email;
 
     private String qq;
-
-    private Integer income;
     
     public WhiteList(){}
     
@@ -43,6 +47,22 @@ public class WhiteList {
         this.id = id;
     }
 
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept == null ? null : dept.trim();
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role == null ? null : role.trim();
+    }
+
     public String getName() {
         return name;
     }
@@ -51,20 +71,20 @@ public class WhiteList {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getCertificate_code() {
-        return certificate_code;
+    public String getIdCard() {
+        return idCard;
     }
 
-    public void setCertificate_code(String certificate_code) {
-        this.certificate_code = certificate_code == null ? null : certificate_code.trim();
+    public void setIdCard(String idCard) {
+        this.idCard = idCard == null ? null : idCard.trim();
     }
 
-    public Integer getBankCard_code() {
-        return bankCard_code;
+    public String getSex() {
+        return sex;
     }
 
-    public void setBankCard_code(Integer bankCard_code) {
-        this.bankCard_code = bankCard_code;
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
     }
 
     public String getMobile() {
@@ -75,6 +95,30 @@ public class WhiteList {
         this.mobile = mobile == null ? null : mobile.trim();
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate == null ? null : startDate.trim();
+    }
+
+    public String getIncome() {
+        return income;
+    }
+
+    public void setIncome(String income) {
+        this.income = income == null ? null : income.trim();
+    }
+
+    public String getBankCard() {
+        return bankCard;
+    }
+
+    public void setBankCard(String bankCard) {
+        this.bankCard = bankCard == null ? null : bankCard.trim();
+    }
+
     public String getAddress() {
         return address;
     }
@@ -83,44 +127,28 @@ public class WhiteList {
         this.address = address == null ? null : address.trim();
     }
 
-    public String getMairryiage() {
-        return mairryiage;
+    public String getMarriageType() {
+        return marriageType;
     }
 
-    public void setMairryiage(String mairryiage) {
-        this.mairryiage = mairryiage == null ? null : mairryiage.trim();
+    public void setMarriageType(String marriageType) {
+        this.marriageType = marriageType == null ? null : marriageType.trim();
     }
 
-    public String getEdu_backgroud() {
-        return edu_backgroud;
+    public String getEducation() {
+        return education;
     }
 
-    public void setEdu_backgroud(String edu_backgroud) {
-        this.edu_backgroud = edu_backgroud == null ? null : edu_backgroud.trim();
+    public void setEducation(String education) {
+        this.education = education == null ? null : education.trim();
     }
 
-    public String getCompany_categroy() {
-        return company_categroy;
+    public String getCompany() {
+        return company;
     }
 
-    public void setCompany_categroy(String company_categroy) {
-        this.company_categroy = company_categroy == null ? null : company_categroy.trim();
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position == null ? null : position.trim();
-    }
-
-    public String getWorking_life() {
-        return working_life;
-    }
-
-    public void setWorking_life(String working_life) {
-        this.working_life = working_life == null ? null : working_life.trim();
+    public void setCompany(String company) {
+        this.company = company == null ? null : company.trim();
     }
 
     public String getEmail() {
@@ -137,13 +165,5 @@ public class WhiteList {
 
     public void setQq(String qq) {
         this.qq = qq == null ? null : qq.trim();
-    }
-
-    public Integer getIncome() {
-        return income;
-    }
-
-    public void setIncome(Integer income) {
-        this.income = income;
     }
 }
