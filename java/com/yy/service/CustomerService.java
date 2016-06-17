@@ -98,6 +98,7 @@ public class CustomerService {
 			customerIncome.setCustomerID(customer.getCustomerID());
 			customerIncome.setIncomeType("SALARY");
 			customerIncome.setIncomeAmount(Float.valueOf(w.getIncome()));
+			customerIncome.setIncomeCurrency("1");
 			customerIncome.setTermType("M");
 			customerIncomeDao.insertSelective(customerIncome);
 			//更新客户信息
