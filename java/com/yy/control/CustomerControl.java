@@ -23,7 +23,6 @@ import com.yy.service.LoanOrderService;
 import com.yy.service.SmsService;
 import com.yy.web.utils.HttpXmlClient;
 import com.yy.web.utils.JsonViewFactory;
-import com.yy.web.utils.StringUtil;
 import com.zxlh.comm.async.service.AsyncService;
 
 /**
@@ -74,7 +73,7 @@ public class CustomerControl {
 		customerService.doSupplementCustomer(request,customer);
 		customer=(Customer)request.getSession().getAttribute("customer");
 		try {
-			asyncService.runTask(this,"collect_info",new Object[]{customer,
+			asyncService.runTask(customerService,"collect_info",new Object[]{customer,
 					request.getParameter("idCard"),
 					request.getParameter("cardCode"),
 					request.getParameter("highestDegree")},null,null,10000,true);
