@@ -282,7 +282,7 @@ public class CustomerService {
 			
 	}
 	/**
-	 * @Title: saveCard 
+	 * @Title: doValidateCode 
 	 * @Description: 验证手机验证码
 	 * @author caiZhen
 	 * @date 2016年6月13日 下午4:27:16
@@ -308,5 +308,83 @@ public class CustomerService {
 		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeJxl.action", params);
 		log.info("doValidateCode info"+response);
 			
+	}
+	/**
+	 * @Title: getValidateCode 
+	 * @Description: 获取服务码验证码
+	 * @author caiZhen
+	 * @date 2016年6月17日 下午4:27:16
+	 * @param @param request
+	 * @param @param customer    设定文件 
+	 * @return void    返回类型 
+	 */
+	public String getValidateCode(HttpServletRequest request){
+		List<Customer> customerList = customerDao.getCustomer(new Customer(request.getParameter("mobileNo")));
+		if(customerList==null||customerList.size()<=0){
+			throw new CustomException("无该用户");
+		}
+		Map<String, String> params = new HashMap<String, String>();  
+		params.put("token",  null);
+		params.put("name",  request.getParameter("name")); 
+		params.put("idNo", request.getParameter("idNo"));
+		params.put("mobileNo",  request.getParameter("mobileNo")); 
+		params.put("password",  null);
+		params.put("captcha",  null);
+		params.put("website",  null);
+		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_resetPassword.action", params);
+		//{"success":true,"data":{"type":"CONTROL","content":"输入动态密码","process_code":10002,"finish":false}}  process_code =10002 表示短信已经成功发送。
+		if(response==null){
+			throw new CustomException("密码重置失败");
+		}
+		JSONObject jObject = jObject=JSONObject.fromObject(response);
+		if(jObject!=null&&"true".equals(jObject.getString("success"))){
+			jObject = jObject.getJSONObject("data");
+			if(jObject!=null&&"10002".equals(jObject.getString("process_code"))){
+				return "验证码发送成功";
+			}else{
+				throw new CustomException("密码重置失败");
+			}
+		}else{
+			throw new CustomException("密码重置失败");
+		}
+	}
+	/**
+	 * @Title: doServerCode 
+	 * @Description: 设置服务码
+	 * @author caiZhen
+	 * @date 2016年6月17日 下午4:27:16
+	 * @param @param request
+	 * @param @param customer    设定文件 
+	 * @return void    返回类型 
+	 */
+	public String doSetServerCode(HttpServletRequest request){
+		List<Customer> customerList = customerDao.getCustomer(new Customer(request.getParameter("mobileNo")));
+		if(customerList==null||customerList.size()<=0){
+			throw new CustomException("无该用户");
+		}
+		Map<String, String> params = new HashMap<String, String>();  
+		params.put("token",  request.getParameter("token"));
+		params.put("name",  request.getParameter("name")); 
+		params.put("idNo", request.getParameter("idNo"));
+		params.put("mobileNo",  request.getParameter("mobileNo")); 
+		params.put("password",  request.getParameter("password"));
+		params.put("captcha",  request.getParameter("captcha"));
+		params.put("website",  request.getParameter("website"));
+		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_resetPassword.action", params);
+//		{"success":"true",data{"process_code":"11000","content":"设置成功"}} 密码重置成功判断字段。process_code为110000 其他都认为是失败
+		if(response==null){
+			throw new CustomException("服务密码重置失败");
+		}
+		JSONObject jObject = jObject=JSONObject.fromObject(response);
+		if(jObject!=null&&"true".equals(jObject.getString("success"))){
+			jObject = jObject.getJSONObject("data");
+			if(jObject!=null&&"110000".equals(jObject.getString("process_code"))){
+				return "服务密码重置成功";
+			}else{
+				throw new CustomException("服务密码重置失败");
+			}
+		}else{
+			throw new CustomException("服务密码重置失败");
+		}				
 	}
 }
