@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.httpclient.NameValuePair;
@@ -26,7 +27,13 @@ import com.yy.web.utils.StringUtil;
 
 public class Test {
 	public static void main(String[] args) {
-		Map<String, String> params = new HashMap<String, String>();
+		String a="{\"success\":\"true\",data:{\"process_code\":\"11000\",\"content\":\"设置成功\"}}";
+		JSONObject j = JSONObject.fromObject(a);
+		j = j.getJSONObject("data");
+		System.out.println(j.getString("process_code"));
+	}
+	public static void a(){
+		JSONObject params=new JSONObject();
 		params.put("name",  "蔡振"); 
 		params.put("idNo", "339011197809199014");
 		params.put("mobileNo",  "17767173344"); 
@@ -34,8 +41,7 @@ public class Test {
 		params.put("token",  "token");
 		params.put("website",  "website");
 		params.put("captcha",  "captcha");
-		JSONObject jObject = JSONObject.fromObject(params);
-		System.out.println(jObject);
+		System.out.println(params);
 	}
 	public static Date getNextDay(Date date) {  
         Calendar calendar = Calendar.getInstance();  

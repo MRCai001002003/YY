@@ -63,7 +63,7 @@ public class IndexControl {
 	@RequestMapping(value="doSetServerCode",method = RequestMethod.POST)
 	public ModelAndView doSetServerCode(HttpServletRequest request){
 		/**
-		 * {"success":"true",data{"process_code":"11000","content":"设置成功"}} 密码重置成功判断字段。process_code为110000 其他都认为是失败
+		 * {"success":"true",data:{"process_code":"11000","content":"设置成功"}} 密码重置成功判断字段。process_code为110000 其他都认为是失败
 		 */
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.doSetServerCode(request)));
 	}

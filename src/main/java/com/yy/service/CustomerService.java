@@ -334,18 +334,13 @@ public class CustomerService {
 		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_resetPassword.action", params);
 		//{"success":true,"data":{"type":"CONTROL","content":"输入动态密码","process_code":10002,"finish":false}}  process_code =10002 表示短信已经成功发送。
 		if(response==null){
-			throw new CustomException("密码重置失败");
+			throw new CustomException("验证码发送失败");
 		}
 		JSONObject jObject = jObject=JSONObject.fromObject(response);
 		if(jObject!=null&&"true".equals(jObject.getString("success"))){
-			jObject = jObject.getJSONObject("data");
-			if(jObject!=null&&"10002".equals(jObject.getString("process_code"))){
 				return "验证码发送成功";
-			}else{
-				throw new CustomException("密码重置失败");
-			}
 		}else{
-			throw new CustomException("密码重置失败");
+			throw new CustomException("验证码发送失败");
 		}
 	}
 	/**
