@@ -77,18 +77,31 @@ define(function(require) {
                 require: 'ngModel',
                 link: function($scope, element, attrs, ngModelControl) {
                     ngModelControl.$parsers.unshift(function(viewValue) {
-                        viewValue = viewValue.replace(/\D/g, '');
+                        var index = element[0].selectionStart;
+
+                        var arr = viewValue.split('');
+                        arr.splice(index, 0, 'index');
+
                         var str = '';
-                        for (var i = 0; i < viewValue.length; i++) {
-                            if (i > 3 && i % 4 == 0) {
-                                str += ' ';
+                        var j = 0;
+                        for (var i = 0; i < arr.length; i++) {
+                            if (arr[i] == 'index') {
+                                index = str.length;
                             }
-                            str += viewValue.charAt(i);
+                            if (/\d/.test(arr[i])) {
+                                if (str.length && (str.length - j) % 4 == 0) {
+                                    str += ' ';
+                                    j++;
+                                }
+                                str += arr[i];
+                            }
                         }
                         element.val(str);
-                        if (validatePattern.bankCard(viewValue)) {
+                        element[0].setSelectionRange(index, index);
+                        var val = str.replace(/\s/g, '');
+                        if (validatePattern.bankCard(val)) {
                             ngModelControl.$setValidity('bankCard', true);
-                            return viewValue;
+                            return val;
                         } else {
                             ngModelControl.$setValidity('bankCard', false);
                             return undefined;
@@ -105,19 +118,39 @@ define(function(require) {
                 require: 'ngModel',
                 link: function($scope, element, attrs, ngModelControl) {
                     ngModelControl.$parsers.unshift(function(viewValue) {
+                        var index = element[0].selectionStart;
 
-                        viewValue = viewValue.replace(/[^\dxX](?!$)|x(?!$)/g, '');
+                        var arr = viewValue.split('');
+                        var x = arr[arr.length - 1]
+                        arr.splice(index, 0, 'index');
+
                         var str = '';
-                        for (var i = 0; i < viewValue.length; i++) {
-                            if (i > 3 && (i + 2) % 4 == 0) {
-                                str += ' ';
+                        var j = 0;
+                        for (var i = 0; i < arr.length; i++) {
+                            if (arr[i] === 'index') {
+                                index = str.length;
+                                continue;
                             }
-                            str += viewValue.charAt(i);
+                            if (/\d/.test(arr[i])) {
+                                if (str.length > 5 && (str.length + 2 - j) % 4 === 0) {
+                                    str += ' ';
+                                    j++;
+                                }
+                                str += arr[i];
+                            }
                         }
+                        if (/x/i.test(x)) {
+                            str += x;
+                            index++;
+                        }
+
+
                         element.val(str);
-                        if (validatePattern.idcard(viewValue)) {
+                        element[0].setSelectionRange(index, index);
+                        var val = str.replace(/\s/g, '');
+                        if (validatePattern.idcard(val)) {
                             ngModelControl.$setValidity('idcard', true);
-                            return viewValue;
+                            return val;
                         } else {
                             ngModelControl.$setValidity('idcard', false);
                             return undefined;
