@@ -5,7 +5,7 @@
     <id column="WorkExperienceID" property="workExperienceID" jdbcType="BIGINT" />
     <result column="CustomerID" property="customerID" jdbcType="BIGINT" />
     <result column="CompanyName" property="companyName" jdbcType="VARCHAR" />
-    <result column="IsCurrentCompany" property="isCurrentCompany" jdbcType="BIT" />
+    <result column="IsCurrentCompany" property="isCurrentCompany" jdbcType="DECIMAL" />
     <result column="StartDate" property="startDate" jdbcType="DATE" />
     <result column="EndDate" property="endDate" jdbcType="DATE" />
     <result column="CompanyPostCode" property="companyPostCode" jdbcType="CHAR" />
@@ -44,7 +44,7 @@
       CompanyIndustry, Department, Role, 
       ProfessionalTitle)
     values (#{workExperienceID,jdbcType=BIGINT}, #{customerID,jdbcType=BIGINT}, #{companyName,jdbcType=VARCHAR}, 
-      #{isCurrentCompany,jdbcType=BIT}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{isCurrentCompany,jdbcType=DECIMAL}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{companyPostCode,jdbcType=CHAR}, #{companyAddress,jdbcType=VARCHAR}, #{companyType,jdbcType=VARCHAR}, 
       #{companyIndustry,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
       #{professionalTitle,jdbcType=VARCHAR})
@@ -103,7 +103,7 @@
         #{companyName,jdbcType=VARCHAR},
       </if>
       <if test="isCurrentCompany != null" >
-        #{isCurrentCompany,jdbcType=BIT},
+        #{isCurrentCompany,jdbcType=DECIMAL},
       </if>
       <if test="startDate != null" >
         #{startDate,jdbcType=DATE},
@@ -144,7 +144,7 @@
         CompanyName = #{companyName,jdbcType=VARCHAR},
       </if>
       <if test="isCurrentCompany != null" >
-        IsCurrentCompany = #{isCurrentCompany,jdbcType=BIT},
+        IsCurrentCompany = #{isCurrentCompany,jdbcType=DECIMAL},
       </if>
       <if test="startDate != null" >
         StartDate = #{startDate,jdbcType=DATE},
@@ -180,7 +180,7 @@
     update m_customer_workexperience
     set CustomerID = #{customerID,jdbcType=BIGINT},
       CompanyName = #{companyName,jdbcType=VARCHAR},
-      IsCurrentCompany = #{isCurrentCompany,jdbcType=BIT},
+      IsCurrentCompany = #{isCurrentCompany,jdbcType=DECIMAL},
       StartDate = #{startDate,jdbcType=DATE},
       EndDate = #{endDate,jdbcType=DATE},
       CompanyPostCode = #{companyPostCode,jdbcType=CHAR},

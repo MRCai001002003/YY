@@ -63,8 +63,6 @@ public class LoanOrderService {
 	 * @return void    返回类型 
 	 */
 	public String saveCustomerLoan(HttpServletRequest request,LoanOrder loanOrder){
-		
-		
 		String str="";
 		String verificationCode = (String)StringUtil.getSession(request, "verificationCode");
 		String phone = (String)StringUtil.getSession(request, "phone");
@@ -83,8 +81,9 @@ public class LoanOrderService {
 		List<Customer> listCustomer = customerService.getCustomer(customer);
 		//设置customerid
 		if(listCustomer!=null&&listCustomer.size()>0){
-			str = "exist";
 			customer=listCustomer.get(0);
+			if(!"DRAFT".equals(customer.getCustomerStatus())){}
+			str = "exist";
 			loanOrder.setCustomerID(customer.getCustomerID());
 			StringUtil.setSession(request, customer, "customer");
 		}else{

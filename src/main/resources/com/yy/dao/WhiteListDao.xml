@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.dao.WhiteListDao" >
+  <resultMap id="BaseResultMap" type="com.yy.domain.entity.WhiteList" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dept" property="dept" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="idCard" property="idCard" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="startDate" property="startDate" jdbcType="VARCHAR" />
+    <result column="income" property="income" jdbcType="VARCHAR" />
+    <result column="bankCard" property="bankCard" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="MarriageType" property="marriageType" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dept, role, name, idCard, sex, mobile, startDate, income, bankCard, address, 
+    MarriageType, education, company, email, qq
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_white_list
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.yy.domain.entity.WhiteList" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_white_list
+    where mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from m_white_list
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yy.domain.entity.WhiteList" >
+    insert into m_white_list (id, dept, role, 
+      name, idCard, sex, 
+      mobile, startDate, income, 
+      bankCard, address, MarriageType, 
+      education, company, email, 
+      qq)
+    values (#{id,jdbcType=BIGINT}, #{dept,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, #{income,jdbcType=VARCHAR}, 
+      #{bankCard,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{marriageType,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{qq,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yy.domain.entity.WhiteList" >
+    insert into m_white_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dept != null" >
+        dept,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="idCard != null" >
+        idCard,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="startDate != null" >
+        startDate,
+      </if>
+      <if test="income != null" >
+        income,
+      </if>
+      <if test="bankCard != null" >
+        bankCard,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="marriageType != null" >
+        MarriageType,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="dept != null" >
+        #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null" >
+        #{income,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null" >
+        #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="marriageType != null" >
+        #{marriageType,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yy.domain.entity.WhiteList" >
+    update m_white_list
+    <set >
+      <if test="dept != null" >
+        dept = #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        idCard = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        startDate = #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null" >
+        income = #{income,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null" >
+        bankCard = #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="marriageType != null" >
+        MarriageType = #{marriageType,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yy.domain.entity.WhiteList" >
+    update m_white_list
+    set dept = #{dept,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      idCard = #{idCard,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      startDate = #{startDate,jdbcType=VARCHAR},
+      income = #{income,jdbcType=VARCHAR},
+      bankCard = #{bankCard,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      MarriageType = #{marriageType,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

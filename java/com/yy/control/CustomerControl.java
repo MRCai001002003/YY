@@ -6,8 +6,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,6 @@ import com.yy.service.LoanOrderService;
 import com.yy.service.SmsService;
 import com.yy.web.utils.HttpXmlClient;
 import com.yy.web.utils.JsonViewFactory;
-import com.yy.web.utils.StringUtil;
 import com.zxlh.comm.async.service.AsyncService;
 
 /**
@@ -34,6 +34,7 @@ import com.zxlh.comm.async.service.AsyncService;
 @Controller
 @RequestMapping(value="customer")
 public class CustomerControl {
+	private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	@Autowired
 	CustomerService customerService;
 	@Autowired
@@ -42,7 +43,6 @@ public class CustomerControl {
 	SmsService smsService;
 	@Resource
 	private AsyncService asyncService;
-
 	/**
 	 * @Title: saveCustomerLoan
 	 * @Description: 保存贷款记录
@@ -69,11 +69,9 @@ public class CustomerControl {
 	public ModelAndView doSupplementCustomer(HttpServletRequest request, Customer customer){
 		Assert.notNull(customer.getName(), "借款人新姓名不能为空");
 		Assert.notNull(request.getParameter("idCard"), "借款人身份证号不能为空");
-		
-		customerService.doSupplementCustomer(request,customer);
-		
 		//执行信息收集
-		customer=(Customer)StringUtil.getSession(request, "customer");
+		customerService.doSupplementCustomer(request,customer);
+		customer=(Customer)request.getSession().getAttribute("customer");
 		try {
 			asyncService.runTask(customerService,"collect_info",new Object[]{customer,
 					request.getParameter("idCard"),
@@ -81,8 +79,8 @@ public class CustomerControl {
 					request.getParameter("highestDegree")},null,null,10000,true);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			log.error(e.getMessage());
 		}
-		
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
 	}
 	/**

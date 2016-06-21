@@ -1,5 +1,7 @@
 package com.yy.dao;
 
+import java.util.List;
+
 import com.yy.domain.entity.CustomerIncome;
 
 public interface CustomerIncomeDao {
@@ -14,4 +16,6 @@ public interface CustomerIncomeDao {
     int updateByPrimaryKeySelective(CustomerIncome record);
 
     int updateByPrimaryKey(CustomerIncome record);
+    
+    List<CustomerIncome> selectByParam(CustomerIncome record);
 }
