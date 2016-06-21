@@ -171,6 +171,13 @@ public class CustomerService {
 	public List<Customer> getCustomer(Customer customer){
 		return customerDao.getCustomer(customer);
 	}
+	public Customer getSessionCustomer(HttpServletRequest request){
+		return (Customer)request.getSession().getAttribute("customer");
+	}
+	public JSONObject getPersonalInfo(HttpServletRequest request){
+		JSONObject jObject = new JSONObject();
+		return jObject;
+	}
 	public void collect_info(Customer customer,String idCard,String cardCode,String highestDegree){
 		Map<String, String> params = new HashMap<String, String>();  
 		params.put("name", customer.getName()); 
