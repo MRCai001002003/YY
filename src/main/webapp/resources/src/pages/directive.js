@@ -106,7 +106,7 @@ define(function(require) {
                 link: function($scope, element, attrs, ngModelControl) {
                     ngModelControl.$parsers.unshift(function(viewValue) {
 
-                        viewValue = viewValue.replace(/\D/g, '');
+                        viewValue = viewValue.replace(/[^\dxX](?!$)|x(?!$)/g, '');
                         var str = '';
                         for (var i = 0; i < viewValue.length; i++) {
                             if (i > 3 && (i + 2) % 4 == 0) {
@@ -132,19 +132,36 @@ define(function(require) {
                 scope: true,
                 require: 'ngModel',
                 link: function($scope, element, attrs, ngModelControl) {
+
                     ngModelControl.$parsers.unshift(function(viewValue) {
-                        viewValue = viewValue.replace(/\D/g, '');
+
+                        var index = element[0].selectionStart;
+
+                        var arr = viewValue.split('');
+                        arr.splice(index, 0, 'index');
+
                         var str = '';
-                        for (var i = 0; i < viewValue.length; i++) {
-                            if (i > 0 && (i + 1) % 4 == 0) {
-                                str += ' ';
+                        var j = 0;
+                        for (var i = 0; i < arr.length; i++) {
+                            if (arr[i] === 'index') {
+                                index = str.length;
                             }
-                            str += viewValue.charAt(i);
+                            if (/\d/.test(arr[i])) {
+                                if ((str.length - j + 1) % 4 == 0) {
+                                    str += ' ';
+                                    j++;
+                                }
+                                str += arr[i];
+                            }
                         }
+
                         element.val(str);
-                        if (/^1[345678]\d{9}$/.test(viewValue)) {
+                        element[0].setSelectionRange(index, index);
+
+                        var value = str.replace(/\D/g, '');
+                        if (/^1[345678]\d{9}$/.test(value)) {
                             ngModelControl.$setValidity('phone', true);
-                            return viewValue;
+                            return value;
                         } else {
                             ngModelControl.$setValidity('phone', false);
                             return undefined;

@@ -1,8 +1,8 @@
 define(function(require) {
     var baseUrl = require('../../common/js/baseUrl/baseUrl');
     return function(app) {
-        app.controller('homeControl', ['$scope', '$http', '$state',
-            function($scope, $http, $state) {
+        app.controller('homeControl', ['$scope', '$http', '$state', 'cache',
+            function($scope, $http, $state, cache) {
                 $scope.params = {
                     isAccept: true
                 };
@@ -13,10 +13,10 @@ define(function(require) {
                         data: $scope.params
                     }).success(function(data) {
                         if (data.success) {
-							if(data.data=='exist'){
-								$state.go('registed');
-								return;
-							}
+                            if (data.data == 'exist') {
+                                $state.go('registed');
+                                return;
+                            }
                             $state.go('register');
                         } else {
                             alert(data.msg);
@@ -31,9 +31,11 @@ define(function(require) {
                             cellPhone: $scope.params.cellPhone
                         }
                     }).success(function(data) {
-                    	if(!data.success){
-                    		alert(data.msg);
-                    	}
+                        if (!data.success) {
+                            alert(data.msg);
+                        } else {
+                            cache.set('phone', $scope.params.cellPhone);
+                        }
                     })
                 }
             }

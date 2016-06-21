@@ -14,5 +14,15 @@ pages/register/register.js
 pages/registerInfo/registerInfo.js
 pages/registed/registed.js
 pages/login/login.js
+pages/passwordForget/passwordForget.js
 pages/validaty/validaty.js
+pages/bindCard/bindCard.js
+pages/bindSuccess/bindSuccess.js
+pages/info/info.js
+pages/infoEdit/infoEdit.js
+pages/loan/loan.js
+pages/loanOk/loanOk.js
+pages/repayment/repayment.js
+pages/setbacks/setbacks.js
+pages/menberCenter/menberCenter.js
 app.js

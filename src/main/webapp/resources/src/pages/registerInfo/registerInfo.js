@@ -37,9 +37,11 @@ define(function(require) {
                     }
                 }
                 $scope.submit = function() {
-                    if (!/^[^\s@]+@[^\s@]+\.\S+$/.test($scope.params.email)) {
-                        $scope.isEmail = false;
-                        return;
+                    if ($scope.params.email && !/^\s+$/.test($scope.params.email)) {
+                        if (!/^[^\s@]+@[^\s@]+\.\S+$/.test($scope.params.email)) {
+                            $scope.isEmail = false;
+                            return;
+                        }
                     }
 
                     $http({
@@ -48,7 +50,7 @@ define(function(require) {
                         data: $scope.params
                     }).success(function(data) {
                         if (data.success) {
-                            if (data.data.account) {
+                            if (data.data.is_get_juxinli_data) {
                                 cache.set('account', data.data.account);
                                 $state.go('login');
                                 return;

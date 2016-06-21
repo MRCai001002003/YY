@@ -28,6 +28,7 @@ define(function(require) {
 
             //配置路由
             $urlRouterProvider.when('', '/home');
+            $urlRouterProvider.otherwise('/home');
 
             $stateProvider.state("home", {
                 url: '/home',
@@ -59,6 +60,46 @@ define(function(require) {
                 url: '/validaty',
                 templateUrl: require.toUrl('./pages/validaty/validaty.html'),
                 controller: 'validatyControl'
+            }).state('bindCard', {
+                url: '/bindCard',
+                templateUrl: require.toUrl('./pages/bindCard/bindCard.html'),
+                controller: 'bindCardControl'
+            }).state('bindSuccess', {
+                url: '/bindSuccess',
+                templateUrl: require.toUrl('./pages/bindSuccess/bindSuccess.html'),
+                controller: 'bindSuccessControl'
+            }).state('info', {
+                url: '/info',
+                templateUrl: require.toUrl('./pages/info/info.html'),
+                controller: 'infoControl'
+            }).state('infoEdit', {
+                url: '/infoEdit',
+                templateUrl: require.toUrl('./pages/infoEdit/infoEdit.html'),
+                controller: 'infoEditControl'
+            }).state('loan', {
+                url: '/loan',
+                templateUrl: require.toUrl('./pages/loan/loan.html'),
+                controller: 'loanControl'
+            }).state('loanOk', {
+                url: '/loanOk',
+                templateUrl: require.toUrl('./pages/loanOk/loanOk.html'),
+                controller: 'loanOkControl'
+            }).state('repayment', {
+                url: '/repayment',
+                templateUrl: require.toUrl('./pages/repayment/repayment.html'),
+                controller: 'repaymentControl'
+            }).state('setbacks', {
+                url: '/setbacks',
+                templateUrl: require.toUrl('./pages/setbacks/setbacks.html'),
+                controller: 'setbacksControl'
+            }).state('passwordForget', {
+                url: '/passwordForget',
+                templateUrl: require.toUrl('./pages/passwordForget/passwordForget.html'),
+                controller: 'passwordForgetControl'
+            }).state('menberCenter', {
+                url: '/menberCenter',
+                templateUrl: require.toUrl('./pages/menberCenter/menberCenter.html'),
+                controller: 'menberCenterControl'
             })
 
         }
@@ -77,7 +118,17 @@ define(function(require) {
     require('./pages/registerInfo/registerInfo')(app);
     require('./pages/registed/registed')(app);
     require('./pages/login/login')(app);
+    require('./pages/passwordForget/passwordForget')(app);
     require('./pages/validaty/validaty')(app);
+    require('./pages/bindCard/bindCard')(app);
+    require('./pages/bindSuccess/bindSuccess')(app);
+    require('./pages/info/info')(app);
+    require('./pages/infoEdit/infoEdit')(app);
+    require('./pages/loan/loan')(app);
+    require('./pages/loanOk/loanOk')(app);
+    require('./pages/repayment/repayment')(app);
+    require('./pages/setbacks/setbacks')(app);
+    require('./pages/menberCenter/menberCenter')(app);
 
     //启动应用
     angular.element(document).ready(function() {
@@ -154,7 +205,11 @@ define(function(require) {
                         },
                         login: {
                             registerInfo: 'slideInLeft slideOutRight',
-                            validaty: 'slideInRight slideOutLeft'
+                            validaty: 'slideInRight slideOutLeft',
+                            passwordForget: 'slideInRight slideOutLeft'
+                        },
+                        passwordForget: {
+                            login: 'slideInLeft slideOutRight'
                         },
                         validaty: {
                             login: 'slideInLeft slideOutRight'
@@ -167,6 +222,7 @@ define(function(require) {
                         },
                         manageService: {
                             home: 'slideInLeft slideOutRight'
+
                         }
                     };
                     var animateClass = animateObj[fromState.name] || '';

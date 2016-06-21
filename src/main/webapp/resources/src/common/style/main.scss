@@ -69,6 +69,25 @@ body{
 		bottom: 0;
 	}
 }
+
+.text-blue{
+	color: $blue;
+}
+.text-white{
+	color: #fff;
+}
+.text-sm{
+	font-size: 0.85em;
+}
+.text-large{
+	font-size: 1.25em
+}
+
+
+
+
+
+
 //进度条
 @-webkit-Keyframes progressBar{
 	0%{
@@ -346,11 +365,22 @@ body{
 	}
 }
 .area-wrap{
-	padding-top: 15px;
-	padding-bottom: 15px;
-	background-color: #FFF9EB;
+	padding-top: 15px !important;
+	padding-bottom: 15px !important;
 }
-
+.clear-horizontal-padding{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+.bg-blue{
+	background-color: $blue;
+}
+.bg-gray{
+	background-color: #f8f8f8;
+}
+.bg-white{
+	background-color: #fff;
+}
 .home-form{
 	background-color: #f4f4f4;
 	box-shadow:  0 .02rem .04rem rgba(0, 0, 0, 0.5);
@@ -375,6 +405,10 @@ body{
 	display: block;
 	width: 100%;
 	border: 1px solid #aaa;
+	&-static{
+		line-height: 36px;
+		margin-bottom: 0;
+	}
 }
 .help-block{
 	padding: 3px 0;
@@ -401,7 +435,7 @@ body{
 .register-hd{
 	padding: 20px 0;
 }
-.register-form{
+.form-line{
 	padding: 10px;
 	.form-group{
 		border-bottom: 1px solid #999;
@@ -418,8 +452,8 @@ body{
 	background-color: #4385f5;
 	color: #fff;
 	display: block;
-	height: 32px;
-	line-height: 32px;
+	height: 40px;
+	line-height: 40px;
 	width: 100%;
 	&:hover,&:active{
 		background-color: #5996ff;
@@ -463,5 +497,148 @@ body{
 	li{
 		padding: 5px 3px;
 		border-bottom: 1px solid #eee;
+	}
+}
+.badge{
+	border-radius: 3px;
+	border:1px solid #fff;
+	padding: 3px 4px;
+	&-blue{
+		border-color:$blue;
+		color:$blue;
+	}
+}
+.tab{
+	div{
+		padding: 10px 0;
+	}
+	.active{
+		border-bottom: 2px solid #61c6fb;
+		color: #61c6fb;
+	}
+}
+
+.card{
+	height: 140px;
+    background: $blue;
+    border-radius: 8px;
+    position: relative;
+	&-logo{
+		margin-right: 10px;
+		height: 36px;
+		width:36px;
+		padding: 5px;
+		background-color: #fff;
+		border-radius: 50%;
+	}
+	&-name{
+		margin-top: 0;
+	}
+
+	&-body{
+		height: 74px;
+	}
+	&-number{
+		padding-top: 7px;
+		border-top: 1px solid #fff;
+	}
+}
+.user-photo{
+	width: 60px;
+	height: 60px;
+	overflow: hidden;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+.user-name{
+	line-height: 60px;
+	font-size: 18px;
+}
+.repayment-state{
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	&-blue{
+		background-color: #61c6fb;
+	}
+	&-orange{
+		background-color: #fba808;
+	}
+	&-red{
+		background-color: #ea4b4b;
+	}
+}
+.repayment-list{
+	margin-left: auto;
+	margin-right: auto;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border-width:1px;
+	border-style: solid;
+	border-color:#777;
+	color: #777;
+	margin-bottom: 20px;
+	padding: 5px;
+	&-blue{
+		border-color: #61c6fb;
+		color: #61c6fb;
+	}
+	&-orange{
+		border-color: #fba808;
+		color: #fba808;
+	}
+	&-red{
+		border-color: #ea4b4b;
+		color: #ea4b4b;
+	}
+}
+
+.time-line{
+	li{
+		position: relative;
+		padding-bottom: 20px;
+		padding-left: 50px;
+		padding-top: 5px;
+		color: #999;
+		&:before{
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			border:10px solid #fff;
+			background-color: #999;
+			z-index: 1;
+		}
+		&:after{
+			background-color: #999;
+			position: absolute;
+			content: "";
+			width: 2px;
+			height: 100%;
+			left: 14px;
+			top: 0;
+		}
+		&:last-child{
+			&:after{
+				display: none;
+			}
+		}
+		&.time-line-complete{
+			color: #333;
+			&:before,&:after{
+				background-color: #61c6fb;
+			}
+		}
+		&.time-line-active{
+			color: #333;
+			&:before,&:after{
+				background-color: $blue;
+			}
+		}
 	}
 }
