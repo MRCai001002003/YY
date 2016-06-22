@@ -256,6 +256,15 @@ public class CustomerService {
 //		}
 //		return null;
 //	}
+	/**
+	 * @Title: doExecuteJxl 
+	 * @Description: 根据手机号、服务码获取信息
+	 * @author caiZhen
+	 * @date 2016年6月13日 下午4:27:16
+	 * @param @param request
+	 * @param @param customer    设定文件 
+	 * @return void    返回类型 
+	 */
 	public Map doExecuteJxl(HttpServletRequest request){
 		Object o = customerDao.selectObject(request.getParameter("account"));
 		if(o==null){
@@ -326,25 +335,29 @@ public class CustomerService {
 	 * @return void    返回类型 
 	 */
 	public String getValidateCode(HttpServletRequest request){
-		List<Customer> customerList = customerDao.getCustomer(new Customer(request.getParameter("mobileNo")));
-		if(customerList==null||customerList.size()<=0){
-			throw new CustomException("无该用户");
+		Map map = customerDao.selectObject(request.getParameter("cellPhone"));
+		if(map==null){
+			throw new CustomException("用户信息不存在");
 		}
 		Map<String, String> params = new HashMap<String, String>();  
 		params.put("token",  null);
-		params.put("name",  request.getParameter("name")); 
-		params.put("idNo", request.getParameter("idNo"));
-		params.put("mobileNo",  request.getParameter("mobileNo")); 
+		params.put("name",  map.get("Name").toString()); 
+		params.put("idNo", map.get("CertificateCode").toString());
+		params.put("mobileNo", map.get("CellPhone").toString()); 
 		params.put("password",  null);
 		params.put("captcha",  null);
 		params.put("website",  null);
-		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_resetPassword.action", params);
-		//{"success":true,"data":{"type":"CONTROL","content":"输入动态密码","process_code":10002,"finish":false}}  process_code =10002 表示短信已经成功发送。
+//		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_resetPassword.action", params);
+		String response="{\"success\":true,\"token\":1,\"website\":2}";//  process_code =10002 表示短信已经成功发送。
 		if(response==null){
 			throw new CustomException("验证码发送失败");
 		}
-		JSONObject jObject = jObject=JSONObject.fromObject(response);
+		JSONObject jObject = JSONObject.fromObject(response);
 		if(jObject!=null&&"true".equals(jObject.getString("success"))){
+			map.put("token", jObject.getString("token"));
+			map.put("website", jObject.getString("website"));
+			
+			StringUtil.setSession(request, map, "validateCodeSession");
 				return "验证码发送成功";
 		}else{
 			throw new CustomException("验证码发送失败");
@@ -360,27 +373,34 @@ public class CustomerService {
 	 * @return void    返回类型 
 	 */
 	public String doSetServerCode(HttpServletRequest request){
-		List<Customer> customerList = customerDao.getCustomer(new Customer(request.getParameter("mobileNo")));
-		if(customerList==null||customerList.size()<=0){
-			throw new CustomException("无该用户");
+//		List<Customer> customerList = customerDao.getCustomer(new Customer(request.getParameter("mobileNo")));
+//		if(customerList==null||customerList.size()<=0){
+//			throw new CustomException("无该用户");
+//		}
+		Object o = StringUtil.getSession(request, "validateCodeSession");
+		if(o==null){
+			throw new CustomException("会话结束,请重新设置");
 		}
+		Map map =  (Map)o;
 		Map<String, String> params = new HashMap<String, String>();  
-		params.put("token",  request.getParameter("token"));
-		params.put("name",  request.getParameter("name")); 
-		params.put("idNo", request.getParameter("idNo"));
-		params.put("mobileNo",  request.getParameter("mobileNo")); 
-		params.put("password",  request.getParameter("password"));
-		params.put("captcha",  request.getParameter("captcha"));
-		params.put("website",  request.getParameter("website"));
-		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_resetPassword.action", params);
-//		{"success":"true",data{"process_code":"11000","content":"设置成功"}} 密码重置成功判断字段。process_code为110000 其他都认为是失败
+		params.put("token", map.get("token").toString());
+		params.put("website", map.get("website").toString());
+		
+		params.put("name", map.get("Name").toString()); 
+		params.put("idNo", map.get("CertificateCode").toString());
+		params.put("mobileNo", map.get("CellPhone").toString()); 
+		
+		params.put("password", request.getParameter("serviceCode"));
+		params.put("captcha", request.getParameter("validateCode"));
+//		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_resetPassword.action", params);
+		String response= "{\"success\":\"true\",data:{\"process_code\":\"11000\",\"content\":\"设置成功\"}}";// 密码重置成功判断字段。process_code为110000 其他都认为是失败
 		if(response==null){
 			throw new CustomException("服务密码重置失败");
 		}
-		JSONObject jObject = jObject=JSONObject.fromObject(response);
+		JSONObject jObject = JSONObject.fromObject(response);
 		if(jObject!=null&&"true".equals(jObject.getString("success"))){
 			jObject = jObject.getJSONObject("data");
-			if(jObject!=null&&"110000".equals(jObject.getString("process_code"))){
+			if(jObject!=null&&"11000".equals(jObject.getString("process_code"))){
 				return "服务密码重置成功";
 			}else{
 				throw new CustomException("服务密码重置失败");
