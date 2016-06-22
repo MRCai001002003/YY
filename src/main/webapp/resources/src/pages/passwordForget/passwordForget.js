@@ -8,9 +8,12 @@ define(function(require) {
                 };
                 $http({
                     url: baseUrl + 'index/getValidateCode',
+                    params:{cellPhone: scope.params.cellPhone},
                     method: 'get'
                 }).success(function(data) {
-
+                	if(!data.success){
+                		alert(data.msg)
+                	}
                 })
             }
             $scope.submit = function() {
@@ -19,7 +22,9 @@ define(function(require) {
                     method: 'post',
                     data: $scope.params
                 }).success(function(data) {
-
+                	if(!data.success){
+                		alert(data.msg)
+                	}
                 })
             }
         }])
