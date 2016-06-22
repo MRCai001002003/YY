@@ -53,7 +53,7 @@ public class IndexControl {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="getValidateCode",method = RequestMethod.POST)
+	@RequestMapping(value="getValidateCode",method = RequestMethod.GET)
 	public ModelAndView getValidateCode(HttpServletRequest request){
 		/**
 		 * {"success":true,"data":{"type":"CONTROL","content":"输入动态密码","process_code":10002,"finish":false}}  process_code =10002 表示短信已经成功发送。

@@ -95,27 +95,28 @@ public class CustomerControl {
 	public ModelAndView saveOrUpCustomerPersonal(HttpServletRequest request){
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.doSupplementCustomer(request)));
 	}
-//	/**
-//	 * @Title: collect_info 
-//	 * @Description: 采集信息
-//	 * @author caiZhen
-//	 * @date 2016年6月6日 上午11:28:29
-//	 * @param @param request
-//	 * @param @return    设定文件 
-//	 * @return ModelAndView    返回类型 
-//	 */
-//	@RequestMapping(value="collect_info",method=RequestMethod.GET)
-//	public ModelAndView collect_info(HttpServletRequest request){
-//		customerService.collect_info(request,null);
-//		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
-//	}
-	@RequestMapping(value="ss",method=RequestMethod.GET)
-	public ModelAndView ss(HttpServletRequest request){
-		Map<String, String> params = new HashMap<String, String>();  
-		params.put("phone", "17767173344"); 
-		params.put("content", "【品信金融】 你的信息已审批通过");
-		      
-		HttpXmlClient.post("http://localhost:8080/YY/sms/sendSMS", params);  
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
-	}
+	/**
+	 * @Title: getCustomer
+	 * @Description: 获取客户信息
+	 * @author caizhen
+	 * @param @param request
+	 * @param @param customer
+	 * @return ModelAndView
+	 */
+	@RequestMapping(value = "/getCustomer", method = RequestMethod.GET)
+	public ModelAndView getCustomer(HttpServletRequest request){
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.getSessionCustomer(request)));
+	} 
+	/**
+	 * @Title: getPersonalInfo
+	 * @Description: 获取客户个人信息
+	 * @author caizhen
+	 * @param @param request
+	 * @param @param customer
+	 * @return ModelAndView
+	 */
+	@RequestMapping(value = "/getPersonalInfo", method = RequestMethod.GET)
+	public ModelAndView getPersonalInfo(HttpServletRequest request){
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.getSessionCustomer(request)));
+	} 
 }
