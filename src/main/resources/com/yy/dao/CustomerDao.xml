@@ -56,7 +56,7 @@
     where CellPhone = #{cellPhone,jdbcType=CHAR}
   </select>
   <select id="selectObject" parameterType="java.lang.String" resultType="map">
-  	select c.Name,c.CellPhone,cc.CertificateCode from m_customer c,m_customer_certificate cc 
+  	select c.Name,c.CellPhone,cc.CertificateCode,c.CellPhone from m_customer c,m_customer_certificate cc 
   		where c.CustomerID=cc.CustomerID and cc.CertificateType="ID" 
   		      and c.CellPhone=#{cellPhone,jdbcType=CHAR}
   </select>
