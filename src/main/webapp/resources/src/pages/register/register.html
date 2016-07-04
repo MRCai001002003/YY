@@ -65,7 +65,7 @@
                                 <option value="U">未婚</option>
                             </select>
                             <div ng-messages="registerForm.marriageType.$error" ng-show="!registerForm.marriageType.$pristine">
-                                <div ng-message="required" class="help-block">请选择学历</div>
+                                <div ng-message="required" class="help-block">请选择婚姻情况</div>
                             </div>
                         </div>
                     </div>
@@ -77,10 +77,10 @@
                     </label>
                     <div class="col-xs-10">
                         <div class="row">
-                            <input required name="cardCode" bank-card ng-model="params.cardCode" type="text" placeholder="借款人银行卡号码" class="form-control">
+                            <input required name="cardCode" bank-card ng-model="params.cardCode" type="text" placeholder="常用信用卡号" class="form-control">
                             <div ng-messages="registerForm.cardCode.$error" ng-show="!registerForm.cardCode.$pristine">
                                 <div ng-message="required" class="help-block">必填项不能为空</div>
-                                <div ng-message="bankCard" class="help-block">请输入正确的银行卡号码</div>
+                                <div ng-message="bankCard" class="help-block">请输入正确的信用卡号码</div>
                             </div>
                         </div>
                     </div>
