@@ -209,6 +209,10 @@ public class CustomerService {
 		card.setCardCode(request.getParameter("cardCode"));
 		this.saveOrUpCard(card);
 	}
+	/**
+	 * 更新账户信息
+	 * @param account
+	 */
 	public void saveOrUpAccount(Account account){
 		List<Account> accountList = accountDao.selectByCustomerID(account.getCustomerID());
 		if(accountList!=null&&accountList.size()>0){
