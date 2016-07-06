@@ -118,5 +118,10 @@ public class CustomerControl {
 	@RequestMapping(value = "/getPersonalInfo", method = RequestMethod.GET)
 	public ModelAndView getPersonalInfo(HttpServletRequest request){
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.getSessionCustomer(request)));
-	} 
+	}
+	@RequestMapping(value = "/saveCustomerContactor", method = RequestMethod.POST)
+	public ModelAndView saveCustomerContactor(HttpServletRequest request){
+		customerService.saveCustomerContactor(request);
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", ""));
+	}
 }

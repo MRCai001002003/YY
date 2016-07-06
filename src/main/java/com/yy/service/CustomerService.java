@@ -16,17 +16,20 @@ import org.springframework.stereotype.Service;
 import com.yy.common.exception.CustomException;
 import com.yy.dao.AccountDao;
 import com.yy.dao.CardDao;
+import com.yy.dao.CustomerContactorDao;
 import com.yy.dao.CustomerDao;
 import com.yy.dao.CustomerIncomeDao;
 import com.yy.dao.WhiteListDao;
 import com.yy.domain.entity.Account;
 import com.yy.domain.entity.Card;
 import com.yy.domain.entity.Customer;
+import com.yy.domain.entity.CustomerContactor;
 import com.yy.domain.entity.CustomerIncome;
 import com.yy.domain.entity.WhiteList;
 import com.yy.web.utils.HttpXmlClient;
 import com.yy.web.utils.StringUtil;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 /**
  * @ClassName: CustomerService
@@ -48,6 +51,8 @@ public class CustomerService {
 	CustomerIncomeDao customerIncomeDao;
 	@Autowired
 	WhiteListDao whiteListDao;
+	@Autowired
+	CustomerContactorDao customerContactorDao;
 	
 	@Autowired
 	CustomerCertificateService customerCertificateService;
@@ -57,9 +62,12 @@ public class CustomerService {
 	CustomerEducationService customerEducationService;
 	@Autowired
 	CustomerPersonalService customerPersonalService;
-	
+	//是否获取聚信力信息
 	@Value("#{settings['is_get_juxinli_data']}")
 	private boolean is_get_juxinli_data;
+	//服务器IP
+	@Value("#{settings['server_ip']}")
+	private String server_ip;
 	/**
 	 *
 	 * @Title: saveOrUpCustomer
@@ -188,7 +196,7 @@ public class CustomerService {
 		params.put("edu", highestDegree);
 		params.put("company", "");
 		      
-		HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeAuth.action", params);
+		HttpXmlClient.post("http://"+server_ip+"/captureOL/company_executeAuth.action", params);
 	}
 	/**
 	 * @Title: saveCard 
@@ -285,7 +293,7 @@ public class CustomerService {
 		params.put("token",  "");
 		params.put("website",  "");
 		params.put("captcha",  "");
-		String response = HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeJxl.action", params);
+		String response = HttpXmlClient.post("http://"+server_ip+"/captureOL/company_executeJxl.action", params);
 		log.info("doExecuteJxl info"+response);
 		if(response==null){
 			throw new CustomException("未查到相关结果");
@@ -325,7 +333,7 @@ public class CustomerService {
 		params.put("token",  request.getParameter("token"));
 		params.put("website",  request.getParameter("website"));
 		params.put("captcha",  request.getParameter("captcha"));
-		String response= HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeJxl.action", params);
+		String response= HttpXmlClient.post("http://"+server_ip+"/captureOL/company_executeJxl.action", params);
 		log.info("doValidateCode info"+response);
 			
 	}
@@ -412,5 +420,22 @@ public class CustomerService {
 		}else{
 			throw new CustomException("服务密码重置失败");
 		}				
+	}
+	public void saveCustomerContactor(HttpServletRequest request){
+		String ccStr = request.getParameter("ccList");
+//		JSONObject jObject = JSONObject.fromObject(ccStr);
+		
+		JSONArray jArray= JSONArray.fromObject(ccStr);
+		System.out.println(jArray);
+		CustomerContactor cc=null;
+		if(jArray!=null){
+			for(int i=0;i<jArray.size();i++){
+				cc = (CustomerContactor) JSONObject.toBean(jArray.getJSONObject(i), CustomerContactor.class);
+			    customerContactorDao.insertSelective(cc);
+			}
+		}
+	}
+	public void aa(CustomerContactor cc){
+		System.out.println("aaaaaaaaaaaaa-----------------"+cc.getAddress());
 	}
 }

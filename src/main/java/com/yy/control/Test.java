@@ -27,10 +27,6 @@ import com.yy.web.utils.StringUtil;
 
 public class Test {
 	public static void main(String[] args) {
-		String a="{\"success\":\"true\",data:{\"process_code\":\"11000\",\"content\":\"设置成功\"}}";
-		JSONObject j = JSONObject.fromObject(a);
-		j = j.getJSONObject("data");
-		System.out.println(j.getString("process_code"));
 	}
 	public static void a(){
 		JSONObject params=new JSONObject();
