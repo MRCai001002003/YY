@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yy.dao.CustomerContactorDao" >
+  <resultMap id="BaseResultMap" type="com.yy.domain.entity.CustomerContactor" >
+    <id column="ContactorID" property="contactorID" jdbcType="BIGINT" />
+    <result column="CustomerID" property="customerID" jdbcType="BIGINT" />
+    <result column="ContactorLevel" property="contactorLevel" jdbcType="INTEGER" />
+    <result column="ContactorName" property="contactorName" jdbcType="VARCHAR" />
+    <result column="Relation" property="relation" jdbcType="CHAR" />
+    <result column="CellPhone" property="cellPhone" jdbcType="CHAR" />
+    <result column="FixTel" property="fixTel" jdbcType="VARCHAR" />
+    <result column="Address" property="address" jdbcType="VARCHAR" />
+    <result column="PostCode" property="postCode" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ContactorID, CustomerID, ContactorLevel, ContactorName, Relation, CellPhone, FixTel, 
+    Address, PostCode
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_customer_contactor
+    where ContactorID = #{contactorID,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from m_customer_contactor
+    where ContactorID = #{contactorID,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yy.domain.entity.CustomerContactor" >
+    insert into m_customer_contactor (ContactorID, CustomerID, ContactorLevel, 
+      ContactorName, Relation, CellPhone, 
+      FixTel, Address, PostCode
+      )
+    values (#{contactorID,jdbcType=BIGINT}, #{customerID,jdbcType=BIGINT}, #{contactorLevel,jdbcType=INTEGER}, 
+      #{contactorName,jdbcType=VARCHAR}, #{relation,jdbcType=CHAR}, #{cellPhone,jdbcType=CHAR}, 
+      #{fixTel,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{postCode,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yy.domain.entity.CustomerContactor" >
+    insert into m_customer_contactor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contactorID != null" >
+        ContactorID,
+      </if>
+      <if test="customerID != null" >
+        CustomerID,
+      </if>
+      <if test="contactorLevel != null" >
+        ContactorLevel,
+      </if>
+      <if test="contactorName != null" >
+        ContactorName,
+      </if>
+      <if test="relation != null" >
+        Relation,
+      </if>
+      <if test="cellPhone != null" >
+        CellPhone,
+      </if>
+      <if test="fixTel != null" >
+        FixTel,
+      </if>
+      <if test="address != null" >
+        Address,
+      </if>
+      <if test="postCode != null" >
+        PostCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contactorID != null" >
+        #{contactorID,jdbcType=BIGINT},
+      </if>
+      <if test="customerID != null" >
+        #{customerID,jdbcType=BIGINT},
+      </if>
+      <if test="contactorLevel != null" >
+        #{contactorLevel,jdbcType=INTEGER},
+      </if>
+      <if test="contactorName != null" >
+        #{contactorName,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null" >
+        #{relation,jdbcType=CHAR},
+      </if>
+      <if test="cellPhone != null" >
+        #{cellPhone,jdbcType=CHAR},
+      </if>
+      <if test="fixTel != null" >
+        #{fixTel,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        #{postCode,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yy.domain.entity.CustomerContactor" >
+    update m_customer_contactor
+    <set >
+      <if test="customerID != null" >
+        CustomerID = #{customerID,jdbcType=BIGINT},
+      </if>
+      <if test="contactorLevel != null" >
+        ContactorLevel = #{contactorLevel,jdbcType=INTEGER},
+      </if>
+      <if test="contactorName != null" >
+        ContactorName = #{contactorName,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null" >
+        Relation = #{relation,jdbcType=CHAR},
+      </if>
+      <if test="cellPhone != null" >
+        CellPhone = #{cellPhone,jdbcType=CHAR},
+      </if>
+      <if test="fixTel != null" >
+        FixTel = #{fixTel,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        PostCode = #{postCode,jdbcType=CHAR},
+      </if>
+    </set>
+    where ContactorID = #{contactorID,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yy.domain.entity.CustomerContactor" >
+    update m_customer_contactor
+    set CustomerID = #{customerID,jdbcType=BIGINT},
+      ContactorLevel = #{contactorLevel,jdbcType=INTEGER},
+      ContactorName = #{contactorName,jdbcType=VARCHAR},
+      Relation = #{relation,jdbcType=CHAR},
+      CellPhone = #{cellPhone,jdbcType=CHAR},
+      FixTel = #{fixTel,jdbcType=VARCHAR},
+      Address = #{address,jdbcType=VARCHAR},
+      PostCode = #{postCode,jdbcType=CHAR}
+    where ContactorID = #{contactorID,jdbcType=BIGINT}
+  </update>
+</mapper>
