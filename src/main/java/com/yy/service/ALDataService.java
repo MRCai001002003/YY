@@ -1,15 +1,15 @@
-package com.yy.control;
+package com.yy.service;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
-import org.eclipse.swt.browser.LocationAdapter;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -21,14 +21,18 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 import com.yy.domain.entity.CustomerContactor;
 import com.yy.web.utils.HttpXmlClient;
 
 import net.sf.json.JSONArray;
+@Service
+public class ALDataService {
+	public String getReceiptAddress(HttpServletRequest request){
+		final String account = request.getParameter("account");
+		final String pwd = request.getParameter("pwd");
 
-public class AlData {
-	public void getAlData(final String account,final String pwd){
         Display display=new Display(); 
         Shell shell=new Shell(display); 
         shell.setText("SWT Browser Test"); 
@@ -94,29 +98,7 @@ public class AlData {
         			b=true;
         		}
         	}
-        });
-        browser.addLocationListener(new LocationAdapter() { 
-        	//为浏览器注册地址改变事件 
-        	@Override 
-			public void changed(LocationEvent e) {
-				if (e.top) {
-					System.out.println("------------------addLocationListener-----------------"+e.location);
-					if("http://member1.taobao.com/member/fresh/deliver_address.htm?spm=a1z08.10.0.0.SxdfME".equals(e.location)){
-						String browserStr=browser.getText();
-		                if(browserStr.indexOf("thead-tbl-address")!=-1){
-		                	try {
-								StrToHTML(browserStr);
-							} catch (Exception exe) {
-								exe.printStackTrace();
-							}
-		                }
-					}
-				}
-			}
-        	}); 
-        
-        
-        
+        }); 
         while (!shell.isDisposed()) { 
             if (!display.readAndDispatch()){
             	display.sleep(); 
@@ -125,6 +107,7 @@ public class AlData {
         
         display.dispose(); 
 	
+        return "";
 	}
 	/**
 	 * 获取网页中的地址信息
