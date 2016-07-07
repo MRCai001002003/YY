@@ -12,15 +12,15 @@
                     </label>
                     <div class="col-xs-10">
                         <div class="row">
-                            <select ng-model="params.companyType" name="companyType" class="form-control" required>
-                                <option value="">请选择公司类型</option>
-                                <option value="H">政府事业单位</option>
-                                <option value="M">国营企业</option>
-                                <option value="S">民营企业</option>
-                                <option value="O">其他</option>
-                                <option value="N">无职业</option>
-                            </select>
-                            <div ng-messages="registerForm.companyType.$error" ng-show="!registerForm.companyType.$pristine">
+							<select ng-model="params.companyType" name="companyType" class="form-control" required>
+								<option value="">请选择公司类型</option>
+								<option value="H">政府事业单位</option>
+								<option value="N">国有企业</option>
+								<option value="M">外资/大型企业</option>
+								<option value="S">小型企业</option>
+								<option value="O">其他</option>
+							</select>
+							<div ng-messages="registerForm.companyType.$error" ng-show="!registerForm.companyType.$pristine">
                                 <div ng-message="required" class="help-block">请选择公司类型</div>
                             </div>
                         </div>
@@ -56,10 +56,11 @@
                                 <option value="">现单位工作年限</option>
                                 <option value="3">3年以内</option>
                                 <option value="5">3-5年</option>
-                                <option value="10">10年以上</option>
+                                <option value="10">5-10年</option>
+                                <option value="20">10年以上</option>
                             </select>
                             <div ng-messages="registerForm.workingLife.$error" ng-show="!registerForm.workingLife.$pristine">
-                                <div ng-message="required" class="help-block">请选择工龄</div>
+                                <div ng-message="required" class="help-block">请选择工作年限</div>
                             </div>
                         </div>
                     </div>
