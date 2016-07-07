@@ -100,6 +100,10 @@ define(function(require) {
                 url: '/menberCenter',
                 templateUrl: require.toUrl('./pages/menberCenter/menberCenter.html'),
                 controller: 'menberCenterControl'
+            }).state('taobaoLogin', {
+                url: '/taobaoLogin',
+                templateUrl: require.toUrl('./pages/taobaoLogin/taobaoLogin.html'),
+                controller: 'taobaoLoginControl'
             })
 
         }
@@ -129,6 +133,7 @@ define(function(require) {
     require('./pages/repayment/repayment')(app);
     require('./pages/setbacks/setbacks')(app);
     require('./pages/menberCenter/menberCenter')(app);
+    require('./pages/taobaoLogin/taobaoLogin')(app);
 
     //启动应用
     angular.element(document).ready(function() {

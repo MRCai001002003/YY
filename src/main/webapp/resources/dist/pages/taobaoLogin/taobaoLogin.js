@@ -1,0 +1,1 @@
+define(["require","../../common/js/baseUrl/baseUrl"],function(e){var t=e("../../common/js/baseUrl/baseUrl");return function(e){e.controller("taobaoLoginControl",["$scope","$http",function(e,n){e.submit=function(){n({url:t+"index/getReceiptAddress",method:"post",data:e.params}).success(function(e){e.success||alert(e.msg)})}}])}});

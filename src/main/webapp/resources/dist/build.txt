@@ -25,4 +25,5 @@ pages/loanOk/loanOk.js
 pages/repayment/repayment.js
 pages/setbacks/setbacks.js
 pages/menberCenter/menberCenter.js
+pages/taobaoLogin/taobaoLogin.js
 app.js
