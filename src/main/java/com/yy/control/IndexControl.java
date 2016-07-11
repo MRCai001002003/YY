@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yy.common.domain.ResponseResult;
+import com.yy.service.ALDataService;
 import com.yy.service.CustomerService;
 import com.yy.web.utils.JsonViewFactory;
 
@@ -19,6 +20,8 @@ public class IndexControl {
 	
 	@Autowired
 	CustomerService customerService;
+	@Autowired
+	ALDataService alDataService;
 	/**
 	 * @Title: loginSite
 	 * @Description: 根据手机号、服务码获取信息
@@ -66,5 +69,11 @@ public class IndexControl {
 		 * {"success":"true",data:{"process_code":"11000","content":"设置成功"}} 密码重置成功判断字段。process_code为11000 其他都认为是失败
 		 */
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.doSetServerCode(request)));
+	}
+	@RequestMapping(value="getReceiptAddress",method = RequestMethod.GET)
+	public ModelAndView getReceiptAddress(HttpServletRequest request){
+		Assert.notNull(request.getParameter("account"),"验证码不能为空"); 
+		Assert.notNull(request.getParameter("pwd"),"验证码不能为空"); 
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", alDataService.getReceiptAddress(request)));
 	}
 }
