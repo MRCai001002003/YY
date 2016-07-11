@@ -1,4 +1,4 @@
-define(function(require) {
+define(function (require) {
     //加载框架
     var angular = require('angular');
     require('ui.router');
@@ -11,11 +11,11 @@ define(function(require) {
     //初始化
     var app = angular.module("app", ['ui.router', 'ngSanitize', 'ngAnimate', 'ngMessages']);
     app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
-        function($stateProvider, $urlRouterProvider, $httpProvider) {
+        function ($stateProvider, $urlRouterProvider, $httpProvider) {
             //未登录拦截
             //$httpProvider.interceptors.push('logoutInterceptor');
             $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-            $httpProvider.defaults.transformRequest = function(data) {
+            $httpProvider.defaults.transformRequest = function (data) {
                 if (angular.isObject(data)) {
                     var arr = [];
                     for (var key in data) {
@@ -104,6 +104,10 @@ define(function(require) {
                 url: '/taobaoLogin',
                 templateUrl: require.toUrl('./pages/taobaoLogin/taobaoLogin.html'),
                 controller: 'taobaoLoginControl'
+            }).state('taobaoVerifyCode', {
+                url: '/taobaoVerifyCode',
+                templateUrl: require.toUrl('./pages/taobaoVerifyCode/taobaoVerifyCode.html'),
+                controller: 'taobaoVerifyCodeControl'
             })
 
         }
@@ -134,23 +138,24 @@ define(function(require) {
     require('./pages/setbacks/setbacks')(app);
     require('./pages/menberCenter/menberCenter')(app);
     require('./pages/taobaoLogin/taobaoLogin')(app);
+    require('./pages/taobaoVerifyCode/taobaoVerifyCode')(app);
 
     //启动应用
-    angular.element(document).ready(function() {
+    angular.element(document).ready(function () {
         var alertEle = document.getElementById('alert');
         var alertEleOldClassName = alertEle.className;
         var isAlert = false;
         var alertCallback = null;
-        window.alert = function(msg, callback) {
+        window.alert = function (msg, callback) {
             alertEle.style.display = 'block';
-            setTimeout(function() {
+            setTimeout(function () {
                 alertEle.className = alertEleOldClassName + ' modal-show';
                 isAlert = true;
             }, 0);
             alertEle.getElementsByTagName('p')[0].innerText = msg;
             alertCallback = callback;
         };
-        alertEle.getElementsByTagName('button')[0].onclick = function() {
+        alertEle.getElementsByTagName('button')[0].onclick = function () {
             isAlert = false;
             alertEle.className = alertEleOldClassName;
             alertCallback && alertCallback();
@@ -166,7 +171,7 @@ define(function(require) {
         alertEle.addEventListener('transitionend', hide);
 
         var bodyEle = document.body;
-        window.prompt = function(msg) {
+        window.prompt = function (msg) {
             var promptObj = document.createElement('div');
             bodyEle.appendChild(promptObj);
             promptObj.className = 'prompt-msg';
@@ -191,8 +196,8 @@ define(function(require) {
         var ele = document.getElementById('page-wrap');
         app.run(['$rootScope', '$location', '$state',
 
-            function($rootScope, $location, $state) {
-                $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            function ($rootScope, $location, $state) {
+                $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                     var animateObj = {
                         home: {
                             register: 'slideInRight slideOutLeft',
@@ -227,7 +232,12 @@ define(function(require) {
                         },
                         manageService: {
                             home: 'slideInLeft slideOutRight'
-
+                        },
+                        taobaoLogin: {
+                            taobaoVerifyCode: 'slideInRight slideOutLeft'
+                        },
+                        taobaoVerifyCode: {
+                            taobaoLogin: 'slideInLeft slideOutRight'
                         }
                     };
                     var animateClass = animateObj[fromState.name] || '';

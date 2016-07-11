@@ -26,4 +26,5 @@ pages/repayment/repayment.js
 pages/setbacks/setbacks.js
 pages/menberCenter/menberCenter.js
 pages/taobaoLogin/taobaoLogin.js
+pages/taobaoVerifyCode/taobaoVerifyCode.js
 app.js
