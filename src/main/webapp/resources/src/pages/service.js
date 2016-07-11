@@ -1,18 +1,18 @@
-define(function(require) {
-    return function(app) {
-        app.service('cache', function() {
+define(function (require) {
+    return function (app) {
+        app.service('cache', function () {
             var obj = {};
-            this.set = function(key, value) {
+            this.set = function (key, value) {
                 obj[key] = value;
             };
-            this.get = function(key) {
+            this.get = function (key) {
                 return obj[key];
             }
         })
-        app.factory('validatePattern', function() {
+        app.factory('validatePattern', function () {
             return {
                 bankCard: function luhmCheck(bankno) {
-                    if (bankno.length < 16 || bankno.length > 19) {
+                    if (bankno.length < 14 || bankno.length > 19) {
                         //$("#banknoInfo").html("银行卡号长度必须在16到19之间");
                         return false;
                     }
@@ -22,7 +22,7 @@ define(function(require) {
                         return false;
                     }
                     //开头6位
-                    var strBin = "10,18,30,35,37,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,58,60,62,65,68,69,84,87,88,94,95,98,99";
+                    var strBin = "10,18,30,35,36,37,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,58,60,62,65,68,69,84,87,88,94,95,98,99";
                     if (strBin.indexOf(bankno.substring(0, 2)) == -1) {
                         //$("#banknoInfo").html("银行卡号开头6位不符合规范");
                         return false;
@@ -85,10 +85,11 @@ define(function(require) {
                         return false;
                     }
                 },
-                idcard: function(value) {
+                idcard: function (value) {
                     var Wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2, 1]; // 加权因子
                     var ValideCode = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2]; // 身份证验证位值.10代表X
-					return IdCardValidate(value);
+                    return IdCardValidate(value);
+
                     function IdCardValidate(idCard) {
                         idCard = trim(idCard.replace(/ /g, "")); //去掉字符串头尾空格
                         if (idCard.length == 15) {

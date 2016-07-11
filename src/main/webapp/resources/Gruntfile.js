@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         htmlmin: {
@@ -91,9 +91,9 @@ module.exports = function(grunt) {
                 }
             }
         },
-		clean:{
-			css:['./dist/**/*.scss','./dist/**/*.map']
-		}
+        clean: {
+            css: ['./dist/**/*.scss', './dist/**/*.map']
+        }
     });
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
@@ -104,5 +104,6 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask('default', ['requirejs:compile', 'htmlmin:tpl', 'cssmin:build', 'clean:css'])
+        //    grunt.registerTask('a', ['cssmin:build', 'clean:css'])
     grunt.registerTask('build', ['requirejs:build', 'htmlmin'])
 }
