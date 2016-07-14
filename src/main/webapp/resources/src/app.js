@@ -252,7 +252,9 @@ define(function (require) {
                         },
                         userLogin: {
                             home: 'slideInLeft slideOutRight',
-                            menberCenter: 'slideInRight slideOutLeft'
+                            menberCenter: 'slideInRight slideOutLeft',
+                            register: 'slideInRight slideOutLeft',
+                            registerInfo: 'slideInRight slideOutLeft'
                         },
                         menberCenter: {
                             userLogin: 'slideInLeft slideOutRight',
