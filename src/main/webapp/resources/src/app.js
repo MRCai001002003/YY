@@ -108,6 +108,10 @@ define(function (require) {
                 url: '/taobaoVerifyCode',
                 templateUrl: require.toUrl('./pages/taobaoVerifyCode/taobaoVerifyCode.html'),
                 controller: 'taobaoVerifyCodeControl'
+            }).state('userLogin', {
+                url: '/userLogin',
+                templateUrl: require.toUrl('./pages/userLogin/userLogin.html'),
+                controller: 'userLoginControl'
             })
 
         }
@@ -139,6 +143,7 @@ define(function (require) {
     require('./pages/menberCenter/menberCenter')(app);
     require('./pages/taobaoLogin/taobaoLogin')(app);
     require('./pages/taobaoVerifyCode/taobaoVerifyCode')(app);
+    require('./pages/userLogin/userLogin')(app);
 
     //启动应用
     angular.element(document).ready(function () {
@@ -202,7 +207,8 @@ define(function (require) {
                         home: {
                             register: 'slideInRight slideOutLeft',
                             certificate: 'slideInRight slideOutLeft',
-                            manageService: 'slideInRight slideOutLeft'
+                            manageService: 'slideInRight slideOutLeft',
+                            userLogin:'slideInRight slideOutLeft'
                         },
                         register: {
                             home: 'slideInLeft slideOutRight',
@@ -238,6 +244,9 @@ define(function (require) {
                         },
                         taobaoVerifyCode: {
                             taobaoLogin: 'slideInLeft slideOutRight'
+                        },
+                        userLogin:{
+                        	home:'slideInLeft slideOutRight'
                         }
                     };
                     var animateClass = animateObj[fromState.name] || '';
