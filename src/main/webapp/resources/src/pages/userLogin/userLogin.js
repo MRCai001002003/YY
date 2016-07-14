@@ -12,7 +12,7 @@ define(function (require) {
                     if (data.success) {
                         cache.set('phone', data.data.cellPhone);
                         switch (data.data.customerStatus) {
-                            case 'register':
+                            case 'DRAFT':
                                 $state.go('register');
                                 break;
                             case 'BASIC':
