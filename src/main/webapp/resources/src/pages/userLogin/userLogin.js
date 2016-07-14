@@ -2,6 +2,7 @@ define(function (require) {
     var baseUrl = require('../../common/js/baseUrl/baseUrl');
     return function (app) {
         app.controller('userLoginControl', ['$scope', '$http', '$state', 'cache', function ($scope, $http, $state, cache) {
+            $scope.params = {};
             $scope.submit = function () {
                 $http({
                     url: baseUrl + 'customer/userLogin',
