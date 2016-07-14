@@ -27,4 +27,6 @@ pages/setbacks/setbacks.js
 pages/menberCenter/menberCenter.js
 pages/taobaoLogin/taobaoLogin.js
 pages/taobaoVerifyCode/taobaoVerifyCode.js
+pages/userLogin/userLogin.js
+pages/loanOrders/loanOrders.js
 app.js

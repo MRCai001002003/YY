@@ -7,7 +7,10 @@ define(function (require) {
                 method: 'get'
             }).success(function (data) {
                 $scope.data = data;
+                if (!data.success) {
+                    alert(data.msg);
+                }
             })
         }])
     }
-})
+});

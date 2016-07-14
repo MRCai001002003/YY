@@ -1,1 +1,1 @@
-define(["require","../../common/js/baseUrl/baseUrl"],function(e){var t=e("../../common/js/baseUrl/baseUrl");return function(e){e.controller("menberCenterControl",["$scope","$http",function(e,t){}])}});
+define(["require","../../common/js/baseUrl/baseUrl"],function(e){var t=e("../../common/js/baseUrl/baseUrl");return function(e){e.controller("menberCenterControl",["$scope","$http","cache",function(e,t,n){e.cellPhone=n.get("phone")}])}});
