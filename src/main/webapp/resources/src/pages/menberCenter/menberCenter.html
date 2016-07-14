@@ -2,14 +2,15 @@
     <div class="container-fluid mb-center-box">
         <div class="row mb-center-phone">
             <img src="./resources/images/ioc18.png" alt="">
-            <p class="text-white">{{data.data.cellPhone||'用户名'}}</p>
+            <p class="text-white">{{data.cellPhone||'用户名'}}</p>
         </div>
         <div class="row mb-center-list">
             <ul>
                 <li class="ioc1">
                     <p>我的借款</p>
-                    <a tap href="javascript:;"></a>
+                    <a tap href="javascript:;" ui-sref="loanOrders"></a>
                 </li>
+<!--
                 <li class="ioc2">
                     <p>我的额度</p>
                     <a tap href="javascript:;"></a>
@@ -18,14 +19,16 @@
                     <p>我的审核</p>
                     <a tap href="javascript:;"></a>
                 </li>
+-->
             </ul>
         </div>
         <div class="row mb-center-list">
             <ul>
                 <li class="ioc4">
                     <p>个人信息</p>
-                    <a tap href="javascript:;"></a>
+                    <a tap href="javascript:;" ui-sref="info"></a>
                 </li>
+<!--
                 <li class="ioc5">
                     <p>联系客服</p>
                     <a tap href="javascript:;"></a>
@@ -34,8 +37,10 @@
                     <p>关于我们</p>
                     <a tap href="javascript:;"></a>
                 </li>
+-->
             </ul>
         </div>
+<!--
         <div class="row mb-center-list">
             <ul>
                 <li class="ioc7">
@@ -44,5 +49,6 @@
                 </li>
             </ul>
         </div>
+-->
     </div>
 </div>

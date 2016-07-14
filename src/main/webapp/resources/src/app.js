@@ -112,6 +112,10 @@ define(function (require) {
                 url: '/userLogin',
                 templateUrl: require.toUrl('./pages/userLogin/userLogin.html'),
                 controller: 'userLoginControl'
+            }).state('loanOrders', {
+                url: '/loanOrders',
+                templateUrl: require.toUrl('./pages/loanOrders/loanOrders.html'),
+                controller: 'loanOrdersControl'
             })
 
         }
@@ -144,6 +148,7 @@ define(function (require) {
     require('./pages/taobaoLogin/taobaoLogin')(app);
     require('./pages/taobaoVerifyCode/taobaoVerifyCode')(app);
     require('./pages/userLogin/userLogin')(app);
+    require('./pages/loanOrders/loanOrders')(app);
 
     //启动应用
     angular.element(document).ready(function () {
@@ -208,7 +213,7 @@ define(function (require) {
                             register: 'slideInRight slideOutLeft',
                             certificate: 'slideInRight slideOutLeft',
                             manageService: 'slideInRight slideOutLeft',
-                            userLogin:'slideInRight slideOutLeft'
+                            userLogin: 'slideInRight slideOutLeft'
                         },
                         register: {
                             home: 'slideInLeft slideOutRight',
@@ -245,8 +250,20 @@ define(function (require) {
                         taobaoVerifyCode: {
                             taobaoLogin: 'slideInLeft slideOutRight'
                         },
-                        userLogin:{
-                        	home:'slideInLeft slideOutRight'
+                        userLogin: {
+                            home: 'slideInLeft slideOutRight',
+                            menberCenter: 'slideInRight slideOutLeft'
+                        },
+                        menberCenter: {
+                            userLogin: 'slideInLeft slideOutRight',
+                            info: 'slideInRight slideOutLeft',
+                            loanOrders: 'slideInRight slideOutLeft'
+                        },
+                        info: {
+                            menberCenter: 'slideInLeft slideOutRight'
+                        },
+                        loanOrders: {
+                            menberCenter: 'slideInLeft slideOutRight'
                         }
                     };
                     var animateClass = animateObj[fromState.name] || '';
