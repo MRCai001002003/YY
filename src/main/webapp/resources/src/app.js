@@ -217,12 +217,14 @@ define(function (require) {
                         },
                         register: {
                             home: 'slideInLeft slideOutRight',
-                            registerInfo: 'slideInRight slideOutLeft'
+                            registerInfo: 'slideInRight slideOutLeft',
+                            userLogin: 'slideInLeft slideOutRight'
                         },
                         registerInfo: {
                             register: 'slideInLeft slideOutRight',
                             registed: 'slideInRight slideOutLeft',
-                            login: 'slideInRight slideOutLeft'
+                            login: 'slideInRight slideOutLeft',
+                            userLogin: 'slideInLeft slideOutRight'
                         },
                         login: {
                             registerInfo: 'slideInLeft slideOutRight',
