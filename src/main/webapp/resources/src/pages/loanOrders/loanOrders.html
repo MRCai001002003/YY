@@ -5,10 +5,12 @@
                 <div class="col-xs-6">
                     <div>授信额度</div>
                     <div style="font-size:2em" class="text-blue">{{data.data.CreditAmount}}</div>
+                    <div class="text-blue" ng-if="!data.data.CreditAmount">待授信</div>
                 </div>
                 <div class="col-xs-6">
                     <div>可用额度</div>
                     <div style="font-size:2em" class="text-blue">{{data.data.LeftAmount}}</div>
+                    <div class="text-blue" ng-if="!data.data.LeftAmount">待授信</div>
                 </div>
             </div>
         </div>
