@@ -3,10 +3,13 @@ define(function (require) {
     return function (app) {
         app.controller('infoControl', ['$scope', '$http', function ($scope, $http) {
             $http({
-                url: baseUrl + '',
+                url: baseUrl + 'customer/getMenberCenter',
                 method: 'get'
             }).success(function (data) {
                 $scope.data = data;
+                if (!data.success) {
+                    alert(data.msg);
+                }
             })
         }])
     }
