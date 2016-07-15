@@ -32,7 +32,14 @@
 			</list>
 		</property>
 	</bean>
-
+	<mvc:interceptors>
+		<!-- 对url中带‘filter’字符的请求进行过滤，判断会话是否失效 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**/customer/userLogin/*" />
+			<mvc:mapping path="/**/filter/*" />
+		    <bean class="com.yy.web.YYInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 
 	<!-- 参数解析器配置
