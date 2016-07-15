@@ -86,10 +86,12 @@ public class LoanOrderService {
 			StringUtil.setSession(request, customer, "customer");
 			//贷款申请未完成 则进入相应的完善信息界面
 			if(StringUtils.isNotBlank(customer.getCustomerStatus())){
-				if("DRAFT".equals(customer.getCustomerStatus())){
-					return "register";
-				}else if("BASIC".equals(customer.getCustomerStatus())){
-					return "registerInfo";
+				//DRAFT、BASIC状态更新借款金额、借款期限
+				if("DRAFT".equals(customer.getCustomerStatus())||"BASIC".equals(customer.getCustomerStatus())){
+					loanOrder.setLoanAmount(loanOrder.getLoanAmount()*10000);//将万元转化成元
+					loanOrder.setCustomerID(customer.getCustomerID());
+					loanOrderDao.updateByCustomerID(loanOrder);
+					return customer.getCustomerStatus();
 				}
 			}
 			str = "exist";//该用户有申请记录且信息完善，进入registerInfo界面
