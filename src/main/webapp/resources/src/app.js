@@ -208,70 +208,69 @@ define(function (require) {
 
             function ($rootScope, $location, $state) {
                 $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                    var inRightOutLeft = 'slideInRight slideOutLeft';
+                    var inLeftOutRight = 'slideInLeft slideOutRight';
                     var animateObj = {
                         home: {
-                            register: 'slideInRight slideOutLeft',
-                            certificate: 'slideInRight slideOutLeft',
-                            manageService: 'slideInRight slideOutLeft',
-                            userLogin: 'slideInRight slideOutLeft'
+                            register: inRightOutLeft,
+                            certificate: inRightOutLeft,
+                            manageService: inRightOutLeft
                         },
                         register: {
-                            home: 'slideInLeft slideOutRight',
-                            registerInfo: 'slideInRight slideOutLeft',
-                            userLogin: 'slideInLeft slideOutRight'
+                            home: inLeftOutRight,
+                            registerInfo: inRightOutLeft
                         },
                         registerInfo: {
-                            register: 'slideInLeft slideOutRight',
-                            registed: 'slideInRight slideOutLeft',
-                            login: 'slideInRight slideOutLeft',
-                            userLogin: 'slideInLeft slideOutRight'
+                            register: inLeftOutRight,
+                            registed: inRightOutLeft,
+                            login: inRightOutLeft
                         },
                         login: {
-                            registerInfo: 'slideInLeft slideOutRight',
-                            validaty: 'slideInRight slideOutLeft',
-                            passwordForget: 'slideInRight slideOutLeft'
+                            registerInfo: inLeftOutRight,
+                            validaty: inRightOutLeft,
+                            passwordForget: inRightOutLeft
                         },
                         passwordForget: {
-                            login: 'slideInLeft slideOutRight'
+                            login: inLeftOutRight
                         },
                         validaty: {
-                            login: 'slideInLeft slideOutRight'
+                            login: inLeftOutRight
                         },
                         registed: {
-                            registerInfo: 'slideInLeft slideOutRight'
+                            registerInfo: inLeftOutRight
                         },
                         certificate: {
-                            home: 'slideInLeft slideOutRight'
+                            home: inLeftOutRight
                         },
                         manageService: {
-                            home: 'slideInLeft slideOutRight'
+                            home: inLeftOutRight
                         },
                         taobaoLogin: {
-                            taobaoVerifyCode: 'slideInRight slideOutLeft'
+                            taobaoVerifyCode: inRightOutLeft
                         },
                         taobaoVerifyCode: {
-                            taobaoLogin: 'slideInLeft slideOutRight'
-                        },
-                        userLogin: {
-                            home: 'slideInLeft slideOutRight',
-                            menberCenter: 'slideInRight slideOutLeft',
-                            register: 'slideInRight slideOutLeft',
-                            registerInfo: 'slideInRight slideOutLeft'
+                            taobaoLogin: inLeftOutRight
                         },
                         menberCenter: {
-                            userLogin: 'slideInLeft slideOutRight',
-                            info: 'slideInRight slideOutLeft',
-                            loanOrders: 'slideInRight slideOutLeft'
+                            userLogin: inLeftOutRight,
+                            info: inRightOutLeft,
+                            loanOrders: inRightOutLeft
                         },
                         info: {
-                            menberCenter: 'slideInLeft slideOutRight'
+                            menberCenter: inLeftOutRight
                         },
                         loanOrders: {
-                            menberCenter: 'slideInLeft slideOutRight'
+                            menberCenter: inLeftOutRight
                         }
                     };
-                    var animateClass = animateObj[fromState.name] || '';
-                    animateClass = animateClass[toState.name] || '';
+                    if (fromState.name === 'userLogin') {
+                        animateClass = 'zoomOut fadeInUp';
+                    } else if (toState.name === 'userLogin') {
+                        animateClass = 'fadeOut zoomIn';
+                    } else {
+                        var animateClass = animateObj[fromState.name] || '';
+                        animateClass = animateClass[toState.name] || '';
+                    }
                     ele.className = 'page-wrap animated ui-view-container ' + animateClass;
                 });
             }

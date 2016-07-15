@@ -122,18 +122,19 @@ body{
 	}
 }
 .progress-bar{
+    $color: #00f;
 	display: none;
 	height: 2px;
-	background-color: #f00;
+	background-color: $color;
 	position: absolute;
 	top: 0;//$header-bar-height - 2;
 	left: 0;
 	width: 100%;
 	z-index: 1999;
-	background-color: $red + 150;
+	background-color: $color + 150;
 	div{
-		background-image: -webkit-linear-gradient(left,$red + 150,$red + 150, $red,$red + 150, $red + 150);
-		background-image: linear-gradient(left,$red + 150,$red + 150,$red,$red + 150,$red + 150);
+		background-image: -webkit-linear-gradient(left,$color + 150,$color + 150, $color,$color + 150, $color + 150);
+		background-image: linear-gradient(left,$color + 150,$color + 150,$color,$color + 150,$color + 150);
 		height: 100%;
 		-webkit-animation: progressBar  linear 2s infinite;
 		animation: progressBar  linear 2s infinite;

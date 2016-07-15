@@ -57,8 +57,7 @@
                 <div class="form-group" ng-class="{'has-error':homeForm.isAccept.$invalid && !homeForm.isAccept.$pristine}">
                     <div>
                         <input type="checkbox" name="isAccept" required ng-model="params.isAccept">
-                        <a tap href="javascript:;" ui-sref="certificate">同意授权条款</a>
-                        <a tap href="javascript:;" ui-sref="manageService">贷后管理服务协议</a>
+                        同意<a tap href="javascript:;" ui-sref="certificate">授权条款</a>及<a tap href="javascript:;" ui-sref="manageService">贷后管理服务协议</a>
                     </div>
                     <div ng-messages="homeForm.isAccept.$error" ng-show="!homeForm.isAccept.$pristine">
                         <div ng-message="required" class="help-block">请确认授权条款</div>
