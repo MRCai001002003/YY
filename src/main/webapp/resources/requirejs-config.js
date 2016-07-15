@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: './resources/src/',
+    baseUrl: './resources/dist/',
     paths: {
         'angular': '../library/angular/angular.min',
         'ui.router': '../library/angular-ui-router/release/angular-ui-router.min',
