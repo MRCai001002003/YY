@@ -6,7 +6,7 @@ define(function(require) {
 				$scope.params={};
 				$scope.submit=function(){
 					$http({
-						url:baseUrl+'customer/saveOrUpdateCustomer',
+						url:baseUrl+'customer/filter/saveOrUpdateCustomer',
 						method:'post',
 						data:$scope.params
 					}).success(function(data){

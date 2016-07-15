@@ -45,7 +45,7 @@ define(function(require) {
                     }
 
                     $http({
-                        url: baseUrl + 'customer/saveOrUpdateCustomerPersonal',
+                        url: baseUrl + 'customer/filter/saveOrUpdateCustomerPersonal',
                         method: 'post',
                         data: $scope.params
                     }).success(function(data) {
