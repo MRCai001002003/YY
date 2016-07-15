@@ -24,11 +24,11 @@ public class LoanOrderControl {
 	@Autowired
 	LoanOrderService loanOrderService;
 	
-	@RequestMapping(value="getLoadOrders",method=RequestMethod.GET)
+	@RequestMapping(value="/filter/getLoadOrders",method=RequestMethod.GET)
 	public ModelAndView getLoadOrders(HttpServletRequest request){
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true,"操作成功",loanOrderService.selectObject(request)));
 	}
-	@RequestMapping(value="getLoadOrderDetail",method=RequestMethod.GET)
+	@RequestMapping(value="/filter/getLoadOrderDetail",method=RequestMethod.GET)
 	public ModelAndView getLoadOrderDetail(HttpServletRequest request){
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true,"操作成功",""));
 	}
