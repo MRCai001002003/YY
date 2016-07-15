@@ -26,7 +26,7 @@ public class CustomerCertificateService {
 	}
 	
 	public void saveCustomerCertificate(HttpServletRequest request,Customer customer){
-		List<CustomerCertificate> ccList = customerCertificateDao.selectByCustomerID(customer.getCustomerID());
+		List<CustomerCertificate> ccList = customerCertificateDao.selectByCustomerCertificate(new CustomerCertificate(customer.getCustomerID(),null,null));
 		CustomerCertificate customerCertificate=null;
 		if(StringUtils.isNoneBlank(request.getParameter("idCard"))){
 			customerCertificate=new CustomerCertificate(customer.getCustomerID(),"ID",request.getParameter("idCard"));
@@ -49,5 +49,8 @@ public class CustomerCertificateService {
 			}
 		}
 		return customerCertificate;
+	}
+	List<CustomerCertificate> selectByCustomerCertificate(CustomerCertificate customerCertificate){
+		return customerCertificateDao.selectByCustomerCertificate(customerCertificate);
 	}
 }

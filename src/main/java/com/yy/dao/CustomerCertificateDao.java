@@ -17,5 +17,5 @@ public interface CustomerCertificateDao {
 
     int updateByPrimaryKey(CustomerCertificate record);
     
-    List<CustomerCertificate> selectByCustomerID(Long customerID);
+    List<CustomerCertificate> selectByCustomerCertificate(CustomerCertificate customerCertificate);
 }

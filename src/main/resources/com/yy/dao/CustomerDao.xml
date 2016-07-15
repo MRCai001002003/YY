@@ -60,6 +60,22 @@
   		where c.CustomerID=cc.CustomerID and cc.CertificateType="ID" 
   		      and c.CellPhone=#{cellPhone,jdbcType=CHAR}
   </select>
+  <select id="getMenberCenter"  parameterType="com.yy.domain.entity.Customer" resultType="map" >
+  	select c.Name name,c.CellPhone cellPhone,(select cc.CertificateCode from m_customer_certificate cc where cc.CustomerID=c.CustomerID and cc.CertificateType='ID')idCard,
+		(select cc.CertificateCode from m_customer_certificate cc where cc.CustomerID=c.CustomerID and cc.CertificateType='QQ')qq,
+		c.Email email,ce.Education education,
+		case cp.MarriageType 
+		when 'M' then '已婚'
+		when 'U' then '未婚'
+		else '未知' end marriageType
+	 from m_customer c 
+	 left join m_customer_education ce on c.CustomerID=ce.CustomerID
+	 left join m_customer_personal cp on c.CustomerID=cp.CustomerID
+	 <where>
+		 <if test="customerID != null" >c.CustomerID=#{customerID,jdbcType=BIGINT}</if>
+	 
+	 </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from m_customer
     where CustomerID = #{customerID,jdbcType=BIGINT}

@@ -1,8 +1,5 @@
 package com.yy.control;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +18,6 @@ import com.yy.domain.entity.LoanOrder;
 import com.yy.service.CustomerService;
 import com.yy.service.LoanOrderService;
 import com.yy.service.SmsService;
-import com.yy.web.utils.HttpXmlClient;
 import com.yy.web.utils.JsonViewFactory;
 import com.zxlh.comm.async.service.AsyncService;
 
@@ -71,16 +67,16 @@ public class CustomerControl {
 		Assert.notNull(request.getParameter("idCard"), "借款人身份证号不能为空");
 		//执行信息收集
 		customerService.doSupplementCustomer(request,customer);
-		customer=(Customer)request.getSession().getAttribute("customer");
-		try {
-			asyncService.runTask(customerService,"collect_info",new Object[]{customer,
-					request.getParameter("idCard"),
-					request.getParameter("cardCode"),
-					request.getParameter("highestDegree")},null,null,10000,true);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			log.error(e.getMessage());
-		}
+//		customer=(Customer)request.getSession().getAttribute("customer");
+//		try {
+//			asyncService.runTask(customerService,"collect_info",new Object[]{customer,
+//					request.getParameter("idCard"),
+//					request.getParameter("cardCode"),
+//					request.getParameter("highestDegree")},null,null,10000,true);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//			log.error(e.getMessage());
+//		}
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", null));
 	}
 	/**
@@ -93,32 +89,48 @@ public class CustomerControl {
 	 */
 	@RequestMapping(value = "/saveOrUpdateCustomerPersonal", method = RequestMethod.POST)
 	public ModelAndView saveOrUpCustomerPersonal(HttpServletRequest request){
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.doSupplementCustomer(request)));
+		customerService.doSupplementCustomer(request);
+		 
+		Customer customer=(Customer)request.getSession().getAttribute("customer");
+		try {
+			asyncService.runTask(customerService,"collect_info",new Object[]{customer},null,null,10000,true);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+		}
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！",""));
 	}
 	/**
-	 * @Title: getCustomer
-	 * @Description: 获取客户信息
+	 * @Title: userLogin
+	 * @Description: 用户登陆
 	 * @author caizhen
 	 * @param @param request
-	 * @param @param customer
 	 * @return ModelAndView
 	 */
-	@RequestMapping(value = "/getCustomer", method = RequestMethod.GET)
-	public ModelAndView getCustomer(HttpServletRequest request){
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.getSessionCustomer(request)));
-	} 
+	@RequestMapping(value="userLogin",method=RequestMethod.POST)
+	public ModelAndView userLogin(HttpServletRequest request){
+		Assert.notNull(request.getParameter("cellPhone"), "手机号不能为空");
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "发送成功！", customerService.doUserLogin(request)));
+	}
 	/**
-	 * @Title: getPersonalInfo
+	 * @Title: getMenberCenter
 	 * @Description: 获取客户个人信息
 	 * @author caizhen
 	 * @param @param request
 	 * @param @param customer
 	 * @return ModelAndView
 	 */
-	@RequestMapping(value = "/getPersonalInfo", method = RequestMethod.GET)
-	public ModelAndView getPersonalInfo(HttpServletRequest request){
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.getSessionCustomer(request)));
+	@RequestMapping(value = "/getMenberCenter", method = RequestMethod.GET)
+	public ModelAndView getMenberCenter(HttpServletRequest request){
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.getMenberCenter(request)));
 	}
+	/**
+	 * @Title: getPersonalInfo
+	 * @Description: 保存用户常用收货地址信息
+	 * @author caizhen
+	 * @param @param request
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/saveCustomerContactor", method = RequestMethod.POST)
 	public ModelAndView saveCustomerContactor(HttpServletRequest request){
 		customerService.saveCustomerContactor(request);

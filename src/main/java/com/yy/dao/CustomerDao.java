@@ -21,4 +21,5 @@ public interface CustomerDao {
     public List<Customer> getCustomer(Customer customer);
     
     public Map selectObject(String cellPhone);
+    public Map getMenberCenter(Customer customer);
 }

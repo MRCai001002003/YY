@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.yy.dao.WhiteListDao;
 import com.yy.domain.entity.Account;
 import com.yy.domain.entity.Card;
 import com.yy.domain.entity.Customer;
+import com.yy.domain.entity.CustomerCertificate;
 import com.yy.domain.entity.CustomerContactor;
 import com.yy.domain.entity.CustomerIncome;
 import com.yy.domain.entity.WhiteList;
@@ -82,7 +84,7 @@ public class CustomerService {
 			customerDao.updateByPrimaryKeySelective(customer);
 		}else{
 			customer.setCreateTime(new Date());
-			customer.setCustomerStatus("DRAFT");
+			customer.setCustomerStatus("DRAFT");//仅存在电话、贷款信息
 			customerDao.insertSelective(customer);
 			this.saveCustomerIncome(request, customer);//白名单中同步客户的收入、地址信息
 		}
@@ -131,7 +133,8 @@ public class CustomerService {
 		//用户身份证信息已存在 则不采集数据
 		Map m = customerDao.selectObject(c.getCellPhone());
 		if(m==null){
-			customer.setCustomerStatus("PENDINZX");//等待失信检查
+//			customer.setCustomerStatus("PENDINZX");//等待失信检查
+			customer.setCustomerStatus("BASIC");//实名认证
 			saveOrUpCustomer(request,customer); //更新姓名
 			
 			customerCertificateService.saveCustomerCertificate(request,customer);//更新身份证
@@ -160,6 +163,8 @@ public class CustomerService {
 		Customer customer = new Customer();
 		customer.setCustomerID(c.getCustomerID());
 		customer.setEmail(request.getParameter("email"));
+		
+		customer.setCustomerStatus("PENDINZX");//等待执行检查
 		saveOrUpCustomer(request,customer); //更新邮箱
 		
 		customerCertificateService.saveCustomerCertificate(request,customer);//更新QQ
@@ -179,22 +184,19 @@ public class CustomerService {
 	public List<Customer> getCustomer(Customer customer){
 		return customerDao.getCustomer(customer);
 	}
-	public Customer getSessionCustomer(HttpServletRequest request){
-		return (Customer)request.getSession().getAttribute("customer");
-	}
-	public JSONObject getPersonalInfo(HttpServletRequest request){
-		JSONObject jObject = new JSONObject();
-		return jObject;
-	}
-	public void collect_info(Customer customer,String idCard,String cardCode,String highestDegree){
+	public void collect_info(Customer customer){
+		List<CustomerCertificate> ccList = customerCertificateService.selectByCustomerCertificate(new CustomerCertificate(customer.getCustomerID(),"ID",null));
+		if(ccList==null||ccList.size()==0){
+			throw new CustomException("该用户身份证信息为空");
+		}
 		Map<String, String> params = new HashMap<String, String>();  
-		params.put("name", customer.getName()); 
-		params.put("idNo", idCard);
+//		params.put("name", customer.getName()); 
+		params.put("idNo", ccList.get(0).getCertificateCode());
 		params.put("resonCd", "01"); 
-		params.put("mobileNo", customer.getCellPhone());
-		params.put("cardCode", cardCode);
-		params.put("edu", highestDegree);
-		params.put("company", "");
+//		params.put("mobileNo", customer.getCellPhone());
+//		params.put("cardCode", cardCode);
+//		params.put("edu", highestDegree);
+//		params.put("company", "");
 		      
 		HttpXmlClient.post("http://"+server_ip+"/captureOL/company_executeAuth.action", params);
 	}
@@ -421,10 +423,16 @@ public class CustomerService {
 			throw new CustomException("服务密码重置失败");
 		}				
 	}
+	/**
+	 * @Title: saveCustomerContactor 
+	 * @Description: 保存用户常用收货地址信息
+	 * @author caiZhen
+	 * @date 2016年7月2日 下午4:27:16
+	 * @param @param request
+	 * @return void    返回类型 
+	 */
 	public void saveCustomerContactor(HttpServletRequest request){
 		String ccStr = request.getParameter("ccList");
-//		JSONObject jObject = JSONObject.fromObject(ccStr);
-		
 		JSONArray jArray= JSONArray.fromObject(ccStr);
 		System.out.println(jArray);
 		CustomerContactor cc=null;
@@ -435,7 +443,81 @@ public class CustomerService {
 			}
 		}
 	}
-	public void aa(CustomerContactor cc){
-		System.out.println("aaaaaaaaaaaaa-----------------"+cc.getAddress());
+	/**
+	 * @Title: doUserLogin 
+	 * @Description: 用户登陆
+	 * @author caiZhen
+	 * @date 2016年7月13日 下午2:27:16
+	 * @param @param request
+	 * @return Customer 
+	 */
+	public JSONObject doUserLogin(HttpServletRequest request){
+		JSONObject jObject = new JSONObject();
+		Customer customer = new Customer(request.getParameter("cellPhone"));
+		//接收登陆验证码的手机
+		String loginPhone = (String)StringUtil.getSession(request, "loginPhone");
+		//发送的验证码信息
+		String loginVerificationCode = (String)StringUtil.getSession(request, "loginVerificationCode");
+		
+		if(StringUtils.isBlank(loginVerificationCode)||StringUtils.isBlank(loginPhone)){
+			throw new CustomException("验证码已过期,请重置");
+		}
+		if(!loginPhone.equals(customer.getCellPhone())){
+			throw new CustomException("您输入手机号与收验证码手机号不一致");
+		}
+		//用户输入的验证码
+		String loginCode=request.getParameter("loginCode");
+		if(!loginVerificationCode.equals(loginCode)){
+			throw new CustomException("请核对验证码");
+		}
+		List<Customer> customerList = customerDao.getCustomer(customer);
+		if(customerList==null||customerList.size()==0){
+			throw new CustomException("该用户无借款信息");
+		}
+		customer = customerList.get(0);
+		StringUtil.setSession(request, customer, "customer");
+		jObject.put("cellPhone", customer.getCellPhone());
+		jObject.put("customerID", customer.getCustomerID());
+		
+		if(StringUtils.isNotBlank(customer.getCustomerStatus())){
+			String customerStatus = redirectbyCustomerStatus(customer.getCustomerStatus());
+			if(StringUtils.isNotBlank(customerStatus)){
+				jObject.put("customerStatus", customerStatus);
+			}
+		}
+		return jObject;
+	}
+	/**
+	 * @Title: getMenberCenter 
+	 * @Description: 获取个人信息
+	 * @author caiZhen
+	 * @date 2016年7月13日 下午2:27:16
+	 * @param @param request
+	 * @return Map<String,String>
+	 */
+	public Map<String,String> getMenberCenter(HttpServletRequest request){
+		Customer c=(Customer)request.getSession().getAttribute("customer");
+		if(c==null){
+			throw new CustomException("会话消失");
+		}
+		Map<String,String> map=customerDao.getMenberCenter(c);
+		return map;
+	}
+	/**
+	 * @Title: redirectbyCustomerStatus 
+	 * @Description: 根据customerStatus进入相应的界面
+	 * 				 DRAFT:进入实名认证界面
+	 * 			     BASIC:进入信息完善界面
+	 * 				 other:进入个人中心
+	 * @author caiZhen
+	 * @date 2016年7月14日 下午3:46:16
+	 * @param @param CustomerStatus
+	 * @return String
+	 */
+	public String redirectbyCustomerStatus(String customerStatus){
+		if("DRAFT".equals(customerStatus)||"BASIC".equals(customerStatus)){
+			return customerStatus;
+		}else
+			return "menberCenter";
 	}
 }

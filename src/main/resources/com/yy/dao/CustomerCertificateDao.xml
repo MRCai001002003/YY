@@ -19,11 +19,19 @@
     from m_customer_certificate
     where CustomerCertificateID = #{customerCertificateID,jdbcType=BIGINT}
   </select>
-  <select id="selectByCustomerID" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByCustomerCertificate" resultMap="BaseResultMap" parameterType="com.yy.domain.entity.CustomerCertificate" >
     select 
     <include refid="Base_Column_List" />
     from m_customer_certificate
-    where CustomerID = #{customerID,jdbcType=BIGINT}
+    <where>
+        1=1
+    	<if test="customerID != null">
+    		and CustomerID = #{customerID,jdbcType=BIGINT}
+    	</if>
+    	<if test="certificateType != null" >
+        	and CertificateType = #{certificateType,jdbcType=VARCHAR}
+      </if>
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from m_customer_certificate
