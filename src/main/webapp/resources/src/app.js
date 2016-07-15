@@ -13,7 +13,7 @@ define(function (require) {
     app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
         function ($stateProvider, $urlRouterProvider, $httpProvider) {
             //未登录拦截
-            //$httpProvider.interceptors.push('logoutInterceptor');
+            $httpProvider.interceptors.push('logoutInterceptor');
             $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
             $httpProvider.defaults.transformRequest = function (data) {
                 if (angular.isObject(data)) {

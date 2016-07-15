@@ -166,5 +166,33 @@ define(function (require) {
                 }
             }
         })
+        app.factory('logoutInterceptor', ['$q',
+            function($q) {
+                var progressBar = document.getElementById('progress-bar');
+                var interceptor = {
+                    request: function(config) {
+                        progressBar.style.display = 'block';
+                        return config;
+                    },
+                    response: function(response) {
+                        progressBar.style.display = 'none';
+                        if (typeof response.data === 'object') {
+                            if (/login failed/.test(response.data.msg)) {
+                                location.replace('#/userLogin')
+                                return {};
+                            }
+                        }
+                        return response;
+                    },
+                    requestError: function(rejection) {
+                        return $q.reject(rejection);
+                    },
+                    responseError: function(rejection) {
+                        return rejection
+                    }
+                }
+                return interceptor;
+            }
+        ]);
     }
 })
