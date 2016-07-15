@@ -3,7 +3,7 @@ define(function (require) {
     return function (app) {
         app.controller('infoControl', ['$scope', '$http', function ($scope, $http) {
             $http({
-                url: baseUrl + 'customer/getMenberCenter',
+                url: baseUrl + 'customer/filter/getMenberCenter',
                 method: 'get'
             }).success(function (data) {
                 $scope.data = data;
