@@ -10,7 +10,7 @@ define(function (require) {
                     data: $scope.params
                 }).success(function (data) {
                     if (data.success) {
-                        cache.set('phone', data.data.cellPhone);
+                        cache.set('name', data.data.name);
                         switch (data.data.customerStatus) {
                             case 'DRAFT':
                                 $state.go('register');
