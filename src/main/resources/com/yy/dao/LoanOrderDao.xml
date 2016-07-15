@@ -345,34 +345,11 @@
     </set>
     where LoanOrderCode = #{loanOrderCode,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yy.domain.entity.LoanOrder" >
+  <update id="updateByCustomerID" parameterType="com.yy.domain.entity.LoanOrder" >
     update m_loan_order
     set ProductCode = #{productCode,jdbcType=CHAR},
-      LoanContractCode = #{loanContractCode,jdbcType=CHAR},
-      LoanTitle = #{loanTitle,jdbcType=VARCHAR},
-      CustomerID = #{customerID,jdbcType=BIGINT},
-      SalerID = #{salerID,jdbcType=BIGINT},
       LoanAmount = #{loanAmount,jdbcType=REAL},
-      GuarantyFee = #{guarantyFee,jdbcType=REAL},
-      Currency = #{currency,jdbcType=VARCHAR},
-      StartDate = #{startDate,jdbcType=DATE},
-      EndDate = #{endDate,jdbcType=DATE},
-      LoanTerm = #{loanTerm,jdbcType=DECIMAL},
-      LoanTermType = #{loanTermType,jdbcType=CHAR},
-      GraceTerm = #{graceTerm,jdbcType=DECIMAL},
-      GraceTermType = #{graceTermType,jdbcType=CHAR},
-      GuarantyOrgCode = #{guarantyOrgCode,jdbcType=CHAR},
-      OrderStatus = #{orderStatus,jdbcType=VARCHAR},
-      ChannelCode = #{channelCode,jdbcType=VARCHAR},
-      InterestRate = #{interestRate,jdbcType=DECIMAL},
-      Fee = #{fee,jdbcType=REAL},
-      RiskLevel = #{riskLevel,jdbcType=VARCHAR},
-      RepayDay = #{repayDay,jdbcType=INTEGER},
-      OrderDate = #{orderDate,jdbcType=TIMESTAMP},
-      OverdueInterestRate = #{overdueInterestRate,jdbcType=DECIMAL},
-      Recorder = #{recorder,jdbcType=BIGINT},
-      LoanRemark = #{loanRemark,jdbcType=VARCHAR},
-      Summary = #{summary,jdbcType=VARCHAR}
-    where LoanOrderCode = #{loanOrderCode,jdbcType=CHAR}
+      LoanTerm = #{loanTerm,jdbcType=DECIMAL}
+    where OrderStatus='P' and CustomerID = #{customerID,jdbcType=BIGINT}
   </update>
 </mapper>
