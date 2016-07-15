@@ -3,7 +3,7 @@ define(function (require) {
     return function (app) {
         app.controller('loanOrdersControl', ['$scope', '$http', function ($scope, $http) {
             $http({
-                url: baseUrl + 'loadOrder/getLoadOrders',
+                url: baseUrl + 'loadOrder/filter/getLoadOrders',
                 method: 'get'
             }).success(function (data) {
                 $scope.data = data;
