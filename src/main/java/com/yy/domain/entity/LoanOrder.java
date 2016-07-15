@@ -60,6 +60,9 @@ public class LoanOrder {
     
     private String cellPhone;
     public LoanOrder(){}
+    public LoanOrder(Long customerID){
+    	this.customerID=customerID;
+    }
     public LoanOrder(String loanOrderCode,Long customerID,String orderStatus){
     	this.loanOrderCode = loanOrderCode;
     	this.customerID = customerID;

@@ -3,6 +3,7 @@ package com.yy.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -82,10 +83,17 @@ public class LoanOrderService {
 		//设置customerid
 		if(listCustomer!=null&&listCustomer.size()>0){
 			customer=listCustomer.get(0);
-			if(!"DRAFT".equals(customer.getCustomerStatus())){}
-			str = "exist";
-			loanOrder.setCustomerID(customer.getCustomerID());
 			StringUtil.setSession(request, customer, "customer");
+			//贷款申请未完成 则进入相应的完善信息界面
+			if(StringUtils.isNotBlank(customer.getCustomerStatus())){
+				if("DRAFT".equals(customer.getCustomerStatus())){
+					return "register";
+				}else if("BASIC".equals(customer.getCustomerStatus())){
+					return "registerInfo";
+				}
+			}
+			str = "exist";//该用户有申请记录且信息完善，进入registerInfo界面
+			loanOrder.setCustomerID(customer.getCustomerID());
 		}else{
 			customerService.saveOrUpCustomer(request,customer);
 			loanOrder.setCustomerID(customer.getCustomerID());
@@ -100,5 +108,35 @@ public class LoanOrderService {
 	 */
 	private String getLoanOrderCode(){
 		return new StringBuilder("BA"+StringUtil.getFormatDate(new Date(), "yyyyMMdd")+StringUtil.randomCode(6)).toString();
+	}
+	/**
+	 * @Title: getLoanOrders 
+	 * @Description: 保存信息 
+	 * @author caiZhen
+	 * @date 2016年7月13日  下午6:37:46
+	 * @param @param request
+	 * @return List<LoanOrder> 
+	 */
+	public List<LoanOrder> getLoanOrders(HttpServletRequest request){
+		Customer c=(Customer)request.getSession().getAttribute("customer");
+		if(c==null){
+			throw new CustomException("会话消失");
+		}
+		LoanOrder loanOrder = new LoanOrder();
+		return loanOrderDao.selectByParam(loanOrder);
+	}
+	public LoanOrder getLoadOrderDetail(HttpServletRequest request){
+		return loanOrderDao.selectByPrimaryKey(request.getParameter("loanOrderId"));
+	}
+	public Map<String,String> selectObject(HttpServletRequest request){
+		Customer c=(Customer)request.getSession().getAttribute("customer");
+		if(c==null){
+			throw new CustomException("会话消失");
+		}
+		if(c==null){
+			throw new CustomException("会话消失");
+		}
+		Map<String,String> map=loanOrderDao.selectObject(new LoanOrder(c.getCustomerID()));
+		return map;
 	}
 }

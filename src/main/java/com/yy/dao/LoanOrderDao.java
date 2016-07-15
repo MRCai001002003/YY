@@ -1,6 +1,7 @@
 package com.yy.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yy.domain.entity.LoanOrder;
 
@@ -18,4 +19,5 @@ public interface LoanOrderDao {
     int updateByPrimaryKey(LoanOrder record);
     
     public List<LoanOrder> selectByParam(LoanOrder record);
+    public Map selectObject(LoanOrder loanOrder); 
 }

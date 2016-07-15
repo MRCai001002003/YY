@@ -42,6 +42,14 @@
     from m_loan_order
     where LoanOrderCode = #{loanOrderCode,jdbcType=CHAR}
   </select>
+  <select id="selectObject" parameterType="com.yy.domain.entity.LoanOrder" resultType="map">
+  	select l.LoanTerm loanTerm,l.LoanAmount loanAmount,l.OrderDate orderDate,d.DictName orderStatus,
+		l.LoanOrderCode loanOrderCode,cs.CreditAmount creditAmount,cs.LeftAmount leftAmount
+			from m_loan_order l
+			left join m_customer_score cs on l.CustomerID=cs.CustomerID
+			left join m_dictionary d on l.OrderStatus=d.DictCode and d.DictType='LORDER_STATUS'
+		where l.CustomerID=#{customerID,jdbcType=BIGINT}
+  </select>
   <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.yy.domain.entity.LoanOrder" >
     select 
     <include refid="Base_Column_List" />
