@@ -37,6 +37,22 @@ public class SmsControl {
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "发送成功！", null));
 	}
 	/**
+	 * @Title: sendVerificationCode 
+	 * @Description: 发送登陆短信验证码
+	 * @author caiZhen
+	 * @date 2016年7月6日 上午10:29:58
+	 * @param @param request
+	 * @param @param smsDetail
+	 * @param @return    设定文件 
+	 * @return ModelAndView    返回类型 
+	 */
+	@RequestMapping(value="sendLoginCode",method=RequestMethod.POST)
+	public ModelAndView sendLoginCode(HttpServletRequest request){
+		Assert.notNull(request.getParameter("cellPhone"), "手机号不能为空");
+		smsService.sendLoginCode(request);
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "发送成功！", null));
+	}
+	/**
 	 * @Title: sendSMS 
 	 * phone
 	 * @author caiZhen

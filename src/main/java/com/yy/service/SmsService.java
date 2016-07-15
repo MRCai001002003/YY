@@ -38,14 +38,21 @@ public class SmsService {
 	SmsDetailDao smsDetailDao;
 	
 	protected final Logger log = LoggerFactory.getLogger(this.getClass().getName());
-	
+	/**
+	 * @Title: sendSms 
+	 * @Description: 提交贷款记录时发送短信验证码
+	 * @author caiZhen
+	 * @date 2016年7月6日 上午10:29:58
+	 * @param @param request
+	 * @param @param smsDetail
+	 */
 	public void sendSms(HttpServletRequest request,SmsDetail smsDetail){
 		if(smsDetail==null){
 			smsDetail.setPhone(request.getParameter("cellPhone"));
 		}
 		String response="<?xml version=\"1.0\" encoding=\"utf-8\" ?><returnsms><returnstatus>Success</returnstatus><message>OK</message><remainpoint>1440</remainpoint><taskID>6538308382720020</taskID><resplist><resp>6538308382720020#@#17767173344#@#0#@#</resp></resplist><successCounts>1</successCounts></returnsms>";
 		String code=StringUtil.randomCode(6);
-		smsDetail.setContent("【品信金融】 您的验证码是"+code);
+		smsDetail.setContent("【联网贷】 您的验证码是"+code);
 		
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("action", "send");
@@ -62,13 +69,62 @@ public class SmsService {
 //			response = getJsonFromRpc_post("http://code.58yhkj.com:7862/sms",
 //					param, requestHeads);
 			JSONObject jObject = null;
-			System.out.println(response);
 			if (StringUtils.isNoneBlank(response)) {
 				jObject=parseXML(response);
 				smsDetail.setMessage(jObject.getString("message"));
 				if("Success".equals(jObject.getString("returnstatus"))){
 					StringUtil.setSession(request, code, "verificationCode");
 					StringUtil.setSession(request, smsDetail.getPhone(), "phone");
+					
+					smsDetail.setReturnstatus(1);//发送成功
+				}else{
+					log.error("短信调用异常");
+					smsDetail.setReturnstatus(0);//发送失败
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		smsDetail.setType(1);
+		smsDetail.setAction("send");
+		smsDetailDao.insertSelective(smsDetail);
+	}
+	/**
+	 * @Title: sendLoginCode 
+	 * @Description: 登陆验证码
+	 * @author caiZhen
+	 * @date 2016年7月6日 上午14:29:58
+	 * @param @param request
+	 * @param @param smsDetail
+	 */
+	public void sendLoginCode(HttpServletRequest request){
+		SmsDetail smsDetail = new SmsDetail();
+		smsDetail.setPhone(request.getParameter("cellPhone"));
+		String response="<?xml version=\"1.0\" encoding=\"utf-8\" ?><returnsms><returnstatus>Success</returnstatus><message>OK</message><remainpoint>1440</remainpoint><taskID>6538308382720020</taskID><resplist><resp>6538308382720020#@#17767173344#@#0#@#</resp></resplist><successCounts>1</successCounts></returnsms>";
+		String code=StringUtil.randomCode(6);
+		smsDetail.setContent("【联网贷】 您的登陆验证码是"+code);
+		
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("action", "send");
+		param.put("account", "922012");
+		param.put("password", "w8FJXk");
+		param.put("extno", "106908012");
+		param.put("mobile", smsDetail.getPhone());
+		param.put("content", smsDetail.getContent());
+//		http://code.58yhkj.com:7862/sms?action=send&account=922012&password=w8FJXk&mobile=17767173344&
+//			content=【品信金融】 您的验证码是 112222&extno=106908012
+		List<RequestHead> requestHeads = new ArrayList<RequestHead>();
+		requestHeads.add(new RequestHead("Content-Type", "application/json"));
+		try {
+//			response = getJsonFromRpc_post("http://code.58yhkj.com:7862/sms",
+//					param, requestHeads);
+			JSONObject jObject = null;
+			if (StringUtils.isNoneBlank(response)) {
+				jObject=parseXML(response);
+				smsDetail.setMessage(jObject.getString("message"));
+				if("Success".equals(jObject.getString("returnstatus"))){
+					StringUtil.setSession(request, code, "loginVerificationCode");
+					StringUtil.setSession(request, smsDetail.getPhone(), "loginPhone");
 					
 					smsDetail.setReturnstatus(1);//发送成功
 				}else{
