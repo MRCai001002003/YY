@@ -61,7 +61,7 @@ public class CustomerControl {
 	 * @param @param customer
 	 * @return ModelAndView
 	 */
-	@RequestMapping(value = "/saveOrUpdateCustomer", method = RequestMethod.POST)
+	@RequestMapping(value = "/filter/saveOrUpdateCustomer", method = RequestMethod.POST)
 	public ModelAndView doSupplementCustomer(HttpServletRequest request, Customer customer){
 		Assert.notNull(customer.getName(), "借款人新姓名不能为空");
 		Assert.notNull(request.getParameter("idCard"), "借款人身份证号不能为空");
@@ -87,17 +87,17 @@ public class CustomerControl {
 	 * @param @param customer
 	 * @return ModelAndView
 	 */
-	@RequestMapping(value = "/saveOrUpdateCustomerPersonal", method = RequestMethod.POST)
+	@RequestMapping(value = "/filter/saveOrUpdateCustomerPersonal", method = RequestMethod.POST)
 	public ModelAndView saveOrUpCustomerPersonal(HttpServletRequest request){
 		customerService.doSupplementCustomer(request);
 		 
 		Customer customer=(Customer)request.getSession().getAttribute("customer");
-		try {
-			asyncService.runTask(customerService,"collect_info",new Object[]{customer},null,null,10000,true);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			log.error(e.getMessage());
-		}
+//		try {
+//			asyncService.runTask(customerService,"collect_info",new Object[]{customer},null,null,10000,true);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//			log.error(e.getMessage());
+//		}
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！",""));
 	}
 	/**
@@ -110,7 +110,19 @@ public class CustomerControl {
 	@RequestMapping(value="userLogin",method=RequestMethod.POST)
 	public ModelAndView userLogin(HttpServletRequest request){
 		Assert.notNull(request.getParameter("cellPhone"), "手机号不能为空");
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "发送成功！", customerService.doUserLogin(request)));
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "登陆成功！", customerService.doUserLogin(request)));
+	}
+	/**
+	 * @Title: isLogin
+	 * @Description: 用户是否登陆
+	 * @author caizhen
+	 * @param @param request
+	 * @return ModelAndView
+	 */
+	@RequestMapping(value="isLogin",method=RequestMethod.GET)
+	public ModelAndView isLogin(HttpServletRequest request){
+		Object o = request.getSession().getAttribute("customer");
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "发送成功！", o==null?false:true));
 	}
 	/**
 	 * @Title: getMenberCenter
@@ -120,7 +132,7 @@ public class CustomerControl {
 	 * @param @param customer
 	 * @return ModelAndView
 	 */
-	@RequestMapping(value = "/getMenberCenter", method = RequestMethod.GET)
+	@RequestMapping(value = "/filter/getMenberCenter", method = RequestMethod.GET)
 	public ModelAndView getMenberCenter(HttpServletRequest request){
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", customerService.getMenberCenter(request)));
 	}
