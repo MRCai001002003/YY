@@ -17,6 +17,7 @@ public interface LoanOrderDao {
     int updateByPrimaryKeySelective(LoanOrder record);
 
     int updateByPrimaryKey(LoanOrder record);
+    int updateByCustomerID(LoanOrder record);
     
     public List<LoanOrder> selectByParam(LoanOrder record);
     public Map selectObject(LoanOrder loanOrder); 
