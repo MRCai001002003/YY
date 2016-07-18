@@ -60,5 +60,6 @@
     <cookie-config>
       <name>web_jessionId</name>
     </cookie-config>
+    <session-timeout>20</session-timeout>
   </session-config>
 </web-app>
