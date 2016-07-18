@@ -478,6 +478,7 @@ public class CustomerService {
 		StringUtil.setSession(request, customer, "customer");
 		jObject.put("cellPhone", customer.getCellPhone());
 		jObject.put("customerID", customer.getCustomerID());
+		jObject.put("name", customer.getName());
 		
 		if(StringUtils.isNotBlank(customer.getCustomerStatus())){
 			String customerStatus = redirectbyCustomerStatus(customer.getCustomerStatus());
