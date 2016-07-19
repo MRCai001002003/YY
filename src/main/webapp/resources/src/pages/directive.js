@@ -276,13 +276,14 @@ define(function(require) {
             function($parse) {
                 return {
                     link: function($scope, element, attrs) {
+                        element[0].children[0].style.minHeight = element[0].offsetHeight + 1 + 'px';
                         var iscroll = new IScroll(element[0], {
                             probeType: 2,
                             scrollbars: true,
                             fadeScrollbars: true,
                             shrinkScrollbars: 'clip'
                         });
-//                        element[0].children[0].style.minHeight = element[0].offsetHeight + 1 + 'px';
+//                        iscroll.refresh();
 //                        var isPagination = true;
 //
 //                        var currentPage = 1;
