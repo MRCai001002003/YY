@@ -96,10 +96,10 @@ define(function (require) {
                 url: '/passwordForget',
                 templateUrl: require.toUrl('./pages/passwordForget/passwordForget.html'),
                 controller: 'passwordForgetControl'
-            }).state('menberCenter', {
-                url: '/menberCenter',
-                templateUrl: require.toUrl('./pages/menberCenter/menberCenter.html'),
-                controller: 'menberCenterControl'
+            }).state('memberCenter', {
+                url: '/memberCenter',
+                templateUrl: require.toUrl('./pages/memberCenter/memberCenter.html'),
+                controller: 'memberCenterControl'
             }).state('taobaoLogin', {
                 url: '/taobaoLogin',
                 templateUrl: require.toUrl('./pages/taobaoLogin/taobaoLogin.html'),
@@ -144,7 +144,7 @@ define(function (require) {
     require('./pages/loanOk/loanOk')(app);
     require('./pages/repayment/repayment')(app);
     require('./pages/setbacks/setbacks')(app);
-    require('./pages/menberCenter/menberCenter')(app);
+    require('./pages/memberCenter/memberCenter')(app);
     require('./pages/taobaoLogin/taobaoLogin')(app);
     require('./pages/taobaoVerifyCode/taobaoVerifyCode')(app);
     require('./pages/userLogin/userLogin')(app);
@@ -251,16 +251,16 @@ define(function (require) {
                         taobaoVerifyCode: {
                             taobaoLogin: inLeftOutRight
                         },
-                        menberCenter: {
+                        memberCenter: {
                             userLogin: inLeftOutRight,
                             info: inRightOutLeft,
                             loanOrders: inRightOutLeft
                         },
                         info: {
-                            menberCenter: inLeftOutRight
+                            memberCenter: inLeftOutRight
                         },
                         loanOrders: {
-                            menberCenter: inLeftOutRight
+                            memberCenter: inLeftOutRight
                         }
                     };
                     if (fromState.name === 'userLogin') {
