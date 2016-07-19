@@ -19,7 +19,7 @@ define(function (require) {
                                 $state.go('registerInfo');
                                 break;
                             default:
-                                $state.go('menberCenter');
+                                $state.go('memberCenter');
                         }
                     } else {
                         alert(data.msg);
