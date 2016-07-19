@@ -92,12 +92,12 @@ public class CustomerControl {
 		customerService.doSupplementCustomer(request);
 		 
 		Customer customer=(Customer)request.getSession().getAttribute("customer");
-//		try {
-//			asyncService.runTask(customerService,"collect_info",new Object[]{customer},null,null,10000,true);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//			log.error(e.getMessage());
-//		}
+		try {
+			asyncService.runTask(customerService,"collect_info",new Object[]{customer},null,null,10000,true);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+		}
 		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！",""));
 	}
 	/**
