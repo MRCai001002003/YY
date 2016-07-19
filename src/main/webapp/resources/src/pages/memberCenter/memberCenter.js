@@ -9,7 +9,7 @@ define(function(require) {
                     method: 'get'
                 }).success(function(data) {
                     if (data.success) {
-                        location.href = data;
+                        location.href = data.data;
                     }else{
                         alert(data.msg);
                     }
