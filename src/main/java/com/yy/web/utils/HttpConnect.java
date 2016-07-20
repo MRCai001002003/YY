@@ -1,14 +1,24 @@
 package com.yy.web.utils;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
 import org.apache.http.HttpException;
@@ -34,23 +44,19 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.yy.common.exception.CaptureException;
 
 /**
  * 请求操作
- * @author lujf
- * 2016年5月26日
+ * 
+ * @author lujf 2016年5月26日
  */
 public class HttpConnect {
-	
-	protected static final Logger log = LoggerFactory.getLogger(HttpConnect.class.getName());
 	// socket超时时间
-	public static final int SOCKET_TIME_OUT = 30 * 1000;
+	public final int SOCKET_TIME_OUT = 30 * 1000;
 	// 连接超时时间
-	public static final int CONNECT_TIME_OUT = 30 * 1000;
+	public final int CONNECT_TIME_OUT = 30 * 1000;
 
 	// 请求类型
 	protected enum RequestType {
@@ -61,22 +67,7 @@ public class HttpConnect {
 	protected enum ResultType {
 		string, bytes;
 	}
-	public static String getJson(String url, Map<String, String> param,
-			List<RequestHead> requestHeads,String method) {
-		List<Cookie> cookies = new ArrayList<Cookie>();
-		String json = "";
-		try {
-			json =(String)request(url, method, param, "string",
-					"UTF-8", cookies, requestHeads);
-		} catch (HttpException e) {
-			log.error(e.getMessage());
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		} catch (CaptureException e) {
-			log.error(e.getErrorCode() + ":" + e.getMessage());
-		}
-		return json;
-	}
+
 	/**
 	 * 
 	 * @author lujf
@@ -98,7 +89,7 @@ public class HttpConnect {
 	 * @throws IOException
 	 * @date 2016年5月25日
 	 */
-	public static Object request(String rul, String requestType,
+	public Object request(String rul, String requestType,
 			Map<String, String> param, String resultType, String encode,
 			List<Cookie> cookies, List<RequestHead> requestHeads)
 			throws HttpException, IOException {
@@ -109,7 +100,7 @@ public class HttpConnect {
 		return postMethodRequest(rul, param, resultType, encode, cookies,
 				requestHeads);
 	}
-	
+
 	/**
 	 * 
 	 * @author lujf
@@ -145,10 +136,10 @@ public class HttpConnect {
 	 * @throws IOException
 	 * @date 2016年5月25日
 	 */
-	protected static Object getMethodRequest(String getUrl, Map<String, String> param,
+	protected Object getMethodRequest(String getUrl, Map<String, String> param,
 			String resultType, String encode, List<Cookie> cookies,
 			List<RequestHead> requestHeads) throws HttpException, IOException {
-		CloseableHttpClient httpClient = getClient(getUrl);
+		CloseableHttpClient httpClient = this.getClient(getUrl);
 		try {
 			// 设置参数
 			if (param != null && param.size() > 0) {
@@ -230,9 +221,9 @@ public class HttpConnect {
 		CloseableHttpClient httpClient = this.getClient(postUrl);
 		try {
 			HttpPost httpPost = new HttpPost(postUrl);
-//			httpPost.setConfig(RequestConfig.custom()
-//					.setSocketTimeout(SOCKET_TIME_OUT)
-//					.setConnectTimeout(CONNECT_TIME_OUT).build());
+			// httpPost.setConfig(RequestConfig.custom()
+			// .setSocketTimeout(SOCKET_TIME_OUT)
+			// .setConnectTimeout(CONNECT_TIME_OUT).build());
 			HttpContext context = new BasicHttpContext();
 			CookieStore cookieStore = new BasicCookieStore();
 			context.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
@@ -287,11 +278,11 @@ public class HttpConnect {
 	 * @throws IOException
 	 * @date 2016年5月25日
 	 */
-	protected static Object postMethodRequest(String postUrl,
+	protected Object postMethodRequest(String postUrl,
 			Map<String, String> param, String resultType, String encode,
 			List<Cookie> cookies, List<RequestHead> requestHeads)
 			throws HttpException, IOException {
-		CloseableHttpClient httpClient = getClient(postUrl);
+		CloseableHttpClient httpClient = this.getClient(postUrl);
 		try {
 
 			List<String> removeParamKey = new ArrayList<String>();
@@ -378,7 +369,7 @@ public class HttpConnect {
 	 * @param request
 	 * @date 2016年5月25日
 	 */
-	protected static void setHead(HttpContext context, List<Cookie> cookies,
+	protected void setHead(HttpContext context, List<Cookie> cookies,
 			List<RequestHead> requestHeadls, Map<String, String> map,
 			HttpRequest request) {
 		RequestHead requestHead = null;
@@ -432,7 +423,41 @@ public class HttpConnect {
 	 * @return
 	 * @date 2016年5月25日
 	 */
-	protected static CloseableHttpClient getClient(String url) {
+//	protected CloseableHttpClient getClient(String url) {
+//		if (url.indexOf("https") != -1) {
+//			try {
+//				SSLContext sslContext = new SSLContextBuilder()
+//						.loadTrustMaterial(null, new TrustStrategy() {
+//							// 信任所有证书
+//							public boolean isTrusted(X509Certificate[] chain,
+//									String authType)
+//									throws CertificateException {
+//								return true;
+//							}
+//						}).build();
+//				SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+//						sslContext);
+//				CloseableHttpClient httpclient = HttpClients.custom()
+//						.setSSLSocketFactory(sslsf).build();
+//				return httpclient;
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return HttpClients.createDefault();
+//	}
+	
+
+	/**
+	 * 获取连接对象
+	 * 
+	 * @author lujf
+	 * @param url
+	 * @return
+	 * @date 2016年5月25日
+	 */
+	protected CloseableHttpClient getClient(String url) {
+		 
 		if (url.indexOf("https") != -1) {
 			try {
 				SSLContext sslContext = new SSLContextBuilder()
@@ -444,6 +469,7 @@ public class HttpConnect {
 								return true;
 							}
 						}).build();
+				
 				SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
 						sslContext);
 				CloseableHttpClient httpclient = HttpClients.custom()
@@ -455,4 +481,37 @@ public class HttpConnect {
 		}
 		return HttpClients.createDefault();
 	}
+	
+	public static void main(String[] arg) throws HttpException, IOException{
+		HttpConnect httpcon = new HttpConnect();
+		List<RequestHead> requestHeads = new ArrayList<RequestHead>();
+		List<Cookie> cookies = new ArrayList<Cookie>();
+		requestHeads.add(new RequestHead("Accept",
+				"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"));
+		requestHeads
+				.add(new RequestHead(
+						"User-Agent",
+						"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"));
+//		requestHeads
+//				.add(new RequestHead(
+//						"Referer",
+//						"http://service.zj.10086.cn/yw/detail/queryHisDetailBill.do?menuId=13009"));
+	 
+		requestHeads.add(new RequestHead("Cookie", "CmWebtokenid=13735517630,zj; cmtokenid=106291249a174f2a9e2a95dc122e19d5@zj.ac.10086.cn; unity_SAMLart=5eba8505ed374a61bb4a2690ad12da49; citybrand=/8slJ6CBe1jSSnLu2fFsQzrbGuYylaB2; WT_FPC=id=25e9b01659f35b4e9bf1468215129331:lv=1468561243903:ss=1468559137392; WTSESSION=ir7tElN7g8Rmo5fa-eW7zdAWfJQSJJh0yr7BHB--dlFhmzGiC-oj!-455402449"));
+		//requestHeads.add(new RequestHead("Cookie", " CmWebtokenid=13735517630,zj; cmtokenid=106291249a174f2a9e2a95dc122e19d5@zj.ac.10086.cn; unity_SAMLart=5eba8505ed374a61bb4a2690ad12da49; citybrand=/8slJ6CBe1jSSnLu2fFsQzrbGuYylaB2; WT_FPC=id=25e9b01659f35b4e9bf1468215129331:lv=1468560277261:ss=1468559137392; WTSESSION=K8HtA5NjrrNezLaeGzuYTOkIGy_EyPrV2Vaz1VUY_aL3Ig1kuqmJ!-455402449"));
+
+		byte[] bytes = (byte[]) httpcon.request(
+				"https://img.alicdn.com/tfscom/TB1U4wbKVXXXXX3XpXXwu0bFXXX.png",
+				"get", null, "bytes", "utf-8", cookies, requestHeads);
+		//测试用
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+		
+		FileOutputStream fileOut = new FileOutputStream("D://ss.png");
+		fileOut.write(bytes);
+		
+		
+		Random radom = new Random();
+		System.out.println(5000+(radom.nextInt(5)*1000));
+	}
+ 
 }

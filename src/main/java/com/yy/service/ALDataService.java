@@ -32,7 +32,7 @@ public class ALDataService {
 	public String getReceiptAddress(HttpServletRequest request){
 		final String account = request.getParameter("account");
 		final String pwd = request.getParameter("pwd");
-
+		System.out.println("ALDataService----------------"+account);
         Display display=new Display(); 
         Shell shell=new Shell(display); 
         shell.setText("SWT Browser Test"); 
@@ -107,7 +107,7 @@ public class ALDataService {
         
         display.dispose(); 
 	
-        return "";
+        return account;
 	}
 	/**
 	 * 获取网页中的地址信息
@@ -131,7 +131,7 @@ public class ALDataService {
 			}
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("ccList", jArray.toString());
-			HttpXmlClient.post("http://192.168.0.108:8080/YY/customer/saveCustomerContactor.action", params);
+			HttpXmlClient.post("http://192.168.0.106:8080/YY/customer/saveCustomerContactor.action", params);
 		}
 	}
 }

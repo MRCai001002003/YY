@@ -1,43 +1,93 @@
 package com.yy.control;
 
 import java.io.StringWriter;
-import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
+import org.springframework.util.Assert;
 
+import com.yy.web.utils.BrowserStore;
 import com.yy.web.utils.HttpXmlClient;
-import com.yy.web.utils.StringUtil;
-
-
 
 public class Test {
 	public static void main(String[] args) {
+		
+//		Map<String, String> params = new HashMap<String, String>();
+//		params.put("account", "acc");
+//		params.put("pwd", "pwd");
+//		HttpXmlClient.post("http://192.168.0.112:8080/YY/index/getAlData.action", params);
+//		AlData al = new AlData();
+//		al.getAlData("17767173344", "cz_294042223");
+//		al.getAlData("partnesse", "legend_fly_lu");
+//		b();
+//		c();
+//		d();
+		BrowserStore.setObj("czCode", "123");
+		Object a=BrowserStore.getObj("czCode");
+		BrowserStore.setObj("czCode", null);
+		System.out.println(a);
+		
+		Object b=BrowserStore.getObj("czCode");
+		System.out.println(b);
 	}
 	public static void a(){
-		JSONObject params=new JSONObject();
-		params.put("name",  "蔡振"); 
-		params.put("idNo", "339011197809199014");
-		params.put("mobileNo",  "17767173344"); 
-		params.put("password",  "password");
-		params.put("token",  "token");
-		params.put("website",  "website");
-		params.put("captcha",  "captcha");
-		System.out.println(params);
+		Map<String, String> params = new HashMap<String, String>();  
+		params.put("name", "陈李刚"); 
+		params.put("idNo", "");
+		params.put("resonCd", "01"); 
+		params.put("mobileNo", "13905792575");
+		params.put("cardCode", "");
+		params.put("edu", "2");
+		params.put("company", "");
+		      
+		HttpXmlClient.post("http://139.196.136.32/captureOL/company_executeAuth.action", params);
+	}
+	public static void b(){
+		Map<String, String> params = new HashMap<String, String>();  
+		params.put("name", "吴丽娟"); 
+		params.put("idNo", "330902198407170023");
+		params.put("resonCd", "01"); 
+		params.put("mobileNo", "15356985222");
+		params.put("cardCode", "4367480019009862");
+		params.put("edu", "2");
+		params.put("company", "");
+		      
+		HttpXmlClient.post("http://139.196.136.32:8888/captureOL/company_executeAuth.action", params);
+	}
+	public static void c(){
+		Map<String, String> params = new HashMap<String, String>();  
+		params.put("name", "黄映楠"); 
+		params.put("idNo", "330782199202212520");
+		params.put("resonCd", "01"); 
+		params.put("mobileNo", "15257950799");
+		params.put("cardCode", "4581232990988485");
+		params.put("edu", "2");
+		params.put("company", "");
+		      
+		HttpXmlClient.post("http://139.196.136.32:8888/captureOL/company_executeAuth.action", params);
+	}
+	public static void d(){
+		Map<String, String> params = new HashMap<String, String>();  
+		params.put("name", "王旭珍"); 
+		params.put("idNo", "330782199208052521");
+		params.put("resonCd", "01"); 
+		params.put("mobileNo", "18806791993");
+		params.put("cardCode", "6228580799008167641");
+		params.put("edu", "2");
+		params.put("company", "");
+		      
+		HttpXmlClient.post("http://139.196.136.32:8888/captureOL/company_executeAuth.action", params);
 	}
 	public static Date getNextDay(Date date) {  
         Calendar calendar = Calendar.getInstance();  

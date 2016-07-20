@@ -52,7 +52,7 @@ public class SmsService {
 		}
 		String response="";//"<?xml version=\"1.0\" encoding=\"utf-8\" ?><returnsms><returnstatus>Success</returnstatus><message>OK</message><remainpoint>1440</remainpoint><taskID>6538308382720020</taskID><resplist><resp>6538308382720020#@#17767173344#@#0#@#</resp></resplist><successCounts>1</successCounts></returnsms>";
 		String code=StringUtil.randomCode(6);
-		smsDetail.setContent("【联网贷】您的信贷业务验证码是"+code+",20分钟内都可以使用该验证码");
+		smsDetail.setContent("【联网贷】您的信贷业务验证码是"+code);
 		
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("action", "send");
@@ -100,7 +100,7 @@ public class SmsService {
 	public void sendLoginCode(HttpServletRequest request){
 		SmsDetail smsDetail = new SmsDetail();
 		smsDetail.setPhone(request.getParameter("cellPhone"));
-		String response="<?xml version=\"1.0\" encoding=\"utf-8\" ?><returnsms><returnstatus>Success</returnstatus><message>OK</message><remainpoint>1440</remainpoint><taskID>6538308382720020</taskID><resplist><resp>6538308382720020#@#17767173344#@#0#@#</resp></resplist><successCounts>1</successCounts></returnsms>";
+		String response="";//"<?xml version=\"1.0\" encoding=\"utf-8\" ?><returnsms><returnstatus>Success</returnstatus><message>OK</message><remainpoint>1440</remainpoint><taskID>6538308382720020</taskID><resplist><resp>6538308382720020#@#17767173344#@#0#@#</resp></resplist><successCounts>1</successCounts></returnsms>";
 		String code=StringUtil.randomCode(6);
 		smsDetail.setContent("【联网贷】您的登陆验证码是"+code+",20分钟内都可以使用该验证码");
 		
@@ -116,8 +116,8 @@ public class SmsService {
 		List<RequestHead> requestHeads = new ArrayList<RequestHead>();
 		requestHeads.add(new RequestHead("Content-Type", "application/json"));
 		try {
-//			response = getJsonFromRpc_post("http://code.58yhkj.com:7862/sms",
-//					param, requestHeads);
+			response = getJsonFromRpc_post("http://code.58yhkj.com:7862/sms",
+					param, requestHeads);
 			JSONObject jObject = null;
 			if (StringUtils.isNoneBlank(response)) {
 				jObject=parseXML(response);

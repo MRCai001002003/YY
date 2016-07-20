@@ -83,9 +83,9 @@ public class QQFrame extends JFrame {
 //                browser.execute(" document.getElementsByClassName('thead-tbl-address')[0].cells[0].innerText='123'; "
 //                		+ " alert(document.getElementsByClassName('thead-tbl-address')[0].cells[0].innerHTML +"
 //                		+ "    document.getElementsByClassName('thead-tbl-address')[0].cells[2].innerHTML )");
-//                browser.execute("document.getElementById('TPL_username_1').value='17767173344';"
-//                		+ "document.getElementById('TPL_password_1').value='cz_294042223';"
-//                		+ "document.getElementById('J_SubmitStatic').click()");
+                browser.execute("document.getElementById('TPL_username_1').value='17767173344';"
+                		+ "document.getElementById('TPL_password_1').value='cz_294042223';"
+                		+ "document.getElementById('J_SubmitStatic').click()");
                 String browserStr=browser.getText();
                 if(browserStr.indexOf("thead-tbl-address")!=-1){
 //                	browserStr = browserStr.substring(browserStr.indexOf("thead-tbl-address"), browserStr.lastIndexOf("thead-tbl-address"));

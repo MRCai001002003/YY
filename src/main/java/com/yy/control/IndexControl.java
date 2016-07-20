@@ -74,6 +74,10 @@ public class IndexControl {
 	public ModelAndView getReceiptAddress(HttpServletRequest request){
 		Assert.notNull(request.getParameter("account"),"验证码不能为空"); 
 		Assert.notNull(request.getParameter("pwd"),"验证码不能为空"); 
-		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", alDataService.getReceiptAddress(request)));
+//		AlData aa = new AlData();
+//		aa.getAlData(request.getParameter("account"), request.getParameter("pwd"));
+		String a=alDataService.getReceiptAddress(request);
+		System.out.println("getReceiptAddress------------------------"+a);
+		return JsonViewFactory.buildJsonView(new ResponseResult<>(true, "操作成功！", ""));
 	}
 }
